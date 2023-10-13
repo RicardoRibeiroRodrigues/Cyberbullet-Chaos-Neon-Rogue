@@ -9,10 +9,12 @@ public class PlayerController : MonoBehaviour
     private bool isMoving;
     private Vector2 Movement;
     private Animator animator;
+    private Rigidbody2D m_Rigidbody;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        m_Rigidbody = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -43,12 +45,8 @@ public class PlayerController : MonoBehaviour
     IEnumerator Move(Vector3 targetPos)
     {
         isMoving = true;
-        while ((targetPos - transform.position).sqrMagnitude > Mathf.Epsilon)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
-            yield return null;
-        }
-        transform.position = targetPos;
+        m_Rigidbody.MovePosition(Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime));
+        yield return null;
         isMoving = false;
     }
 
