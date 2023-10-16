@@ -54,4 +54,12 @@ public class PlayerController : MonoBehaviour
     {
         Movement = value.Get<Vector2>();
     }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            // other.gameObject.animator.setBool("gotHurt", true);
+        }
+    }
 }
