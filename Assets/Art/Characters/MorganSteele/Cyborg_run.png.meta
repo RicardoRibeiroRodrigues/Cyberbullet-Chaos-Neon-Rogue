@@ -139,10 +139,10 @@ TextureImporter:
       name: Cyborg_run_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 5
         y: 0
-        width: 48
-        height: 48
+        width: 20
+        height: 32
       alignment: 9
       pivot: {x: 0.3, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -160,10 +160,10 @@ TextureImporter:
       name: Cyborg_run_1
       rect:
         serializedVersion: 2
-        x: 48
+        x: 52
         y: 0
-        width: 48
-        height: 48
+        width: 19
+        height: 31
       alignment: 9
       pivot: {x: 0.3, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -181,10 +181,10 @@ TextureImporter:
       name: Cyborg_run_2
       rect:
         serializedVersion: 2
-        x: 97
+        x: 98
         y: 0
-        width: 48
-        height: 48
+        width: 47
+        height: 31
       alignment: 9
       pivot: {x: 0.3, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -204,8 +204,8 @@ TextureImporter:
         serializedVersion: 2
         x: 144
         y: 0
-        width: 48
-        height: 48
+        width: 32
+        height: 32
       alignment: 9
       pivot: {x: 0.3, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -223,10 +223,10 @@ TextureImporter:
       name: Cyborg_run_4
       rect:
         serializedVersion: 2
-        x: 192
+        x: 195
         y: 0
-        width: 48
-        height: 48
+        width: 23
+        height: 31
       alignment: 9
       pivot: {x: 0.3, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -244,10 +244,10 @@ TextureImporter:
       name: Cyborg_run_5
       rect:
         serializedVersion: 2
-        x: 239
+        x: 246
         y: 0
-        width: 48
-        height: 48
+        width: 19
+        height: 31
       alignment: 9
       pivot: {x: 0.3, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
