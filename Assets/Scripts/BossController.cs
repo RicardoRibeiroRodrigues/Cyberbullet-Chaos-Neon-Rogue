@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class BossController : MonoBehaviour
 {
+    
     private GameObject player;
     private Animator animator;
 	public int attackCooldown;
@@ -12,10 +13,16 @@ public class EnemyController : MonoBehaviour
 	// Attack mechanic.
 	private bool playerInRange;
 	private bool canAttack;
-    // Enemy stats
+    private bool canUseSpecialAttack;
+    [SerializeField]
+    private float attackRange;
+    public Transform attackPoint;
+    public GameObject projectilePrefab;
+    // Enemy stats -> Damage in on enemys projectile
     public int health;
-    public int damage;
     public float moveSpeed;
+    public float specialAttackCooldown;
+
     
     // Start is called before the first frame update
     void Awake()
@@ -23,12 +30,14 @@ public class EnemyController : MonoBehaviour
         animator = GetComponent<Animator>();
         m_Rigidbody = GetComponent<Rigidbody2D>();
         canAttack = true;
+        canUseSpecialAttack = true;
         player = GameObject.Find("Player");
     }
 
     void FixedUpdate()
     {
         var targetPos = player.transform.position;
+        // if is already in a certain dist, stop moving
         var distance = Vector2.Distance(transform.position, targetPos);
         var direction = targetPos - transform.position;
         if (direction.x < 0)
@@ -36,8 +45,7 @@ public class EnemyController : MonoBehaviour
         else
             transform.rotation = Quaternion.Euler(0, 0, 0);
         
-        // Para o inimigo nao ficar tentanto entrar no player.
-        if (distance >= 0.5f)
+        if (distance >= attackRange)
         {
             // Ajusta a velocidade do inimigo
             direction.Normalize();
@@ -51,26 +59,14 @@ public class EnemyController : MonoBehaviour
             playerInRange = true;
         }
         animator.SetBool("isMoving", isMoving);
+        
 
 		if (playerInRange && canAttack)
 		{
-            animator.SetTrigger("Attack");
-            StartCoroutine(AttackCooldown());
-		}
-    }
-
-     void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Player"))
+            Attack(direction);
+		} else if (playerInRange && canUseSpecialAttack)
         {
-            playerInRange = true;
-        }
-    }
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            playerInRange = false;
+            SpecialAttack();
         }
     }
 
@@ -79,5 +75,27 @@ public class EnemyController : MonoBehaviour
         canAttack = false;
         yield return new WaitForSeconds(attackCooldown);
         canAttack = true;
+    }
+
+    IEnumerator SpecialAttackCooldown()
+    {
+        canUseSpecialAttack = false;
+        yield return new WaitForSeconds(specialAttackCooldown);
+        canUseSpecialAttack = true;
+    }
+
+    void Attack(Vector3 direction)
+    {
+        animator.SetTrigger("Attack");
+        StartCoroutine(AttackCooldown());
+        direction.Normalize();
+        var bullet = Instantiate(projectilePrefab, attackPoint.position, attackPoint.rotation);
+        bullet.GetComponent<ProjectileController>().direction = direction;
+    }
+
+    void SpecialAttack()
+    {
+        animator.SetTrigger("Special");
+        StartCoroutine(SpecialAttackCooldown());
     }
 }

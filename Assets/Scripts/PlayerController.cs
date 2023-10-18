@@ -17,7 +17,6 @@ public class PlayerController : MonoBehaviour
         m_Rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
 
     void FixedUpdate()
     {
