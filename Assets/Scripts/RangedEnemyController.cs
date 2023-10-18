@@ -1,31 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class RangedEnemyController : MonoBehaviour
 {
     private GameObject player;
     private Animator animator;
-   	public int attackCooldown;
+	public int attackCooldown;
     private Rigidbody2D m_Rigidbody;
     private bool isMoving;
 	// Attack mechanic.
 	private bool playerInRange;
 	private bool canAttack;
-    // Enemy stats
+    [SerializeField]
+    private float attackRange;
+    public Transform attackPoint;
+    public GameObject projectilePrefab;
+    // Enemy stats -> Damage in on enemys projectile
     public int health;
-    public int damage;
     public float moveSpeed;
-    public GameObject deathEffect;
+
     
-    public void TakeDamage(int damage)
-    {
-        health -= damage;
-        if (health <= 0)
-        {
-            Die();
-        }
-    }
     // Start is called before the first frame update
     void Awake()
     {
@@ -38,6 +34,7 @@ public class EnemyController : MonoBehaviour
     void FixedUpdate()
     {
         var targetPos = player.transform.position;
+        // if is already in a certain dist, stop moving
         var distance = Vector2.Distance(transform.position, targetPos);
         var direction = targetPos - transform.position;
         if (direction.x < 0)
@@ -45,8 +42,7 @@ public class EnemyController : MonoBehaviour
         else
             transform.rotation = Quaternion.Euler(0, 0, 0);
         
-        // Para o inimigo nao ficar tentanto entrar no player.
-        if (distance >= 0.5f)
+        if (distance >= attackRange)
         {
             // Ajusta a velocidade do inimigo
             direction.Normalize();
@@ -60,27 +56,12 @@ public class EnemyController : MonoBehaviour
             playerInRange = true;
         }
         animator.SetBool("isMoving", isMoving);
+        
 
 		if (playerInRange && canAttack)
 		{
-            animator.SetTrigger("Attack");
-            StartCoroutine(AttackCooldown());
+            Attack(direction);
 		}
-    }
-
-     void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            playerInRange = true;
-        }
-    }
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            playerInRange = false;
-        }
     }
 
 	IEnumerator AttackCooldown()
@@ -90,9 +71,18 @@ public class EnemyController : MonoBehaviour
         canAttack = true;
     }
 
-    void Die()
+    void Attack(Vector3 direction)
     {
-        //Instantiate(deathEffect, transform.position, Quaternion.identity);
-        Destroy(gameObject);
+        var targetY = 0;
+        if (direction.y > 0.5)
+            targetY = 1;
+        else if (direction.y < -0.5)
+            targetY = -1;
+        animator.SetInteger("AttackDir", targetY);
+        animator.SetTrigger("Attack");
+        StartCoroutine(AttackCooldown());
+        direction.Normalize();
+        var bullet = Instantiate(projectilePrefab, attackPoint.position, attackPoint.rotation);
+        bullet.GetComponent<ProjectileController>().direction = direction;
     }
 }

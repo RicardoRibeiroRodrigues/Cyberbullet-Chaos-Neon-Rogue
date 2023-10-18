@@ -17,7 +17,6 @@ public class PlayerController : MonoBehaviour
         m_Rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
 
     void FixedUpdate()
     {
@@ -53,5 +52,13 @@ public class PlayerController : MonoBehaviour
     void OnMove(InputValue value)
     {
         Movement = value.Get<Vector2>();
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            // other.gameObject.animator.setBool("gotHurt", true);
+        }
     }
 }
