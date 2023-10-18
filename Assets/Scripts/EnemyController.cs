@@ -6,7 +6,7 @@ public class EnemyController : MonoBehaviour
 {
     private GameObject player;
     private Animator animator;
-	public int attackCooldown;
+   	public int attackCooldown;
     private Rigidbody2D m_Rigidbody;
     private bool isMoving;
 	// Attack mechanic.
@@ -16,7 +16,16 @@ public class EnemyController : MonoBehaviour
     public int health;
     public int damage;
     public float moveSpeed;
+    public GameObject deathEffect;
     
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
     // Start is called before the first frame update
     void Awake()
     {
@@ -79,5 +88,11 @@ public class EnemyController : MonoBehaviour
         canAttack = false;
         yield return new WaitForSeconds(attackCooldown);
         canAttack = true;
+    }
+
+    void Die()
+    {
+        //Instantiate(deathEffect, transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
 }
