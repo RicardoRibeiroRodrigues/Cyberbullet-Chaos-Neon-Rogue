@@ -139,7 +139,7 @@ TextureImporter:
       name: Punk_idle_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 5
         y: 0
         width: 48
         height: 48
@@ -160,7 +160,7 @@ TextureImporter:
       name: Punk_idle_1
       rect:
         serializedVersion: 2
-        x: 48
+        x: 53
         y: 0
         width: 48
         height: 48
@@ -181,7 +181,7 @@ TextureImporter:
       name: Punk_idle_2
       rect:
         serializedVersion: 2
-        x: 96
+        x: 100
         y: 0
         width: 48
         height: 48
@@ -202,7 +202,7 @@ TextureImporter:
       name: Punk_idle_3
       rect:
         serializedVersion: 2
-        x: 144
+        x: 148
         y: 0
         width: 48
         height: 48

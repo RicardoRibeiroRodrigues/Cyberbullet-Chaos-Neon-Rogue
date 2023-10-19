@@ -139,7 +139,7 @@ TextureImporter:
       name: Biker_idle_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 4
         y: 0
         width: 48
         height: 48
@@ -160,7 +160,7 @@ TextureImporter:
       name: Biker_idle_1
       rect:
         serializedVersion: 2
-        x: 48
+        x: 51
         y: 0
         width: 48
         height: 48
@@ -181,7 +181,7 @@ TextureImporter:
       name: Biker_idle_2
       rect:
         serializedVersion: 2
-        x: 96
+        x: 99
         y: 0
         width: 48
         height: 48
@@ -202,7 +202,7 @@ TextureImporter:
       name: Biker_idle_3
       rect:
         serializedVersion: 2
-        x: 144
+        x: 148
         y: 0
         width: 48
         height: 48

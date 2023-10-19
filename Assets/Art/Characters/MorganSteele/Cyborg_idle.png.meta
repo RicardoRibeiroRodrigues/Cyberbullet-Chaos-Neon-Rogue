@@ -139,10 +139,10 @@ TextureImporter:
       name: Cyborg_idle_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 3
         y: 0
-        width: 48
-        height: 48
+        width: 19
+        height: 35
       alignment: 9
       pivot: {x: 0.3, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -160,10 +160,10 @@ TextureImporter:
       name: Cyborg_idle_1
       rect:
         serializedVersion: 2
-        x: 48
+        x: 51
         y: 0
-        width: 48
-        height: 48
+        width: 19
+        height: 35
       alignment: 9
       pivot: {x: 0.3, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -181,10 +181,10 @@ TextureImporter:
       name: Cyborg_idle_2
       rect:
         serializedVersion: 2
-        x: 95
+        x: 98
         y: 0
-        width: 48
-        height: 48
+        width: 20
+        height: 35
       alignment: 9
       pivot: {x: 0.3, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -202,10 +202,10 @@ TextureImporter:
       name: Cyborg_idle_3
       rect:
         serializedVersion: 2
-        x: 143
+        x: 146
         y: 0
-        width: 48
-        height: 48
+        width: 20
+        height: 35
       alignment: 9
       pivot: {x: 0.3, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
