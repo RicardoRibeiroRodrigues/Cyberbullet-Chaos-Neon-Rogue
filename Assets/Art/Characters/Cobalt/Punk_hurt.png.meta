@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0c30b0e7eaa605a439af40d56b270d05
+guid: 3d0c283272be6b048a6861ab73a3100c
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -123,12 +123,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Biker_idle_0
+      name: Punk_hurt_0
       rect:
         serializedVersion: 2
-        x: 4
+        x: 5
         y: 0
-        width: 19
+        width: 17
         height: 34
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -137,19 +137,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5773e86cd30aa404880c58a720c30b86
-      internalID: -283414714
+      spriteID: 84f6d2d5a82ffcc41adb86f740256111
+      internalID: -650154789
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Biker_idle_1
+      name: Punk_hurt_1
       rect:
         serializedVersion: 2
-        x: 51
+        x: 49
         y: 0
-        width: 20
+        width: 21
         height: 34
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -158,50 +158,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5d178da7901d2d347a0758132f694a22
-      internalID: -1630052063
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Biker_idle_2
-      rect:
-        serializedVersion: 2
-        x: 99
-        y: 0
-        width: 20
-        height: 34
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e3077fe9d40ba7b4db3670f0316d2bd0
-      internalID: 650853177
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Biker_idle_3
-      rect:
-        serializedVersion: 2
-        x: 148
-        y: 0
-        width: 19
-        height: 34
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7a232ef8d2e3b2e4dba3798f2cd5d837
-      internalID: 1471603013
+      spriteID: 7b4d78bd01359a341ad035dfd4ef4e68
+      internalID: -263412629
       vertices: []
       indices: 
       edges: []
@@ -217,10 +175,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Biker_idle_0: -283414714
-      Biker_idle_1: -1630052063
-      Biker_idle_2: 650853177
-      Biker_idle_3: 1471603013
+      Punk_hurt_0: -650154789
+      Punk_hurt_1: -263412629
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

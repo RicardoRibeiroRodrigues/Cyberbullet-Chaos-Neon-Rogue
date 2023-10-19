@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0c30b0e7eaa605a439af40d56b270d05
+guid: 6f18773e4f4af2740b3b2749e64b8556
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Biker_idle_0
+      name: Biker_jump_0
       rect:
         serializedVersion: 2
-        x: 4
-        y: 0
-        width: 19
-        height: 34
+        x: 3
+        y: 1
+        width: 29
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,20 +137,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5773e86cd30aa404880c58a720c30b86
-      internalID: -283414714
+      spriteID: 4d76466b0a9c9d94abbb6d911c56c397
+      internalID: -31826409
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Biker_idle_1
+      name: Biker_jump_1
       rect:
         serializedVersion: 2
         x: 51
-        y: 0
-        width: 20
-        height: 34
+        y: 4
+        width: 26
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -158,20 +158,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5d178da7901d2d347a0758132f694a22
-      internalID: -1630052063
+      spriteID: 40e8e6c7e78a2e74f8e70a5f02c5f8fb
+      internalID: -143981751
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Biker_idle_2
+      name: Biker_jump_2
       rect:
         serializedVersion: 2
         x: 99
-        y: 0
-        width: 20
-        height: 34
+        y: 2
+        width: 26
+        height: 31
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -179,20 +179,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e3077fe9d40ba7b4db3670f0316d2bd0
-      internalID: 650853177
+      spriteID: 7032ac1eea8c35c4e815c3f15c911905
+      internalID: 1002152886
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Biker_idle_3
+      name: Biker_jump_3
       rect:
         serializedVersion: 2
-        x: 148
+        x: 146
         y: 0
-        width: 19
-        height: 34
+        width: 27
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -200,8 +200,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7a232ef8d2e3b2e4dba3798f2cd5d837
-      internalID: 1471603013
+      spriteID: 34285ea53ea17694cac0404939127dcf
+      internalID: -538943189
       vertices: []
       indices: 
       edges: []
@@ -217,10 +217,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Biker_idle_0: -283414714
-      Biker_idle_1: -1630052063
-      Biker_idle_2: 650853177
-      Biker_idle_3: 1471603013
+      Biker_jump_0: -31826409
+      Biker_jump_1: -143981751
+      Biker_jump_2: 1002152886
+      Biker_jump_3: -538943189
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

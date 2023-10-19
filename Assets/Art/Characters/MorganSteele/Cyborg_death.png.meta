@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0c30b0e7eaa605a439af40d56b270d05
+guid: b48714c353383b5429260de0b41dbe91
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Biker_idle_0
+      name: Cyborg_death_0
       rect:
         serializedVersion: 2
-        x: 4
+        x: 3
         y: 0
         width: 19
-        height: 34
+        height: 35
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,20 +137,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5773e86cd30aa404880c58a720c30b86
-      internalID: -283414714
+      spriteID: d303e29f691a33f4d84a6cb1c115d9d0
+      internalID: 660586
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Biker_idle_1
+      name: Cyborg_death_1
       rect:
         serializedVersion: 2
         x: 51
         y: 0
         width: 20
-        height: 34
+        height: 25
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -158,20 +158,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5d178da7901d2d347a0758132f694a22
-      internalID: -1630052063
+      spriteID: fcf47344b8cfa0c4ca6279e33ea724d5
+      internalID: 1123024791
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Biker_idle_2
+      name: Cyborg_death_2
       rect:
         serializedVersion: 2
-        x: 99
+        x: 100
         y: 0
-        width: 20
-        height: 34
+        width: 21
+        height: 17
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -179,20 +179,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e3077fe9d40ba7b4db3670f0316d2bd0
-      internalID: 650853177
+      spriteID: 36c8d5f66bf58bf478efb0ac19707563
+      internalID: -1832717405
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Biker_idle_3
+      name: Cyborg_death_3
       rect:
         serializedVersion: 2
         x: 148
         y: 0
-        width: 19
-        height: 34
+        width: 23
+        height: 13
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -200,8 +200,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7a232ef8d2e3b2e4dba3798f2cd5d837
-      internalID: 1471603013
+      spriteID: 752e02e0865e9b74cb05d7520f84a122
+      internalID: -379964241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cyborg_death_4
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 0
+        width: 22
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25daf5dcc9b55f04fb77d3e5261891d4
+      internalID: -653691025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cyborg_death_5
+      rect:
+        serializedVersion: 2
+        x: 245
+        y: 0
+        width: 22
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b730dc79d475dee4684e1685c75aa10e
+      internalID: 1838544928
       vertices: []
       indices: 
       edges: []
@@ -217,10 +259,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Biker_idle_0: -283414714
-      Biker_idle_1: -1630052063
-      Biker_idle_2: 650853177
-      Biker_idle_3: 1471603013
+      Cyborg_death_0: 660586
+      Cyborg_death_1: 1123024791
+      Cyborg_death_2: -1832717405
+      Cyborg_death_3: -379964241
+      Cyborg_death_4: -653691025
+      Cyborg_death_5: 1838544928
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

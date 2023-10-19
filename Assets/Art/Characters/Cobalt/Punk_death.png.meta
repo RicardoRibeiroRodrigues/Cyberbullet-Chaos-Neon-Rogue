@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0c30b0e7eaa605a439af40d56b270d05
+guid: f9d5fe5ae5c8ed540ae58579539d3986
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -123,12 +123,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Biker_idle_0
+      name: Punk_death_0
       rect:
         serializedVersion: 2
-        x: 4
+        x: 5
         y: 0
-        width: 19
+        width: 17
         height: 34
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -137,20 +137,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5773e86cd30aa404880c58a720c30b86
-      internalID: -283414714
+      spriteID: 1a984a1edcc87884c9d6d84ad3e7a00f
+      internalID: 1224227185
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Biker_idle_1
+      name: Punk_death_1
       rect:
         serializedVersion: 2
         x: 51
         y: 0
-        width: 20
-        height: 34
+        width: 23
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -158,20 +158,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5d178da7901d2d347a0758132f694a22
-      internalID: -1630052063
+      spriteID: ae490b532009ee3449a002a989a31968
+      internalID: 207188988
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Biker_idle_2
+      name: Punk_death_2
       rect:
         serializedVersion: 2
-        x: 99
+        x: 103
         y: 0
         width: 20
-        height: 34
+        height: 27
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -179,20 +179,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e3077fe9d40ba7b4db3670f0316d2bd0
-      internalID: 650853177
+      spriteID: 4b76a14d2b77d2945add5600207324bc
+      internalID: 1377790077
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Biker_idle_3
+      name: Punk_death_3
       rect:
         serializedVersion: 2
-        x: 148
+        x: 151
         y: 0
-        width: 19
-        height: 34
+        width: 25
+        height: 14
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -200,8 +200,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7a232ef8d2e3b2e4dba3798f2cd5d837
-      internalID: 1471603013
+      spriteID: 30a81d6b6a381634e83b1f02a2f6ba66
+      internalID: 1870769805
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Punk_death_4
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 0
+        width: 25
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd797c63cfd5a7443a5dcad4e58039c6
+      internalID: 226712932
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Punk_death_5
+      rect:
+        serializedVersion: 2
+        x: 247
+        y: 0
+        width: 25
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b10c50b829e6e941bb61bcdc31e5be6
+      internalID: 1194563337
       vertices: []
       indices: 
       edges: []
@@ -217,10 +259,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Biker_idle_0: -283414714
-      Biker_idle_1: -1630052063
-      Biker_idle_2: 650853177
-      Biker_idle_3: 1471603013
+      Punk_death_0: 1224227185
+      Punk_death_1: 207188988
+      Punk_death_2: 1377790077
+      Punk_death_3: 1870769805
+      Punk_death_4: 226712932
+      Punk_death_5: 1194563337
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0c30b0e7eaa605a439af40d56b270d05
+guid: 4aa4d2f4425398c4bb46d7c16ccdc60d
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -123,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Biker_idle_0
+      name: Biker_death_0
       rect:
         serializedVersion: 2
         x: 4
@@ -137,20 +137,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5773e86cd30aa404880c58a720c30b86
-      internalID: -283414714
+      spriteID: 46ed17147169c564bb27caed47a16038
+      internalID: -2100060648
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Biker_idle_1
+      name: Biker_death_1
       rect:
         serializedVersion: 2
-        x: 51
+        x: 48
         y: 0
-        width: 20
-        height: 34
+        width: 25
+        height: 27
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -158,20 +158,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5d178da7901d2d347a0758132f694a22
-      internalID: -1630052063
+      spriteID: a845113c629b1f64c8db1bbadeaf2997
+      internalID: 413308309
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Biker_idle_2
+      name: Biker_death_2
       rect:
         serializedVersion: 2
-        x: 99
+        x: 96
         y: 0
-        width: 20
-        height: 34
+        width: 26
+        height: 20
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -179,20 +179,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e3077fe9d40ba7b4db3670f0316d2bd0
-      internalID: 650853177
+      spriteID: 11dd8903e7a95dc45ba4929d63dbaaa0
+      internalID: -1439491716
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Biker_idle_3
+      name: Biker_death_3
       rect:
         serializedVersion: 2
-        x: 148
+        x: 144
         y: 0
-        width: 19
-        height: 34
+        width: 31
+        height: 15
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -200,8 +200,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7a232ef8d2e3b2e4dba3798f2cd5d837
-      internalID: 1471603013
+      spriteID: d2557e87824ba7544a1e74430cafcfb7
+      internalID: -531233035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Biker_death_4
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 34
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 565e2601b09ad9445a2e9e706787d7b3
+      internalID: 992159661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Biker_death_5
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 0
+        width: 36
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b3a6d7ca48706b4292fa60509b43808
+      internalID: -1487347576
       vertices: []
       indices: 
       edges: []
@@ -217,10 +259,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Biker_idle_0: -283414714
-      Biker_idle_1: -1630052063
-      Biker_idle_2: 650853177
-      Biker_idle_3: 1471603013
+      Biker_death_0: -2100060648
+      Biker_death_1: 413308309
+      Biker_death_2: -1439491716
+      Biker_death_3: -531233035
+      Biker_death_4: 992159661
+      Biker_death_5: -1487347576
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
