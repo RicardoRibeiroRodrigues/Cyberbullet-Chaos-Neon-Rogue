@@ -221,6 +221,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af893940f7dc3f44696c283b61f292a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Movement: {x: 0, y: 0}
+  firePoint: {fileID: 0}
+  bulletPrefab: {fileID: 0}
+  health: 0
   moveSpeed: 2
 --- !u!95 &107738932
 Animator:

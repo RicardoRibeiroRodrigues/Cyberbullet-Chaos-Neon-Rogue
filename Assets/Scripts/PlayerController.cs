@@ -82,14 +82,14 @@ public class PlayerController : MonoBehaviour
             Die();
         }
         // Trigger hurt animation
-        animator.SetTrigger("Hurt");
+        animator.SetTrigger("isHurt");
 
     }
 
     void Die()
     {
         // Trigger death animation
-        animator.SetTrigger("Death");
+        animator.SetTrigger("isDead");
         // Disable the player
         GetComponent<Collider2D>().enabled = false;
         this.enabled = false;

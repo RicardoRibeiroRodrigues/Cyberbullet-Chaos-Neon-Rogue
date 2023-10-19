@@ -1,5 +1,6 @@
 # Exclude paid assets
-/Assets/Art/
+/Assets/Art/Enemies
+/Assets/Art/Upgrades
 # This .gitignore file should be placed at the root of your Unity project directory
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
