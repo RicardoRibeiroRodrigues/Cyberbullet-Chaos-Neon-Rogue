@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     // Player stats
     public int health;
     public float moveSpeed;
+
     
 
 
@@ -24,18 +25,19 @@ public class PlayerController : MonoBehaviour
         m_Rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
-    {
-        if(Input.GetButtonDown("Fire1"))
-        {
-            ShootBullet();
-        }
+    void Start()
+    {   
+        // Para a bala
+        InvokeRepeating(nameof(ShootBullet), 0.0f, 0.5f);
+
+        // Para o laser
+        // InvokeRepeating(nameof(ShootBullet), 0.0f, 0.25f);
     }
 
     void ShootBullet()
     {
         var bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        bullet.GetComponent<ProjectileController>().direction = new Vector2(transform.right.x, transform.right.y);
+        bullet.GetComponent<ProjectileController>().direction = firePoint.right;
     }
 
     void FixedUpdate()
