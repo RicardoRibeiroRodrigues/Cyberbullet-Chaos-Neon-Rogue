@@ -1,15 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed;
     private bool isMoving;
     public Vector2 Movement;
     private Animator animator;
     private Rigidbody2D m_Rigidbody;
+    public Transform firePoint;
+    public GameObject bulletPrefab;
+    // Player stats
+    public int health;
+    public float moveSpeed;
+    
+
 
     private void Awake()
     {
@@ -17,6 +24,19 @@ public class PlayerController : MonoBehaviour
         m_Rigidbody = GetComponent<Rigidbody2D>();
     }
 
+    void Update()
+    {
+        if(Input.GetButtonDown("Fire1"))
+        {
+            ShootBullet();
+        }
+    }
+
+    void ShootBullet()
+    {
+        var bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        bullet.GetComponent<ProjectileController>().direction = new Vector2(transform.right.x, transform.right.y);
+    }
 
     void FixedUpdate()
     {
@@ -54,11 +74,24 @@ public class PlayerController : MonoBehaviour
         Movement = value.Get<Vector2>();
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    public void TakeDamage(int damage)
     {
-        if (other.gameObject.CompareTag("Enemy"))
+        health -= damage;
+        if (health <= 0)
         {
-            // other.gameObject.animator.setBool("gotHurt", true);
+            Die();
         }
+        // Trigger hurt animation
+        animator.SetTrigger("Hurt");
+
+    }
+
+    void Die()
+    {
+        // Trigger death animation
+        animator.SetTrigger("Death");
+        // Disable the player
+        GetComponent<Collider2D>().enabled = false;
+        this.enabled = false;
     }
 }

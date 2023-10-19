@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Callbacks;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
@@ -9,6 +10,7 @@ public class EnemyController : MonoBehaviour
    	public int attackCooldown;
     private Rigidbody2D m_Rigidbody;
     private bool isMoving;
+    private bool isDying;
 	// Attack mechanic.
 	private bool playerInRange;
 	private bool canAttack;
@@ -16,16 +18,23 @@ public class EnemyController : MonoBehaviour
     public int health;
     public int damage;
     public float moveSpeed;
-    public GameObject deathEffect;
     
     public void TakeDamage(int damage)
     {
+        // Evita bug de morrer duas vezes.
+        if (isDying)
+            return;
+        
         health -= damage;
         if (health <= 0)
         {
             Die();
+        } else {
+            // Trigger hurt animation
+            animator.SetTrigger("Hurt");
         }
     }
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -37,6 +46,10 @@ public class EnemyController : MonoBehaviour
 
     void FixedUpdate()
     {
+        // Evita de o inimigo se mover e atacar depois de morrer.
+        if (isDying)
+            return;
+        
         var targetPos = player.transform.position;
         var distance = Vector2.Distance(transform.position, targetPos);
         var direction = targetPos - transform.position;
@@ -65,22 +78,8 @@ public class EnemyController : MonoBehaviour
 		{
             animator.SetTrigger("Attack");
             StartCoroutine(AttackCooldown());
+            player.GetComponent<PlayerController>().TakeDamage(damage);
 		}
-    }
-
-     void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            playerInRange = true;
-        }
-    }
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            playerInRange = false;
-        }
     }
 
 	IEnumerator AttackCooldown()
@@ -90,9 +89,19 @@ public class EnemyController : MonoBehaviour
         canAttack = true;
     }
 
+    // Usado no evento da animacao de morrer.
+    void FinishedDyingAnimation()
+    {
+        Destroy(gameObject);
+    }
+
     void Die()
     {
-        //Instantiate(deathEffect, transform.position, Quaternion.identity);
-        Destroy(gameObject);
+        m_Rigidbody.velocity = Vector3.zero;
+        isDying = true;
+        // Trigger death animation
+        animator.SetTrigger("Dying");
+        // Disable the enemy
+        GetComponent<Collider2D>().enabled = false;
     }
 }

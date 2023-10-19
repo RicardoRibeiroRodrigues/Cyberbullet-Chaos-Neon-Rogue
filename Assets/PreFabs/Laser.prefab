@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 8686023239659697953}
   - component: {fileID: 685293661834505270}
   - component: {fileID: 2737357539063335029}
-  - component: {fileID: 4408561218770491888}
+  - component: {fileID: -9016073859104738878}
   m_Layer: 0
   m_Name: Laser
-  m_TagString: Laser
+  m_TagString: PlayerBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -181,7 +181,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.375, y: 0.39487064}
   m_EdgeRadius: 0
---- !u!114 &4408561218770491888
+--- !u!114 &-9016073859104738878
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -190,9 +190,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4694806534874031159}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f42448dc4b39a3449b451bd19a0be8c, type: 3}
+  m_Script: {fileID: 11500000, guid: d75f46d1dfe53df45b388f8aac26013d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 20
+  lifeTime: 15
   damage: 20
-  rb: {fileID: 685293661834505270}
+  direction: {x: 0, y: 0}
