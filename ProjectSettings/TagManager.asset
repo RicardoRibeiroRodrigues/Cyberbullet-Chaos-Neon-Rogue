@@ -3,12 +3,16 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - EnemyBullet
+  - Laser
+  - PlayerBullet
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Enemies
   - Water
   - UI
   - 
@@ -43,6 +47,9 @@ TagManager:
     locked: 0
   - name: Objects
     uniqueID: 4215751441
+    locked: 0
+  - name: Enemies
+    uniqueID: 3475375597
     locked: 0
   - name: Player
     uniqueID: 1691968593
