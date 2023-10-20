@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firePoint: {fileID: 2394623327502002876}
-  player: {fileID: 5431492255278188951}
 --- !u!1 &5431492255278188951
 GameObject:
   m_ObjectHideFlags: 0
@@ -61,6 +60,7 @@ GameObject:
   - component: {fileID: 5942643773033562116}
   - component: {fileID: 6851558403414589067}
   - component: {fileID: 1092314316785227156}
+  - component: {fileID: 2592756230010793610}
   m_Layer: 0
   m_Name: Morgan
   m_TagString: Player
@@ -266,3 +266,33 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2592756230010793610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5431492255278188951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 114347fb5164d9644b131ff600000000
+  m_ShapePath:
+  - {x: -0.17, y: 0.3, z: 0}
+  - {x: -0.16, y: 0.65, z: 0}
+  - {x: 0.35, y: 0.8, z: 0}
+  - {x: 0.4, y: 0.3, z: 0}
+  m_ShapePathHash: 389001402
+  m_Mesh: {fileID: 0}
+  m_InstanceId: -73984
+  m_LocalBounds:
+    m_Center: {x: 0.114999995, y: 0.55, z: 0}
+    m_Extent: {x: 0.285, y: 0.25, z: 0}
