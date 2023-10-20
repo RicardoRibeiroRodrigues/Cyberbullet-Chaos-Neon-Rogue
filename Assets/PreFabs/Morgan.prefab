@@ -286,13 +286,13 @@ MonoBehaviour:
   m_SelfShadows: 0
   m_ApplyToSortingLayers: 114347fb5164d9644b131ff600000000
   m_ShapePath:
-  - {x: -0.17, y: 0.3, z: 0}
-  - {x: -0.16, y: 0.65, z: 0}
-  - {x: 0.35, y: 0.8, z: 0}
-  - {x: 0.4, y: 0.3, z: 0}
-  m_ShapePathHash: 389001402
+  - {x: -0.28, y: 0.35, z: 0}
+  - {x: -0.2, y: 0.7030027, z: 0}
+  - {x: 0.2, y: 0.7, z: 0}
+  - {x: 0.25, y: 0.35, z: 0}
+  m_ShapePathHash: 1569811476
   m_Mesh: {fileID: 0}
-  m_InstanceId: -73984
+  m_InstanceId: 40492
   m_LocalBounds:
-    m_Center: {x: 0.114999995, y: 0.55, z: 0}
-    m_Extent: {x: 0.285, y: 0.25, z: 0}
+    m_Center: {x: -0.0150000155, y: 0.52650136, z: 0}
+    m_Extent: {x: 0.265, y: 0.17650135, z: 0}
