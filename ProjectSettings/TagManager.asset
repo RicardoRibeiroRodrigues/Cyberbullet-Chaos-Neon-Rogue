@@ -8,6 +8,8 @@ TagManager:
   - EnemyBullet
   - Laser
   - PlayerBullet
+  - XpOrb
+  - RangedEnemy
   layers:
   - Default
   - TransparentFX

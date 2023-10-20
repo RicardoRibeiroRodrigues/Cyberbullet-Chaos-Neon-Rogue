@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1982478632641722878}
   - component: {fileID: -5587613815610501693}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: DroneBullet
   m_TagString: PlayerBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 7808266576223495791}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5, y: 1.902, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -138,8 +138,8 @@ SpriteRenderer:
   m_SortingLayerID: 1691968593
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e1443451993394a40abaad93146358b6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: a2494d5859255714b9ae085d2c3927cf, type: 3}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -163,5 +163,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   lifeTime: 8
-  damage: 50
+  damage: 20
   direction: {x: 0, y: 0}

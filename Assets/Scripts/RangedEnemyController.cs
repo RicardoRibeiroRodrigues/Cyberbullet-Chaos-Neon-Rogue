@@ -19,7 +19,11 @@ public class RangedEnemyController : MonoBehaviour
     public GameObject projectilePrefab;
     // Enemy stats -> Damage in on enemys projectile
     public int health;
+    private int max_health;
     public float moveSpeed;
+    // Xp drop
+    private bool isDying;
+    public GameObject orbPrefab;
 
     
     // Start is called before the first frame update
@@ -29,10 +33,14 @@ public class RangedEnemyController : MonoBehaviour
         m_Rigidbody = GetComponent<Rigidbody2D>();
         canAttack = true;
         player = GameObject.Find("Player");
+        max_health = health;
     }
 
     void FixedUpdate()
     {
+        if (isDying)
+            return;
+        
         var targetPos = player.transform.position;
         // if is already in a certain dist, stop moving
         var distance = Vector2.Distance(transform.position, targetPos);
@@ -71,6 +79,15 @@ public class RangedEnemyController : MonoBehaviour
         canAttack = true;
     }
 
+    // Usado no evento da animacao de morrer.
+    void FinishedDyingAnimation()
+    {
+        var orb = Instantiate(orbPrefab, transform.position, transform.rotation);
+        // Scale xp with enemy health.
+        orb.GetComponent<XpOrbController>().SetXp(max_health / 2);
+        Destroy(gameObject);
+    }
+
     void Attack(Vector3 direction)
     {
         var targetY = 0;
@@ -84,5 +101,31 @@ public class RangedEnemyController : MonoBehaviour
         direction.Normalize();
         var bullet = Instantiate(projectilePrefab, attackPoint.position, attackPoint.rotation);
         bullet.GetComponent<ProjectileController>().direction = direction;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        // Evita bug de morrer duas vezes.
+        if (isDying)
+            return;
+        
+        health -= damage;
+        if (health <= 0)
+        {
+            Die();
+        } else {
+            // Trigger hurt animation
+            animator.SetTrigger("Hurt");
+        }
+    }
+
+    void Die()
+    {
+        m_Rigidbody.velocity = Vector3.zero;
+        isDying = true;
+        // Trigger death animation
+        animator.SetTrigger("Dying");
+        // Disable the enemy
+        GetComponent<Collider2D>().enabled = false;
     }
 }
