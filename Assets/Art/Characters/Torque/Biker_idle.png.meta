@@ -141,10 +141,10 @@ TextureImporter:
         serializedVersion: 2
         x: 4
         y: 0
-        width: 48
-        height: 48
-      alignment: 9
-      pivot: {x: 0.3, y: 0}
+        width: 19
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -162,10 +162,10 @@ TextureImporter:
         serializedVersion: 2
         x: 51
         y: 0
-        width: 48
-        height: 48
-      alignment: 9
-      pivot: {x: 0.3, y: 0}
+        width: 20
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -183,10 +183,10 @@ TextureImporter:
         serializedVersion: 2
         x: 99
         y: 0
-        width: 48
-        height: 48
-      alignment: 9
-      pivot: {x: 0.3, y: 0}
+        width: 20
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -204,10 +204,10 @@ TextureImporter:
         serializedVersion: 2
         x: 148
         y: 0
-        width: 48
-        height: 48
-      alignment: 9
-      pivot: {x: 0.3, y: 0}
+        width: 19
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -234,6 +234,7 @@ TextureImporter:
       Biker_idle_1: -1630052063
       Biker_idle_2: 650853177
       Biker_idle_3: 1471603013
+      Biker_idle_4: -1014145354
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
