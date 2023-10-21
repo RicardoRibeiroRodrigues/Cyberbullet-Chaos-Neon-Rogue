@@ -138,6 +138,7 @@ MonoBehaviour:
   moveSpeed: 6
   fireRate: 1
   xpToNextLevel: 100
+  possibleUpgrades: []
 --- !u!70 &2639615308328095813
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -170,8 +171,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.08593771, y: 0.5375681}
-  m_Size: {x: 0.4640016, y: 1.1001215}
+  m_Offset: {x: -0.0286161, y: 0.0055989027}
+  m_Size: {x: 0.4859708, y: 1.0781524}
   m_Direction: 0
 --- !u!50 &7441107501590057437
 Rigidbody2D:
@@ -267,3 +268,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 7808266576223495791, guid: bc84f9fcf0b48764893137bff9f55bd1, type: 3}
   gunDamage: 50
+  spread: 0

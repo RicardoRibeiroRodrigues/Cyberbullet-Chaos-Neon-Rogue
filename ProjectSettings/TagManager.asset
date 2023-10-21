@@ -10,6 +10,9 @@ TagManager:
   - PlayerBullet
   - XpOrb
   - RangedEnemy
+  - Knife
+  - Explosion
+  - FireGrenade
   layers:
   - Default
   - TransparentFX
