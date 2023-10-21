@@ -15,9 +15,12 @@ public class EnemyController : MonoBehaviour
 	private bool playerInRange;
 	private bool canAttack;
     // Enemy stats
+    private int max_health;
     public int health;
     public int damage;
     public float moveSpeed;
+    // Drop orb
+    public GameObject orbPrefab;
     
     public void TakeDamage(int damage)
     {
@@ -42,6 +45,7 @@ public class EnemyController : MonoBehaviour
         m_Rigidbody = GetComponent<Rigidbody2D>();
         canAttack = true;
         player = GameObject.Find("Player");
+        max_health = health;
     }
 
     void FixedUpdate()
@@ -92,6 +96,9 @@ public class EnemyController : MonoBehaviour
     // Usado no evento da animacao de morrer.
     void FinishedDyingAnimation()
     {
+        var orb = Instantiate(orbPrefab, transform.position, transform.rotation);
+        // Scale xp with enemy health.
+        orb.GetComponent<XpOrbController>().SetXp(max_health / 2);
         Destroy(gameObject);
     }
 

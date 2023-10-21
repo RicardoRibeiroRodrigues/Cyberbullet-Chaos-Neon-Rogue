@@ -80,12 +80,12 @@ SpriteRenderer:
   m_SortingLayerID: 1691968593
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 767542779, guid: 35405a569523f5142b884f96a919faf6, type: 3}
+  m_Sprite: {fileID: 6474817916930609645, guid: 35405a569523f5142b884f96a919faf6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.53125, y: 1.0625}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -134,10 +134,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Movement: {x: 0, y: 0}
-  firePoint: {fileID: 2232136970333047828}
-  bulletPrefab: {fileID: 7808266576223495791, guid: bc84f9fcf0b48764893137bff9f55bd1, type: 3}
+  gun: {fileID: 7267146445179758991}
   health: 500
   moveSpeed: 6
+  fireRate: 1
+  xpToNextLevel: 100
+  possibleUpgrades: []
 --- !u!70 &2639615308328095813
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -170,8 +172,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.026542723, y: 0.007962942}
-  m_Size: {x: 0.5035982, y: 1.0803232}
+  m_Offset: {x: -0.0286161, y: 0.0055989027}
+  m_Size: {x: 0.4859708, y: 1.0781524}
   m_Direction: 0
 --- !u!50 &7441107501590057437
 Rigidbody2D:
@@ -295,4 +297,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49498ef71c220a549a69ea99238c4832, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firePoint: {fileID: 2232136970333047828}
+  bulletPrefab: {fileID: 7808266576223495791, guid: bc84f9fcf0b48764893137bff9f55bd1, type: 3}
+  gunDamage: 50
+  spread: 0
