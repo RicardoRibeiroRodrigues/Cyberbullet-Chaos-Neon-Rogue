@@ -538,6 +538,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5931569796497611663, guid: a8eb411be5d412d4ca26fe24cc2578b1, type: 3}
+      propertyPath: knifePrefab
+      value: 
+      objectReference: {fileID: 8188155056552233864, guid: 655a26d72f1342640b9f65a195ab9946, type: 3}
+    - target: {fileID: 5931569796497611663, guid: a8eb411be5d412d4ca26fe24cc2578b1, type: 3}
       propertyPath: bulletPrefab
       value: 
       objectReference: {fileID: 7808266576223495791, guid: bc84f9fcf0b48764893137bff9f55bd1, type: 3}
@@ -545,6 +549,14 @@ PrefabInstance:
       propertyPath: upgradePrefab
       value: 
       objectReference: {fileID: 8188155056552233864, guid: 655a26d72f1342640b9f65a195ab9946, type: 3}
+    - target: {fileID: 5931569796497611663, guid: a8eb411be5d412d4ca26fe24cc2578b1, type: 3}
+      propertyPath: grenadeFirePrefab
+      value: 
+      objectReference: {fileID: 3667489010200759740, guid: 298c491333af33842acca79b625ad860, type: 3}
+    - target: {fileID: 5931569796497611663, guid: a8eb411be5d412d4ca26fe24cc2578b1, type: 3}
+      propertyPath: grenadeFireExplosionPrefab
+      value: 
+      objectReference: {fileID: 1600406571689667736, guid: 532022a508802764bb261173c669dbe5, type: 3}
     - target: {fileID: 6832295210781041065, guid: a8eb411be5d412d4ca26fe24cc2578b1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

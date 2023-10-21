@@ -8,6 +8,9 @@ TagManager:
   - EnemyBullet
   - Laser
   - PlayerBullet
+  - Knife
+  - Explosion
+  - FireGrenade
   layers:
   - Default
   - TransparentFX

@@ -13,7 +13,9 @@ public class ProjectileController : MonoBehaviour
     void Awake()
     {
         m_Rigidbody = GetComponent<Rigidbody2D>();
-        Destroy(gameObject, lifeTime);
+        if (!gameObject.CompareTag("FireGrenade")){
+            Destroy(gameObject, lifeTime);
+        }
     }
 
     // Update is called once per frame
