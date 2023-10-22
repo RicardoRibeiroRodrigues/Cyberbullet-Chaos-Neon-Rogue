@@ -39,6 +39,11 @@ public class ProjectileController : MonoBehaviour
                 other.GetComponent<EnemyController>().TakeDamage(damage);
                 Destroy(gameObject);
             }
+            if (other.CompareTag("RangedEnemy"))
+            {
+                other.GetComponent<RangedEnemyController>().TakeDamage(damage);
+                Destroy(gameObject);
+            }
         }
     }
 
