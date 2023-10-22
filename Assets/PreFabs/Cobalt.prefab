@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 7441107501590057437}
   - component: {fileID: 4408751161489190474}
   - component: {fileID: 8755718160934113214}
+  - component: {fileID: 7086446738336523355}
   m_Layer: 0
   m_Name: Cobalt
   m_TagString: Player
@@ -135,11 +136,56 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Movement: {x: 0, y: 0}
   gun: {fileID: 7267146445179758991}
+  selectedWeaponIndex: 0
   health: 500
   moveSpeed: 6
   fireRate: 1
+  luck: 1.2
+  damage: 40
   xpToNextLevel: 100
-  possibleUpgrades: []
+  upgrades:
+  - UpgradePrefab: {fileID: 4350146216459109662, guid: bb6e1dbf4dc33d04484b176276ca398f, type: 3}
+    UpgradeName: "Drone de Combate S\xE9rie A-7:"
+    upgradeLevel: 0
+    upgradeDescriptions:
+    - "Equipado com armas de fogo precisas e sensores avan\xE7ados, este drone segue
+      o jogador e atira nos inimigos."
+    - Diminui o intervalo que o drone leva para atirar nos inimigos.
+    - "Modifica o drone para disparar 3 proj\xE9teis de uma vez, causando mais dano
+      aos inimigos."
+    - "Adiciona pequenos m\xEDsseis de impacto ao arsenal do drone, permitindo que
+      ele atire m\xEDsseis guiados em inimigos, causando dano explosivo."
+    - "Aumenta a velocidade com que o drone dispara, permitindo que ele ataque inimigos
+      com maior rapidez e efici\xEAncia."
+    - "Reduz o tempo de recarga dos m\xEDsseis de impacto, permitindo que o drone
+      os utilize com mais frequ\xEAncia durante os combates. "
+    index: 0
+  - UpgradePrefab: {fileID: 2870476632973856890, guid: 91d2d668fb9825e40912a2586ae8edaa, type: 3}
+    UpgradeName: "Granada Incendi\xE1ria Inferno-X"
+    upgradeLevel: 0
+    upgradeDescriptions: []
+    index: 1
+  - UpgradePrefab: {fileID: 0}
+    UpgradeName: 
+    upgradeLevel: 0
+    upgradeDescriptions: []
+    index: 2
+  - UpgradePrefab: {fileID: 0}
+    UpgradeName: 
+    upgradeLevel: 0
+    upgradeDescriptions: []
+    index: 3
+  - UpgradePrefab: {fileID: 0}
+    UpgradeName: 
+    upgradeLevel: 0
+    upgradeDescriptions: []
+    index: 5
+  - UpgradePrefab: {fileID: 0}
+    UpgradeName: 
+    upgradeLevel: 0
+    upgradeDescriptions: []
+    index: 5
+  shootSound: {fileID: 8300000, guid: b4d1d0ae0cc77d84095d6981a6b1979f, type: 3}
 --- !u!70 &2639615308328095813
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -172,8 +218,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0286161, y: 0.0055989027}
-  m_Size: {x: 0.4859708, y: 1.0781524}
+  m_Offset: {x: -0.0286161, y: 0.5223913}
+  m_Size: {x: 0.4859708, y: 1.1123204}
   m_Direction: 0
 --- !u!50 &7441107501590057437
 Rigidbody2D:
@@ -249,10 +295,106 @@ MonoBehaviour:
   - {x: 0.25, y: 0.35, z: 0}
   m_ShapePathHash: 1569811476
   m_Mesh: {fileID: 0}
-  m_InstanceId: 40492
+  m_InstanceId: 46334
   m_LocalBounds:
     m_Center: {x: -0.0150000155, y: 0.52650136, z: 0}
     m_Extent: {x: 0.265, y: 0.17650135, z: 0}
+--- !u!82 &7086446738336523355
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7129685379813634467}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 64
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &7267146445179758991
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,6 +439,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49498ef71c220a549a69ea99238c4832, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 7808266576223495791, guid: bc84f9fcf0b48764893137bff9f55bd1, type: 3}
+  bulletPrefab:
+  - {fileID: 7808266576223495791, guid: 099fa132431a18649b86d24cc95623ec, type: 3}
+  - {fileID: 7808266576223495791, guid: c95276506d0c1b242b457a86cd808ba9, type: 3}
   gunDamage: 50
   spread: 0
+  weaponTier: 0

@@ -9,19 +9,23 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     private Rigidbody2D m_Rigidbody;
     public GameObject gun;
+    public int selectedWeaponIndex = 0;
     private bool isDying;
     // Player stats
     public int health;
     public float moveSpeed;
     public float fireRate;
+    public float luck;
+    public int damage;
     // Level mechanic
     private int xp;
     public int xpToNextLevel;
     private int level = 1;
     // Upgrade mechanic
-    [SerializeField]
-    private GameObject[] possibleUpgrades;
-    private int[] Upgradelevels;
+    public UpgradeData[] upgrades;
+    // Sounds
+    private AudioSource audioSource;
+    public AudioClip shootSound;
     
     private void Awake()
     {
@@ -31,11 +35,12 @@ public class PlayerController : MonoBehaviour
     }
 
     void Start()
-    {   
-        // Para a bala
+    {
+        audioSource = GetComponent<AudioSource>();
+        var firepoint = gun.GetComponent<FirePoint>();
+        firepoint.gunDamage = damage; 
+        firepoint.weaponTier = selectedWeaponIndex;
         InvokeRepeating(nameof(ShootBullet), 0.0f, fireRate);
-        // Para o laser
-        // InvokeRepeating(nameof(ShootBullet), 0.0f, 0.25f);
     }
 
     void ShootBullet()
@@ -43,6 +48,7 @@ public class PlayerController : MonoBehaviour
         if (isDying)
             return;
         
+        audioSource.PlayOneShot(shootSound);
         StartCoroutine(gun.GetComponent<FirePoint>().ShootBullet());
     }
 
@@ -122,7 +128,24 @@ public class PlayerController : MonoBehaviour
         xpToNextLevel = (int) (xpToNextLevel * 1.5f);
         level++;
         Debug.Log("Level up! Level: " + level);
-        // TODO: colocar logica escolher um upgrade aqui.
+        // Possiveis upgrades: aqueles com level menor que 5.
+        var possibleUpgrades = new ArrayList();
+        foreach (var upgrade in upgrades)
+        {
+            if (upgrade.upgradeLevel <= 5)
+            {
+                possibleUpgrades.Add(upgrade);
+            }
+        }
+        // Now choose 3 random upgrades from the possible upgrades.
+        var chosenUpgrades = new ArrayList();
+        for (int i = 0; i < 3; i++)
+        {
+            var randomIndex = Random.Range(0, possibleUpgrades.Count);
+            chosenUpgrades.Add(possibleUpgrades[randomIndex]);
+            possibleUpgrades.RemoveAt(randomIndex);
+        }
+        // TODO: Mostrar os upgrades para o jogador escolher em um menu.
 
     }
 
@@ -130,7 +153,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("XpOrb"))
         {
-            xp += other.GetComponent<XpOrbController>().GetXp();
+            xp += (int) luck * other.GetComponent<XpOrbController>().GetXp();
             Debug.Log("Curr xp: " + xp);
             if (xp >= xpToNextLevel)
             {

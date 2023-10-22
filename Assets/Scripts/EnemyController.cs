@@ -110,5 +110,6 @@ public class EnemyController : MonoBehaviour
         animator.SetTrigger("Dying");
         // Disable the enemy
         GetComponent<Collider2D>().enabled = false;
+        Invoke(nameof(FinishedDyingAnimation), 3f);
     }
 }

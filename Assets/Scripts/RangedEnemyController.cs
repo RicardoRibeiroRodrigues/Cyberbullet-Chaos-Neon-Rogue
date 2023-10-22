@@ -25,8 +25,6 @@ public class RangedEnemyController : MonoBehaviour
     private bool isDying;
     public GameObject orbPrefab;
 
-    
-    // Start is called before the first frame update
     void Awake()
     {
         animator = GetComponent<Animator>();

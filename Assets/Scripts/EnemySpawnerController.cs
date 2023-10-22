@@ -20,6 +20,7 @@ public class EnemySpawnerController : MonoBehaviour
     // // Punk enemy
     // public GameObject punkPrefab;
     public enemy[] enemies;
+    public GameObject bossPrefab;
     // Spawn delay
     [SerializeField]
     private float spawnDelay;
@@ -40,7 +41,7 @@ public class EnemySpawnerController : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player");
-        SetupWave();
+        SetupWaveEnemies();
         InvokeRepeating("SpawnEnemy", 1f, spawnDelay);
     }
 
@@ -48,21 +49,40 @@ public class EnemySpawnerController : MonoBehaviour
     void Update()
     {
         time += Time.deltaTime;
+        if (waveNum > 5)
+            return;
+        StartCoroutine(SetupWave());
+    }
+
+    IEnumerator SetupWave()
+    {           
         // Every 2 minutes, spawn a new wave: Max wave: 5
         var newWave = Mathf.FloorToInt(time / (60 * 2));
         
         if (newWave > waveNum)
         {
-            if (newWave > 5)
-                newWave = 5;
+            if (newWave > 5) {
+                SpawnBoss();
+                // After spawning the boss, stop spawning enemies.
+                CancelInvoke(nameof(SpawnEnemy));
+                waveNum = newWave;
+                yield return null;
+            }
+            GameManager.Instance.putTenseMusic();
+            yield return new WaitForSeconds(8f);
+
+            // Increase spawn rate
+            spawnDelay = spawnDelay / newWave;
+            CancelInvoke(nameof(SpawnEnemy));
+            InvokeRepeating("SpawnEnemy", spawnDelay, spawnDelay);
             
             Debug.Log("New wave!");
             waveNum = newWave;
-            SetupWave();
+            SetupWaveEnemies();
         }
     }
 
-    void SetupWave()
+    void SetupWaveEnemies()
     {
         for (int i = 0; i < numEnemies * (waveNum+1); i++)
         {
@@ -94,5 +114,10 @@ public class EnemySpawnerController : MonoBehaviour
         }
    
         Instantiate(chosenEnemy.prefab, spawnPos, Quaternion.identity);
+    }
+
+    void SpawnBoss()
+    {
+        Instantiate(bossPrefab, player.transform.position, Quaternion.identity);
     }
 }
