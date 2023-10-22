@@ -5,7 +5,9 @@ public class KnifeUpgrade : MonoBehaviour, IUpgradable
 {
     public GameObject knifePrefab;
     private int numKnifes = 8;
-    private float knifeInterval = 2f;
+    private float knifeInterval = 4f;
+    public static int level = 0;
+    private int damage = 20;
     private Quaternion angle;
     private Vector2 direction;
 
@@ -30,7 +32,8 @@ public class KnifeUpgrade : MonoBehaviour, IUpgradable
         {
             var knife = Instantiate(knifePrefab, transform.position, angle);
             knife.GetComponent<ProjectileController>().direction = direction;
-            angle *= Quaternion.Euler(0, 0, 45);
+            knife.GetComponent<ProjectileController>().damage = damage;
+            angle *= Quaternion.Euler(0, 0, 360/numKnifes);
             float anguloZ = angle.eulerAngles.z;
             float angleRadians = Mathf.Deg2Rad * anguloZ;
             float direcaoX = Mathf.Cos(angleRadians);
@@ -42,6 +45,25 @@ public class KnifeUpgrade : MonoBehaviour, IUpgradable
 
     public void LevelUp()
     {
-        // TODO: Implementar o LevelUp do upgrade
+        level++;
+        if (level == 1)
+        {
+            damage += 20;
+        } 
+        else if (level == 2)
+        {
+           numKnifes = 12;
+        } 
+        else if (level == 3)
+        {
+            knifeInterval = 2f;
+        } 
+        else if (level == 4)
+        {
+            numKnifes = 16;
+        }
+
+
+        
     }
 }

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8118717089553778505}
   m_Layer: 0
   m_Name: blue_knife
-  m_TagString: PlayerBullet
+  m_TagString: Knife
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

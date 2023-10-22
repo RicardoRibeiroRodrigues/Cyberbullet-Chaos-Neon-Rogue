@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.Rendering.Universal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -123,7 +124,8 @@ public class PlayerController : MonoBehaviour
         level++;
         Debug.Log("Level up! Level: " + level);
         // TODO: colocar logica escolher um upgrade aqui.
-
+        FindObjectOfType<FireGrenadeUpgrade>().LevelUp();
+        FindObjectOfType<KnifeUpgrade>().LevelUp();
     }
 
     void OnTriggerEnter2D(Collider2D other)
