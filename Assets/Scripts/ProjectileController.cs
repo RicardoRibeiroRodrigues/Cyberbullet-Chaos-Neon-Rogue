@@ -47,19 +47,6 @@ public class ProjectileController : MonoBehaviour
                 other.GetComponent<RangedEnemyController>().TakeDamage(damage);
                 Destroy(gameObject);
             }
-        } else if (proj_tag == "Explosion" && isDamaging){
-            if (other.CompareTag("Enemy"))
-            {
-                other.GetComponent<EnemyController>().TakeDamage(damage);
-                isDamaging = false;
-                StartCoroutine(WaitToDamage());
-            }
-            if (other.CompareTag("RangedEnemy"))
-            {
-                other.GetComponent<RangedEnemyController>().TakeDamage(damage);
-                isDamaging = false;
-                StartCoroutine(WaitToDamage());
-            }
         } else if (proj_tag == "Knife"){
             if (other.CompareTag("Enemy"))
             {
@@ -73,7 +60,7 @@ public class ProjectileController : MonoBehaviour
                 enemiesHit++;
                 if (enemiesHit == 2 && KnifeUpgrade.level == 5){
                     Destroy(gameObject);
-                }else if (KnifeUpgrade.level < 5){
+                } else if (KnifeUpgrade.level < 5){
                     Destroy(gameObject);
                 }
             }
@@ -82,16 +69,17 @@ public class ProjectileController : MonoBehaviour
             if (other.CompareTag("Enemy"))
             {
                 other.GetComponent<EnemyController>().Freeze(freezeDuration);
+                if (IceGrenadeUpgrade.level >= 3){
+                    other.GetComponent<EnemyController>().TakeDamage(damage);
+                }
             }
             if (other.CompareTag("RangedEnemy"))
             {
                 other.GetComponent<RangedEnemyController>().Freeze(freezeDuration);
+                if (IceGrenadeUpgrade.level >= 3){
+                    other.GetComponent<RangedEnemyController>().TakeDamage(damage);
+                }
             }
         }
-    }
-    IEnumerator WaitToDamage()
-    {
-        yield return new WaitForSeconds(0.1f);
-        isDamaging = true;
     }
 }

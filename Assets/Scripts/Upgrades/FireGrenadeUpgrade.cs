@@ -11,7 +11,7 @@ public class FireGrenadeUpgrade : MonoBehaviour, IUpgradable
     private int numberOfGrenades = 1;
     private List<GameObject> fireGrenades = new();
     private int damage = 10;
-    private Vector3 explosionSize = new(0.2f, 0.2f, 0.2f);
+    private Vector3 explosionSize = new(0.6f, 0.6f, 0.6f);
     
     void Start()
     {
@@ -31,9 +31,8 @@ public class FireGrenadeUpgrade : MonoBehaviour, IUpgradable
             Destroy(fireGrenade);
 
             var explosion = Instantiate(grenadeFireExplosionPrefab, transform_position, rotation_position);
-            explosion.GetComponent<ProjectileController>().direction = transform_right;
+            explosion.GetComponent<FireDamage>().damage = damage;
             explosion.transform.localScale = explosionSize;
-            explosion.GetComponent<ProjectileController>().damage = damage;
         }
         
     }
@@ -56,7 +55,7 @@ public class FireGrenadeUpgrade : MonoBehaviour, IUpgradable
     {
         level++;
         if (level == 1){ 
-            explosionSize = new Vector3(0.4f, 0.4f, 0.4f); 
+            explosionSize = new Vector3(0.8f, 0.8f, 0.8f); 
         } else if (level == 2){
             damage = 20;
         } else if (level == 3){
@@ -65,7 +64,7 @@ public class FireGrenadeUpgrade : MonoBehaviour, IUpgradable
             grenadeFireInterval = 2.5f;
         } else if (level == 5){
             numberOfGrenades = 5;
-            explosionSize = new Vector3(0.6f, 0.6f, 0.6f); 
+            explosionSize = new Vector3(1f, 1f, 1f); 
         }
         Debug.Log("Grenade Level up! Level: " + level);
     }

@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95a6a7e2e0c67cb4191940122a98824c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackCooldown: 5
+  attackCooldown: 0.6
   health: 50
   damage: 10
   moveSpeed: 3

@@ -13,6 +13,8 @@ public class RangedEnemyController : MonoBehaviour
 	// Attack mechanic.
 	private bool playerInRange;
 	private bool canAttack;
+    // Can take damage
+    public bool canTakeDamage = true;
     [SerializeField]
     private float attackRange;
     public Transform attackPoint;
@@ -26,8 +28,6 @@ public class RangedEnemyController : MonoBehaviour
     public GameObject orbPrefab;
     private bool isFreezing;
 
-    
-    // Start is called before the first frame update
     void Awake()
     {
         animator = GetComponent<Animator>();
@@ -39,8 +39,13 @@ public class RangedEnemyController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isDying)
+        if (isDying || player == null)
             return;
+        if (isFreezing) {
+            // Locks the enemy in place x, y and z.
+            m_Rigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+            return;
+        }
         
         var targetPos = player.transform.position;
         // if is already in a certain dist, stop moving
@@ -51,7 +56,7 @@ public class RangedEnemyController : MonoBehaviour
         else
             transform.rotation = Quaternion.Euler(0, 0, 0);
         
-        if (distance >= attackRange && !isFreezing)
+        if (distance >= attackRange)
         {
             // Ajusta a velocidade do inimigo
             direction.Normalize();
@@ -107,7 +112,7 @@ public class RangedEnemyController : MonoBehaviour
     public void TakeDamage(int damage)
     {
         // Evita bug de morrer duas vezes.
-        if (isDying)
+        if (isDying || !canTakeDamage)
             return;
         
         health -= damage;
@@ -118,6 +123,14 @@ public class RangedEnemyController : MonoBehaviour
             // Trigger hurt animation
             animator.SetTrigger("Hurt");
         }
+        StartCoroutine(TakeDamageCooldown());
+    }
+    
+    IEnumerator TakeDamageCooldown()
+    {
+        canTakeDamage = false;
+        yield return new WaitForSeconds(0.5f);
+        canTakeDamage = true;
     }
 
     void Die()
@@ -133,6 +146,7 @@ public class RangedEnemyController : MonoBehaviour
         public void Freeze(float freezeDuration)
     {
         isFreezing = true;
+        GetComponent<SpriteRenderer>().color = new Color(0, 0.5f, 1);
         StartCoroutine(FreezeDuration(freezeDuration));
     }
 
@@ -140,5 +154,6 @@ public class RangedEnemyController : MonoBehaviour
     {
         yield return new WaitForSeconds(freezeDuration);
         isFreezing = false;
+        GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
     }
 }

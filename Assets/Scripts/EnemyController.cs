@@ -8,10 +8,12 @@ public class EnemyController : MonoBehaviour
 {
     private GameObject player;
     private Animator animator;
-   	public int attackCooldown;
+   	public float attackCooldown;
     private Rigidbody2D m_Rigidbody;
     private bool isMoving;
     private bool isDying;
+    // Can take damage
+    public bool canTakeDamage = true;
 	// Attack mechanic.
 	private bool playerInRange;
 	private bool canAttack;
@@ -26,7 +28,7 @@ public class EnemyController : MonoBehaviour
     public void TakeDamage(int damage)
     {
         // Evita bug de morrer duas vezes.
-        if (isDying)
+        if (isDying || !canTakeDamage)
             return;
         
         health -= damage;
@@ -37,6 +39,13 @@ public class EnemyController : MonoBehaviour
             // Trigger hurt animation
             animator.SetTrigger("Hurt");
         }
+        StartCoroutine(TakeDamageCooldown());
+    }
+    IEnumerator TakeDamageCooldown()
+    {
+        canTakeDamage = false;
+        yield return new WaitForSeconds(0.5f);
+        canTakeDamage = true;
     }
 
     // Start is called before the first frame update
@@ -52,8 +61,14 @@ public class EnemyController : MonoBehaviour
     void FixedUpdate()
     {
         // Evita de o inimigo se mover e atacar depois de morrer.
-        if (isDying)
+        if (isDying || player == null)
             return;
+        
+        if (isFreezing) {
+            // Locks the enemy in place x, y and z.
+            m_Rigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+            return;
+        }
         
         var targetPos = player.transform.position;
         var distance = Vector2.Distance(transform.position, targetPos);
@@ -79,7 +94,7 @@ public class EnemyController : MonoBehaviour
         }
         animator.SetBool("isMoving", isMoving);
 
-		if (playerInRange && canAttack)
+		if (playerInRange && canAttack && !isFreezing)
 		{
             animator.SetTrigger("Attack");
             StartCoroutine(AttackCooldown());
@@ -111,11 +126,14 @@ public class EnemyController : MonoBehaviour
         animator.SetTrigger("Dying");
         // Disable the enemy
         GetComponent<Collider2D>().enabled = false;
+        Invoke(nameof(FinishedDyingAnimation), 3f);
     }
 
     public void Freeze(float freezeDuration)
     {
         isFreezing = true;
+        // Make the enemy blue
+        GetComponent<SpriteRenderer>().color = new Color(0, 0.5f, 1);
         StartCoroutine(FreezeDuration(freezeDuration));
     }
 
@@ -123,5 +141,7 @@ public class EnemyController : MonoBehaviour
     {
         yield return new WaitForSeconds(freezeDuration);
         isFreezing = false;
+        // Return the enemy to normal color
+        GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
     }
 }
