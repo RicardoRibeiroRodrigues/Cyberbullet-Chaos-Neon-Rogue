@@ -24,6 +24,7 @@ public class RangedEnemyController : MonoBehaviour
     // Xp drop
     private bool isDying;
     public GameObject orbPrefab;
+    public GameObject ExtraLifePrefab;
     private bool isFreezing;
 
     
@@ -86,6 +87,11 @@ public class RangedEnemyController : MonoBehaviour
         var orb = Instantiate(orbPrefab, transform.position, transform.rotation);
         // Scale xp with enemy health.
         orb.GetComponent<XpOrbController>().SetXp(max_health / 2);
+        // Drop extra life
+        if (Random.Range(0, 100) < 10)
+        {
+            Instantiate(ExtraLifePrefab, transform.position*Random.Range(-1f,1f), transform.rotation);
+        }
         Destroy(gameObject);
     }
 

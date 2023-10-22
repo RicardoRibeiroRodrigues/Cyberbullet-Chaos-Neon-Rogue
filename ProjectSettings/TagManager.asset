@@ -15,6 +15,7 @@ TagManager:
   - FireGrenade
   - IceGrenade
   - IceExplosion
+  - ExtraLife
   layers:
   - Default
   - TransparentFX

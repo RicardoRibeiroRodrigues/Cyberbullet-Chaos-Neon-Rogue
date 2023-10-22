@@ -141,5 +141,10 @@ public class PlayerController : MonoBehaviour
             }
             Destroy(other.gameObject);
         }
+        if (other.CompareTag("ExtraLife"))
+        {
+            health += 10;
+            Destroy(other.gameObject);
+        }
     }
 }

@@ -22,6 +22,7 @@ public class EnemyController : MonoBehaviour
     public float moveSpeed;
     // Drop orb
     public GameObject orbPrefab;
+    public GameObject ExtraLifePrefab;
     private bool isFreezing;
     public void TakeDamage(int damage)
     {
@@ -100,6 +101,11 @@ public class EnemyController : MonoBehaviour
         var orb = Instantiate(orbPrefab, transform.position, transform.rotation);
         // Scale xp with enemy health.
         orb.GetComponent<XpOrbController>().SetXp(max_health / 2);
+        // Drop extra life
+        if (Random.Range(0, 100) < 10)
+        {
+            Instantiate(ExtraLifePrefab, transform.position*Random.Range(-1f,1f), new Quaternion(0, 0, 0, 0));
+        }
         Destroy(gameObject);
     }
 
