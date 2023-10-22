@@ -15,7 +15,7 @@ public class FireGrenadeUpgrade : MonoBehaviour, IUpgradable
     
     void Start()
     {
-        InvokeRepeating(nameof(ShootFireGrenade), 0.0f, grenadeFireInterval);
+        InvokeRepeating(nameof(ShootFireGrenade), 0.7f, grenadeFireInterval);
     }
 
     void ShootFireGrenadeExplosion()

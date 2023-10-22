@@ -12,7 +12,7 @@ public class ProjectileController : MonoBehaviour
     public Vector2 direction;
     private bool isDamaging = true;
     private int enemiesHit = 0;
-
+    public float freezeDuration;
     void Awake()
     {
         m_Rigidbody = GetComponent<Rigidbody2D>();
@@ -77,11 +77,21 @@ public class ProjectileController : MonoBehaviour
                     Destroy(gameObject);
                 }
             }
-        }   
+        } else if (proj_tag == "IceExplosion")  
+        {
+            if (other.CompareTag("Enemy"))
+            {
+                other.GetComponent<EnemyController>().Freeze(freezeDuration);
+            }
+            if (other.CompareTag("RangedEnemy"))
+            {
+                other.GetComponent<RangedEnemyController>().Freeze(freezeDuration);
+            }
+        }
     }
     IEnumerator WaitToDamage()
     {
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(0.5f);
         isDamaging = true;
     }
 }

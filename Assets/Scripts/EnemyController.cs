@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.Callbacks;
 using UnityEngine;
 
@@ -21,7 +22,7 @@ public class EnemyController : MonoBehaviour
     public float moveSpeed;
     // Drop orb
     public GameObject orbPrefab;
-    
+    private bool isFreezing;
     public void TakeDamage(int damage)
     {
         // Evita bug de morrer duas vezes.
@@ -63,7 +64,7 @@ public class EnemyController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 0, 0);
         
         // Para o inimigo nao ficar tentanto entrar no player.
-        if (distance >= 0.5f)
+        if (distance >= 0.5f && !isFreezing)
         {
             // Ajusta a velocidade do inimigo
             direction.Normalize();
@@ -110,5 +111,17 @@ public class EnemyController : MonoBehaviour
         animator.SetTrigger("Dying");
         // Disable the enemy
         GetComponent<Collider2D>().enabled = false;
+    }
+
+    public void Freeze(float freezeDuration)
+    {
+        isFreezing = true;
+        StartCoroutine(FreezeDuration(freezeDuration));
+    }
+
+    IEnumerator FreezeDuration(float freezeDuration)
+    {
+        yield return new WaitForSeconds(freezeDuration);
+        isFreezing = false;
     }
 }

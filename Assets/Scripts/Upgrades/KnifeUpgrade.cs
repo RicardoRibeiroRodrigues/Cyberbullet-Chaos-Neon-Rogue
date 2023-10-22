@@ -16,7 +16,7 @@ public class KnifeUpgrade : MonoBehaviour, IUpgradable
     {
         angle = Quaternion.Euler(0, 0, 0);
         direction = new Vector2(1, 0);
-        InvokeRepeating(nameof(Attack), 0.0f, knifeInterval);
+        InvokeRepeating(nameof(Attack), 0.25f, knifeInterval);
     }
 
 

@@ -126,6 +126,7 @@ public class PlayerController : MonoBehaviour
         // TODO: colocar logica escolher um upgrade aqui.
         FindObjectOfType<FireGrenadeUpgrade>().LevelUp();
         FindObjectOfType<KnifeUpgrade>().LevelUp();
+        FindObjectOfType<IceGrenadeUpgrade>().LevelUp();
     }
 
     void OnTriggerEnter2D(Collider2D other)
