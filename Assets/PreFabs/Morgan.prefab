@@ -48,6 +48,7 @@ MonoBehaviour:
   - {fileID: 7808266576223495791, guid: 1a31a8ed3f8932942b6d1527e7874809, type: 3}
   - {fileID: 4694806534874031159, guid: eb2a45c34fb9ac842ac87497e9746055, type: 3}
   gunDamage: 50
+  nShots: 1
   spread: 0
   weaponTier: 0
 --- !u!1 &5431492255278188951
@@ -187,12 +188,13 @@ MonoBehaviour:
   Movement: {x: 0, y: 0}
   gun: {fileID: 101795865641429580}
   selectedWeaponIndex: 0
+  isDying: 0
   health: 800
   moveSpeed: 5
   fireRate: 1
   luck: 1
   damage: 50
-  xpToNextLevel: 100
+  xpToNextLevel: 250
   upgrades:
   - UpgradePrefab: {fileID: 4350146216459109662, guid: bb6e1dbf4dc33d04484b176276ca398f, type: 3}
     UpgradeName: "Drone de Combate S\xE9rie A-7:"
@@ -210,31 +212,43 @@ MonoBehaviour:
     - "Reduz o tempo de recarga dos m\xEDsseis de impacto, permitindo que o drone
       os utilize com mais frequ\xEAncia durante os combates. "
     index: 0
+    icon: {fileID: 0}
+    activeUpgrade: {fileID: 0}
   - UpgradePrefab: {fileID: 2870476632973856890, guid: 91d2d668fb9825e40912a2586ae8edaa, type: 3}
     UpgradeName: "Granada Incendi\xE1ria Inferno-X"
     upgradeLevel: 0
     upgradeDescriptions: []
     index: 0
+    icon: {fileID: 0}
+    activeUpgrade: {fileID: 0}
   - UpgradePrefab: {fileID: 0}
     UpgradeName: 
     upgradeLevel: 0
     upgradeDescriptions: []
     index: 0
+    icon: {fileID: 0}
+    activeUpgrade: {fileID: 0}
   - UpgradePrefab: {fileID: 0}
     UpgradeName: 
     upgradeLevel: 0
     upgradeDescriptions: []
     index: 0
+    icon: {fileID: 0}
+    activeUpgrade: {fileID: 0}
   - UpgradePrefab: {fileID: 0}
     UpgradeName: 
     upgradeLevel: 0
     upgradeDescriptions: []
     index: 0
+    icon: {fileID: 0}
+    activeUpgrade: {fileID: 0}
   - UpgradePrefab: {fileID: 0}
     UpgradeName: 
     upgradeLevel: 0
     upgradeDescriptions: []
     index: 0
+    icon: {fileID: 0}
+    activeUpgrade: {fileID: 0}
   shootSound: {fileID: 8300000, guid: 64692782353d0c14ab47b80f1391709e, type: 3}
 --- !u!70 &5942643773033562116
 CapsuleCollider2D:

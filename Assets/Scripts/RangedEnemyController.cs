@@ -36,7 +36,7 @@ public class RangedEnemyController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isDying)
+        if (isDying || player == null)
             return;
         
         var targetPos = player.transform.position;

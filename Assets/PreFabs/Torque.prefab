@@ -48,6 +48,7 @@ MonoBehaviour:
   - {fileID: 7808266576223495791, guid: 15951ca504141a848bfd3e371f9e05a0, type: 3}
   - {fileID: 7808266576223495791, guid: eb5aa2e104b4c1a488312be6678c4eee, type: 3}
   gunDamage: 50
+  nShots: 1
   spread: 0
   weaponTier: 0
 --- !u!1 &6360070592099023707
@@ -187,13 +188,14 @@ MonoBehaviour:
   Movement: {x: 0, y: 0}
   gun: {fileID: 34573162669116477}
   selectedWeaponIndex: 0
+  isDying: 0
   health: 400
   moveSpeed: 7.5
   fireRate: 1
   luck: 1
   damage: 50
-  xpToNextLevel: 100
-  possibleUpgrades: []
+  xpToNextLevel: 250
+  upgrades: []
   shootSound: {fileID: 8300000, guid: b4d1d0ae0cc77d84095d6981a6b1979f, type: 3}
 --- !u!70 &2549275909963505249
 CapsuleCollider2D:

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,7 +11,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D m_Rigidbody;
     public GameObject gun;
     public int selectedWeaponIndex = 0;
-    private bool isDying;
+    public bool isDying = false;
     // Player stats
     public int health;
     public float moveSpeed;
@@ -26,6 +27,7 @@ public class PlayerController : MonoBehaviour
     // Sounds
     private AudioSource audioSource;
     public AudioClip shootSound;
+    private int selectedUpgradeIndex;
     
     private void Awake()
     {
@@ -103,14 +105,13 @@ public class PlayerController : MonoBehaviour
         }
         // Trigger hurt animation
         animator.SetTrigger("isHurt");
-
     }
 
     // Usado no evento da animacao de morrer.
     void FinishedDyingAnimation()
     {
+        GameManager.Instance.endGame(false, level * 100 - 100);
         Destroy(gameObject);
-        // TODO: Logica de terminar o jogo aqui.
     }
 
     void Die()
@@ -120,33 +121,63 @@ public class PlayerController : MonoBehaviour
         animator.SetTrigger("isDead");
         // Disable the player
         GetComponent<Collider2D>().enabled = false;
+        Invoke(nameof(FinishedDyingAnimation), 3f);
     }
 
-    void LevelUp()
+    IEnumerator LevelUp()
     {
+        selectedUpgradeIndex = -1;
         xp = 0;
         xpToNextLevel = (int) (xpToNextLevel * 1.5f);
         level++;
-        Debug.Log("Level up! Level: " + level);
         // Possiveis upgrades: aqueles com level menor que 5.
-        var possibleUpgrades = new ArrayList();
+        var possibleUpgrades = new List<UpgradeData>();
         foreach (var upgrade in upgrades)
         {
-            if (upgrade.upgradeLevel <= 5)
+            if (upgrade.upgradeLevel < 5)
             {
                 possibleUpgrades.Add(upgrade);
+                Debug.Log("Possible upgrade: " + upgrade.UpgradeName);
             }
         }
         // Now choose 3 random upgrades from the possible upgrades.
-        var chosenUpgrades = new ArrayList();
-        for (int i = 0; i < 3; i++)
+        var chosenUpgrades = new List<UpgradeData>();
+        if (possibleUpgrades.Count <= 3)
         {
-            var randomIndex = Random.Range(0, possibleUpgrades.Count);
-            chosenUpgrades.Add(possibleUpgrades[randomIndex]);
-            possibleUpgrades.RemoveAt(randomIndex);
+            chosenUpgrades = possibleUpgrades;
+        } else {
+            for (int i = 0; i < 3; i++)
+            {
+                var randomIndex = Random.Range(0, possibleUpgrades.Count);
+                Debug.Log("Random index: " + randomIndex);
+                chosenUpgrades.Add(possibleUpgrades[randomIndex]);
+            }
         }
-        // TODO: Mostrar os upgrades para o jogador escolher em um menu.
+        // Select one of the chosen upgrades.
+        StartCoroutine(GameManager.Instance.SelectItem(chosenUpgrades, this));
+        yield return new WaitUntil(() => selectedUpgradeIndex != -1);
+        var selectedUpgrade = upgrades[selectedUpgradeIndex];
+        selectedUpgrade.upgradeLevel++;
+        // Aplica o upgrade.
+        Debug.Log("Selected upgrade: " + selectedUpgrade.UpgradeName + "With index: " + selectedUpgradeIndex);
 
+        if (selectedUpgrade.upgradeLevel == 1)
+        {
+            var upgrade = Instantiate(selectedUpgrade.UpgradePrefab, transform.position, transform.rotation);
+            // Set upgrade parent to player.
+            upgrade.transform.parent = transform;
+            // Maintain same relative position.
+            upgrade.transform.localPosition = selectedUpgrade.UpgradePrefab.transform.position;
+            selectedUpgrade.activeUpgrade = upgrade;
+        } else {
+            if (selectedUpgrade.activeUpgrade.TryGetComponent(out IUpgradable upgradableObject))
+            {
+                upgradableObject.LevelUp();
+            } else {
+                Debug.Log("Upgrade not found!");
+            }
+        }
+        yield return null;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -154,12 +185,16 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("XpOrb"))
         {
             xp += (int) luck * other.GetComponent<XpOrbController>().GetXp();
-            Debug.Log("Curr xp: " + xp);
             if (xp >= xpToNextLevel)
             {
-                LevelUp();
+                StartCoroutine(LevelUp());
             }
             Destroy(other.gameObject);
         }
+    }
+
+    public void setSelectedUpgrade(int index)
+    {
+        selectedUpgradeIndex = index;
     }
 }

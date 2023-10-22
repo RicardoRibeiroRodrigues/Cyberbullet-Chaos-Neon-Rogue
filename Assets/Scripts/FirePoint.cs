@@ -6,7 +6,7 @@ public class FirePoint : MonoBehaviour
     private Vector3 mousePosition;
     public GameObject[] bulletPrefab;
     public int gunDamage;
-    private int nShots = 5;
+    public int nShots = 1;
     public bool spread;
     public int weaponTier;
     

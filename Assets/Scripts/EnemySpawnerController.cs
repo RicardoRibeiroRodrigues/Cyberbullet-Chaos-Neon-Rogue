@@ -68,16 +68,16 @@ public class EnemySpawnerController : MonoBehaviour
                 waveNum = newWave;
                 yield return null;
             }
+            waveNum = newWave;
             GameManager.Instance.putTenseMusic();
-            yield return new WaitForSeconds(8f);
+            yield return new WaitForSeconds(5f);
 
             // Increase spawn rate
             spawnDelay = spawnDelay / newWave;
+            Debug.Log("Spawn delay: " + spawnDelay);
             CancelInvoke(nameof(SpawnEnemy));
-            InvokeRepeating("SpawnEnemy", spawnDelay, spawnDelay);
+            InvokeRepeating(nameof(SpawnEnemy), spawnDelay, spawnDelay);
             
-            Debug.Log("New wave!");
-            waveNum = newWave;
             SetupWaveEnemies();
         }
     }
@@ -92,21 +92,15 @@ public class EnemySpawnerController : MonoBehaviour
 
     void SpawnEnemy()
     {
-        var random = Random.value;
-        var cumulative = 0f;
         var chosenEnemy = enemies[0];
         Vector2 spawnPos = player.transform.position;
         spawnPos += Random.insideUnitCircle.normalized * spawnRadius;
 
-       
-        for (int i = 0; i < enemies.Length; i++)
+        for (int i = waveNum; i >= 0; i--)
         {
             // Only spawn enemies that are available in the current wave.
-            if (i > waveNum)
-                break;
-
-            cumulative += enemies[i].chance;
-            if (random < cumulative && Time.time >= enemies[i].delayTime)
+            var random = Random.value;
+            if (random < enemies[i].chance)
             {
                 chosenEnemy = enemies[i];
                 break;

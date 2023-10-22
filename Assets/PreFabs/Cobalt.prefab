@@ -137,12 +137,13 @@ MonoBehaviour:
   Movement: {x: 0, y: 0}
   gun: {fileID: 7267146445179758991}
   selectedWeaponIndex: 0
+  isDying: 0
   health: 500
   moveSpeed: 6
   fireRate: 1
   luck: 1.2
   damage: 40
-  xpToNextLevel: 100
+  xpToNextLevel: 250
   upgrades:
   - UpgradePrefab: {fileID: 4350146216459109662, guid: bb6e1dbf4dc33d04484b176276ca398f, type: 3}
     UpgradeName: "Drone de Combate S\xE9rie A-7:"
@@ -160,31 +161,60 @@ MonoBehaviour:
     - "Reduz o tempo de recarga dos m\xEDsseis de impacto, permitindo que o drone
       os utilize com mais frequ\xEAncia durante os combates. "
     index: 0
+    icon: {fileID: 2800000, guid: b203528aa2486a54d875080205b65195, type: 3}
+    activeUpgrade: {fileID: 0}
   - UpgradePrefab: {fileID: 2870476632973856890, guid: 91d2d668fb9825e40912a2586ae8edaa, type: 3}
     UpgradeName: "Granada Incendi\xE1ria Inferno-X"
     upgradeLevel: 0
-    upgradeDescriptions: []
+    upgradeDescriptions:
+    - "A Granada Incendi\xE1ria Inferno-X \xE9 uma arma letal usada para criar infernos
+      flamejantes em seu rastro. Causa dano em inimigos que pisem no fogo."
+    - "Aumenta o raio de impacto da granada, cobrindo uma \xE1rea maior com chamas
+      intensas e causando dano ao longo de uma \xE1rea ampla."
+    - Aumenta a intensidade do fogo gerado pela granada, causando dano maior aos
+      inimigos atingidos.
+    - "O personagem se torna capaz de lan\xE7ar 3 granadas por vez, aumentando a
+      \xE1rea que pode cobrir de chamas."
+    - "Reduz significativamente o tempo de recarga da granada, permitindo que o jogador
+      use a Granada Incendi\xE1ria Inferno-X com mais frequ\xEAncia durante os combates."
+    - Aumentam o tamanho das granadas e a quantidade delas para 5.
     index: 1
-  - UpgradePrefab: {fileID: 0}
-    UpgradeName: 
+    icon: {fileID: 2800000, guid: 896e7339ce761e94aa8a0bb40f8ceaf7, type: 3}
+    activeUpgrade: {fileID: 0}
+  - UpgradePrefab: {fileID: 7696265493817495154, guid: 45bc04cb5bc92be46810039eebe28271, type: 3}
+    UpgradeName: Facas "Nanoblade Swarm"
     upgradeLevel: 0
-    upgradeDescriptions: []
+    upgradeDescriptions:
+    - "O Nanoblade Swarm transforma voc\xEA em uma tempestade met\xE1lica. Facas
+      afiadas surgem, lan\xE7adas em todas as dire\xE7\xF5es, atingindo e dilacerando
+      inimigos pr\xF3ximos. Uma dan\xE7a mortal que ningu\xE9m sobrevive."
+    - "O Nanoblade Swarm transforma voc\xEA em uma tempestade met\xE1lica. Facas
+      afiadas surgem, lan\xE7adas em todas as dire\xE7\xF5es, atingindo e dilacerando
+      inimigos pr\xF3ximos. Uma dan\xE7a mortal que ningu\xE9m sobrevive."
     index: 2
+    icon: {fileID: 0}
+    activeUpgrade: {fileID: 0}
   - UpgradePrefab: {fileID: 0}
     UpgradeName: 
-    upgradeLevel: 0
+    upgradeLevel: 12
     upgradeDescriptions: []
     index: 3
+    icon: {fileID: 0}
+    activeUpgrade: {fileID: 0}
   - UpgradePrefab: {fileID: 0}
     UpgradeName: 
-    upgradeLevel: 0
+    upgradeLevel: 12
     upgradeDescriptions: []
-    index: 5
+    index: 4
+    icon: {fileID: 0}
+    activeUpgrade: {fileID: 0}
   - UpgradePrefab: {fileID: 0}
     UpgradeName: 
-    upgradeLevel: 0
+    upgradeLevel: 12
     upgradeDescriptions: []
     index: 5
+    icon: {fileID: 0}
+    activeUpgrade: {fileID: 0}
   shootSound: {fileID: 8300000, guid: b4d1d0ae0cc77d84095d6981a6b1979f, type: 3}
 --- !u!70 &2639615308328095813
 CapsuleCollider2D:
@@ -443,5 +473,6 @@ MonoBehaviour:
   - {fileID: 7808266576223495791, guid: 099fa132431a18649b86d24cc95623ec, type: 3}
   - {fileID: 7808266576223495791, guid: c95276506d0c1b242b457a86cd808ba9, type: 3}
   gunDamage: 50
+  nShots: 1
   spread: 0
   weaponTier: 0

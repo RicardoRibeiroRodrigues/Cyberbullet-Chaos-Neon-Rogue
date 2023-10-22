@@ -49,16 +49,16 @@ MonoBehaviour:
     chance: 0.5
     delayTime: 2
   - prefab: {fileID: 777861825621062878, guid: a4b870ccd95b95b40a06b98dbad4e554, type: 3}
-    chance: 0.25
+    chance: 0.33
     delayTime: 4
   - prefab: {fileID: 2271872548250038749, guid: 44a3a2357f8a3b842aab3ebddfb9a766, type: 3}
-    chance: 0.125
+    chance: 0.16
     delayTime: 8
   - prefab: {fileID: 8779605752328249974, guid: 33eb60b7160e55f49a2d91b29632f2a8, type: 3}
     chance: 0.065
     delayTime: 25
   bossPrefab: {fileID: 2406476338755793067, guid: 7ef013a2b05a0a0419218309e3adec16, type: 3}
-  spawnDelay: 2.5
+  spawnDelay: 1.5
   spawnRadius: 10
-  time: 0
+  time: 90
   numEnemies: 15

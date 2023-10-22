@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,8 +19,13 @@ public class GameManager : MonoBehaviour
     public AudioClip mainMenuMusic;
     public AudioClip mainGameMusic;
     public AudioClip tenseMusic;
+    // Item select ui
+    public GameObject itemSelectUiPrefab;
+    public GameObject EndGameUiPrefab;
+    private int selectedUpgradeIndex;
     // Player coins
     private int coins = 0;
+
 
     void Awake()
     {
@@ -46,6 +53,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        resumeGame();
         StartCoroutine(LoadMainGame());
     }
 
@@ -61,11 +69,34 @@ public class GameManager : MonoBehaviour
         // Spawn spawner
         Instantiate(Spawner, new Vector3(0, 0, 0), Quaternion.identity);
         // Spawn player
+        SpawnPlayer();
+    }
+
+    void SpawnPlayer()
+    {
         var player = Instantiate(players[playerIndex], new Vector3(0, 0, 0), Quaternion.identity);
         player.name = "Player";
         player.GetComponent<PlayerController>().selectedWeaponIndex = selectedWeaponIndex;
+        // REFACTOR: mover armas separadas.
+        // if (selectedUpgradeIndex == 1)
+        // {
+        //     // TODO: setar variaveis da arma do player.
+        //     // Cobalt
+        //     if (playerIndex == 0)
+        //     {
+        //     }
+        // }
         // Set camera to follow player
         Camera.main.GetComponent<CameraController>().SetPlayer(player);
+    }
+
+    public void GoToMainMenu()
+    {
+        resumeGame();
+        SceneManager.LoadScene("MainMenuScene");
+        // Play music
+        audioSource.clip = mainMenuMusic;
+        audioSource.Play();
     }
 
     public void SelectPlayer(int index)
@@ -96,15 +127,43 @@ public class GameManager : MonoBehaviour
     public void putTenseMusic()
     {
         audioSource.clip = tenseMusic;
-        audioSource.volume = (int) 0.75 * audioSource.volume;
+        audioSource.volume = (float) 0.75 * audioSource.volume;
         audioSource.Play();
-        Invoke(nameof(removeTenseMusic), 45f);
+        Invoke(nameof(removeTenseMusic), 30f);
     }
 
     private void removeTenseMusic()
     {
         audioSource.clip = mainGameMusic;
-        audioSource.volume = (int) (audioSource.volume / 0.75);
+        audioSource.volume = (float) (audioSource.volume / 0.75);
         audioSource.Play();
+    }
+
+    public IEnumerator SelectItem(List<UpgradeData> upgrades, PlayerController player)
+    {
+        selectedUpgradeIndex = -1;
+        pauseGame();
+        var canvas = GameObject.Find("Canvas");
+        var itemSelectUi = Instantiate(itemSelectUiPrefab, canvas.transform);
+        itemSelectUi.transform.SetParent(canvas.transform);
+        itemSelectUi.GetComponent<UpgradeSelectUi>().selectUpgrade(upgrades);
+        yield return new WaitUntil(() => selectedUpgradeIndex != -1);
+        Destroy(itemSelectUi);
+        resumeGame();
+        player.setSelectedUpgrade(selectedUpgradeIndex);
+    }
+
+    public void setSelectedIndex(int index)
+    {
+        selectedUpgradeIndex = index;
+    }
+
+    public void endGame(bool won, int coins)
+    {
+        pauseGame();
+        var canvas = GameObject.Find("Canvas");
+        var endGameUi = Instantiate(EndGameUiPrefab, canvas.transform);
+        endGameUi.transform.parent = canvas.transform;
+        endGameUi.GetComponent<UiDeadEnd>().setUi(won, coins);
     }
 }
