@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.Callbacks;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ public class EnemyController : MonoBehaviour
 {
     private GameObject player;
     private Animator animator;
-   	public int attackCooldown;
+   	public float attackCooldown;
     private Rigidbody2D m_Rigidbody;
     private bool isMoving;
     private bool isDying;
@@ -51,7 +52,7 @@ public class EnemyController : MonoBehaviour
     void FixedUpdate()
     {
         // Evita de o inimigo se mover e atacar depois de morrer.
-        if (isDying)
+        if (isDying || player == null)
             return;
         
         var targetPos = player.transform.position;
@@ -110,5 +111,6 @@ public class EnemyController : MonoBehaviour
         animator.SetTrigger("Dying");
         // Disable the enemy
         GetComponent<Collider2D>().enabled = false;
+        Invoke(nameof(FinishedDyingAnimation), 3f);
     }
 }

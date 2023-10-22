@@ -20,6 +20,7 @@ public class EnemySpawnerController : MonoBehaviour
     // // Punk enemy
     // public GameObject punkPrefab;
     public enemy[] enemies;
+    public GameObject bossPrefab;
     // Spawn delay
     [SerializeField]
     private float spawnDelay;
@@ -40,7 +41,7 @@ public class EnemySpawnerController : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player");
-        SetupWave();
+        SetupWaveEnemies();
         InvokeRepeating("SpawnEnemy", 1f, spawnDelay);
     }
 
@@ -48,21 +49,40 @@ public class EnemySpawnerController : MonoBehaviour
     void Update()
     {
         time += Time.deltaTime;
+        if (waveNum > 5)
+            return;
+        StartCoroutine(SetupWave());
+    }
+
+    IEnumerator SetupWave()
+    {           
         // Every 2 minutes, spawn a new wave: Max wave: 5
         var newWave = Mathf.FloorToInt(time / (60 * 2));
         
         if (newWave > waveNum)
         {
-            if (newWave > 5)
-                newWave = 5;
-            
-            Debug.Log("New wave!");
+            if (newWave > 5) {
+                SpawnBoss();
+                // After spawning the boss, stop spawning enemies.
+                CancelInvoke(nameof(SpawnEnemy));
+                waveNum = newWave;
+                yield return null;
+            }
             waveNum = newWave;
-            SetupWave();
+            GameManager.Instance.putTenseMusic();
+            yield return new WaitForSeconds(5f);
+
+            // Increase spawn rate
+            spawnDelay = spawnDelay / newWave;
+            Debug.Log("Spawn delay: " + spawnDelay);
+            CancelInvoke(nameof(SpawnEnemy));
+            InvokeRepeating(nameof(SpawnEnemy), spawnDelay, spawnDelay);
+            
+            SetupWaveEnemies();
         }
     }
 
-    void SetupWave()
+    void SetupWaveEnemies()
     {
         for (int i = 0; i < numEnemies * (waveNum+1); i++)
         {
@@ -72,21 +92,15 @@ public class EnemySpawnerController : MonoBehaviour
 
     void SpawnEnemy()
     {
-        var random = Random.value;
-        var cumulative = 0f;
         var chosenEnemy = enemies[0];
         Vector2 spawnPos = player.transform.position;
         spawnPos += Random.insideUnitCircle.normalized * spawnRadius;
 
-       
-        for (int i = 0; i < enemies.Length; i++)
+        for (int i = waveNum; i >= 0; i--)
         {
             // Only spawn enemies that are available in the current wave.
-            if (i > waveNum)
-                break;
-
-            cumulative += enemies[i].chance;
-            if (random < cumulative && Time.time >= enemies[i].delayTime)
+            var random = Random.value;
+            if (random < enemies[i].chance)
             {
                 chosenEnemy = enemies[i];
                 break;
@@ -94,5 +108,10 @@ public class EnemySpawnerController : MonoBehaviour
         }
    
         Instantiate(chosenEnemy.prefab, spawnPos, Quaternion.identity);
+    }
+
+    void SpawnBoss()
+    {
+        Instantiate(bossPrefab, player.transform.position, Quaternion.identity);
     }
 }
