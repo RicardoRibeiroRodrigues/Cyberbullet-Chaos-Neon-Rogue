@@ -117,11 +117,13 @@ public class EnemySpawnerController : MonoBehaviour
 
     void SpawnMiniBoss()
     {
+        GetComponent<AudioSource>().Play();
         var chosenEnemy = enemies[0];
         Vector2 spawnPos = player.transform.position;
         spawnPos += Random.insideUnitCircle.normalized * spawnRadius;
 
-        for (int i = waveNum; i >= 0; i--)
+        var startIndex = waveNum > 3 ? 3 : waveNum;
+        for (int i = startIndex; i >= 0; i--)
         {
             // Exclude the ranged enemy.
             if (i == 2)

@@ -7,7 +7,7 @@ public class KnifeUpgrade : MonoBehaviour, IUpgradable
     private int numKnifes = 8;
     private float knifeInterval = 4f;
     public static int level = 0;
-    private int damage = 20;
+    private int damage = 40;
     private Quaternion angle;
     private Vector2 direction;
 
@@ -48,7 +48,7 @@ public class KnifeUpgrade : MonoBehaviour, IUpgradable
         level++;
         if (level == 1)
         {
-            damage += 20;
+            damage += 30;
         } 
         else if (level == 2)
         {
@@ -57,13 +57,12 @@ public class KnifeUpgrade : MonoBehaviour, IUpgradable
         else if (level == 3)
         {
             knifeInterval = 2f;
+            CancelInvoke(nameof(Attack));
+            InvokeRepeating(nameof(Attack), 0.25f, knifeInterval);
         } 
         else if (level == 4)
         {
             numKnifes = 16;
         }
-
-
-        
     }
 }

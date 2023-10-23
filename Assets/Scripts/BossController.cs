@@ -151,6 +151,7 @@ public class BossController : MonoBehaviour
         animator.SetTrigger("Hurt");
         if (health <= 0)
         {
+            GetComponent<AudioSource>().Play();
             isDying = true;
             animator.SetTrigger("Dying");
             Invoke(nameof(FinishedDyingAnimation), 1.5f);

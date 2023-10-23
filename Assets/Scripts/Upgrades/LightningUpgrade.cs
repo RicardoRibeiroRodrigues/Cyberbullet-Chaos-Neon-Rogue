@@ -70,7 +70,7 @@ public class LightningUpgrade : MonoBehaviour, IUpgradable
         // aumenta a area de dano se for nivel 3
         else if (level == 3)
         {
-            explosionScale = 2;
+            explosionScale = 1.5f;
         }
         // aumenta o dano se for nivel 4
         else if (level == 4)
@@ -81,7 +81,7 @@ public class LightningUpgrade : MonoBehaviour, IUpgradable
         else if (level == 5)
         {
             damage += 25;
-            explosionScale = 2.5f;
+            explosionScale = 2f;
         }
     }
 }
