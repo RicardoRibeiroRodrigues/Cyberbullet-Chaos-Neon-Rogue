@@ -213,19 +213,38 @@ MonoBehaviour:
     index: 3
     icon: {fileID: 21300000, guid: 8cb813befa186794c98821f8a447f050, type: 3}
     activeUpgrade: {fileID: 0}
-  - UpgradePrefab: {fileID: 0}
-    UpgradeName: 
-    upgradeLevel: 12
-    upgradeDescriptions: []
+  - UpgradePrefab: {fileID: 6696754532658542965, guid: 7a177d41d9ace02429c6db896e1c4e37, type: 3}
+    UpgradeName: "M\xEDssil MK-IV"
+    upgradeLevel: 0
+    upgradeDescriptions:
+    - "Este m\xEDssil \xE9 uma arma vers\xE1til, projetada para detonar com impacto
+      letal, bom para causar dano \xE0 hordas de inimigos."
+    - "Aumenta o raio de explos\xE3o do m\xEDssil, atingindo uma \xE1rea maior e
+      causando dano em um espa\xE7o mais amplo."
+    - "Aumenta a intensidade de explos\xE3o do m\xEDssil, causando dano maior aos
+      inimigos atingidos."
+    - "Reduz significativamente o tempo de recarga do m\xEDssil, permitindo que o
+      jogador dispare m\xEDsseis com mais frequ\xEAncia durante os combates."
+    - "O m\xEDssil da mais dano, permitindo matar mais inimigos atingidos. "
+    - "Aumenta o dano e o area da explos\xE3o."
     index: 4
-    icon: {fileID: 0}
+    icon: {fileID: 490656233, guid: 7b5ed457aca9be74cadba033318bc1d5, type: 3}
     activeUpgrade: {fileID: 0}
-  - UpgradePrefab: {fileID: 0}
-    UpgradeName: 
-    upgradeLevel: 12
-    upgradeDescriptions: []
+  - UpgradePrefab: {fileID: 2216399094954789606, guid: a5ea3eb2b4d4d8947a30fdeeda036f91, type: 3}
+    UpgradeName: Raio da Morte
+    upgradeLevel: 0
+    upgradeDescriptions:
+    - "O Raio da Morte \xE9 a ira eletr\xF4nica personificada. Um feixe de energia
+      letal que rasga o c\xE9u, atingindo alvos com precis\xE3o cir\xFArgica. Sua
+      f\xFAria eletr\xF4nica \xE9 implac\xE1vel, desintegrando tudo em seu caminho."
+    - "Aumenta a frequ\xEAncia de raios que caem."
+    - 'Causa dano de energia adicional aos inimigos atingidos pelos raios. '
+    - "Aumenta a \xE1rea de dano do raio"
+    - "Aumenta o dano de raios que caem do c\xE9u."
+    - " Ao ativ\xE1-lo, desencadeia uma chuva de raios c\xF3smicos que atinge todos
+      os inimigos em uma \xE1rea ampliada."
     index: 5
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: eec20928a787a9d47b8f70c3cd0f8727, type: 3}
     activeUpgrade: {fileID: 0}
   shootSound: {fileID: 8300000, guid: b4d1d0ae0cc77d84095d6981a6b1979f, type: 3}
   hurtSound: {fileID: 8300000, guid: 09d9cb0f6c9e838438522825c05aebbc, type: 3}

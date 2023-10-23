@@ -184,10 +184,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d75f46d1dfe53df45b388f8aac26013d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  lifeTime: 8
+  speed: 0
+  lifeTime: 1
   damage: 100
   direction: {x: 0, y: 0}
+  freezeDuration: 0
 --- !u!82 &1608427116454317229
 AudioSource:
   m_ObjectHideFlags: 0

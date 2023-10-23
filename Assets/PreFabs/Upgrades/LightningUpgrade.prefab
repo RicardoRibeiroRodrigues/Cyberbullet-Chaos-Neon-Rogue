@@ -45,4 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LightningPrefab: {fileID: 4132476789513225521, guid: 4656150e64abf6444835b75786a26bc0, type: 3}
-  LightningExplosionPrefab: {fileID: 2216399094954789606}
+  LightningExplosionPrefab: {fileID: 5106432423197146851, guid: e8e16d9909a082744ad87e4c0df91478, type: 3}

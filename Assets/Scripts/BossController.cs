@@ -98,4 +98,19 @@ public class BossController : MonoBehaviour
         animator.SetTrigger("Special");
         StartCoroutine(SpecialAttackCooldown());
     }
+
+    void FinishedDyingAnimation()
+    {
+        Destroy(gameObject);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            animator.SetTrigger("Die");
+            Invoke(nameof(FinishedDyingAnimation), 1.5f);
+        }
+    }
 }

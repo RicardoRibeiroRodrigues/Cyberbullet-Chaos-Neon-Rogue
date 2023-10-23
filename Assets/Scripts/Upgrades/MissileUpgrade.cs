@@ -10,7 +10,7 @@ public class MissileUpgrade : MonoBehaviour, IUpgradable
 
     private float MissileInterval = 5f;
 
-    private int level = 1;
+    private int level = 0;
 
     private int damage = 50;
     private Vector3 explosionScale = new Vector3(0.3f, 0.3f, 0.3f);
@@ -19,43 +19,35 @@ public class MissileUpgrade : MonoBehaviour, IUpgradable
     {
         InvokeRepeating(nameof(ShootMissile), 0.0f, MissileInterval);
     }
-
-    void ShootMissileExplosion()
-    {   
-        // Se o missil ainda existe, destrói ele e cria a explosão instantaneamente na mesma posição
-        if (Missile != null)
-        {
-            Vector3 transform_position = Missile.transform.position;
-            Quaternion rotation_position = Missile.transform.rotation;
-            Vector3 transform_right = Missile.transform.right;
-
-            Destroy(Missile);
-
-            var explosion = Instantiate(MissileExplosionPrefab, transform_position, rotation_position);
-            explosion.GetComponent<ProjectileController>().direction = transform_right;
-            explosion.transform.localScale = explosionScale;
-            explosion.GetComponent<ProjectileController>().damage = damage;
-        }
-    }
     
     void ShootMissile()
     {
         Debug.Log("Shoot Missile");
-        // Shoot at a random angle
+        // Shoot at a direction
         var angle = Quaternion.Euler(0, 0, Random.Range(0, 360));
-        var direction = new Vector2(1, 0);
-        Missile = Instantiate(MissilePrefab, transform.position, angle);
-        Missile.GetComponent<ProjectileController>().direction = direction;
-        Invoke(nameof(ShootMissileExplosion), 1.0f);
+        float anguloZ = angle.eulerAngles.z;
+        float angleRadians = Mathf.Deg2Rad * anguloZ;
+        float direcaoX = Mathf.Cos(angleRadians);
+        float direcaoY = Mathf.Sin(angleRadians);
+        var direction = new Vector2(direcaoX, direcaoY);
+        Missile = Instantiate(MissilePrefab, transform.position, transform.rotation);
+        var controller = Missile.GetComponent<MissileController>();
+        // Damage, explosion scale and interval are set in the controller
+        controller.damage = damage;
+        controller.explosionScale = explosionScale;
+        controller.direction = direction;
     }
 
     public void LevelUp()
     {
         level++;
-        // aumenta o raio de explosão se for nivel 2
-        if (level == 2)
-        {
+        // aumenta o raio de explosão se for nivel 1
+        if (level == 1){ 
             explosionScale = new Vector3(0.5f, 0.5f, 0.5f);
+        }
+        else if (level == 2)
+        {
+            damage += 25;
         }
         // diminui o intervalo de tiro se for nivel 3
         else if (level == 3)

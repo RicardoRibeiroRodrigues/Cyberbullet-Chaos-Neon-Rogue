@@ -47,6 +47,7 @@ MonoBehaviour:
   bulletPrefab:
   - {fileID: 7808266576223495791, guid: 2272d9890a3b1aa4b801115cdbb44e92, type: 3}
   gunDamage: 25
+  nShots: 1
   spread: 1
   weaponTier: 0
 --- !u!1 &4350146216459109662
@@ -148,5 +149,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firePoint: {fileID: 4010882179695909489}
+  MissilePrefab: {fileID: 1388757590686174569, guid: 7ee2fa4520be69044888fd17f01934e3, type: 3}
+  explosionDamage: 35
   attackSpeed: 1
   n_fires: 1
+  missileAttackDelay: 3

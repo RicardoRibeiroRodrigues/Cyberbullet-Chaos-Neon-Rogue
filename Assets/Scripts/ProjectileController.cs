@@ -79,6 +79,14 @@ public class ProjectileController : MonoBehaviour
                     other.GetComponent<RangedEnemyController>().TakeDamage(damage);
                 }
             }
+        } else if (proj_tag == "Explosion") {
+            if (other.CompareTag("Enemy"))
+            {
+                other.GetComponent<EnemyController>().TakeDamage(damage);
+            } else if (other.CompareTag("RangedEnemy"))
+            {
+                other.GetComponent<RangedEnemyController>().TakeDamage(damage);
+            }
         }
     }
 }

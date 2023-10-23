@@ -18,6 +18,10 @@ TagManager:
   - IceGrenade
   - IceExplosion
   - WeaponUpgrade
+  - Lightning
+  - Missile
+  - ExtraLife
+  - Boss
   layers:
   - Default
   - TransparentFX

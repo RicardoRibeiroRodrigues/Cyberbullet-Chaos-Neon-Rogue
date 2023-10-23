@@ -9,11 +9,10 @@ public class LightningUpgrade : MonoBehaviour, IUpgradable
     public GameObject LightningExplosionPrefab;
 
     private GameObject Lightning;
-
-    private float LightningInterval = 5f;
+    private float LightningInterval = 4f;
     private int level = 0;
     private int damage = 50;
-    private Vector3 explosionScale = new Vector3(0.3f, 0.3f, 0.3f);
+    private float explosionScale = 1;
 
 
     void Start()
@@ -30,40 +29,28 @@ public class LightningUpgrade : MonoBehaviour, IUpgradable
             Quaternion rotation_position = Lightning.transform.rotation;
             Vector3 transform_right = Lightning.transform.right;
 
-            Destroy(Lightning);
+            // Actite collider
+            Lightning.GetComponent<CircleCollider2D>().enabled = true;
 
             var explosion = Instantiate(LightningExplosionPrefab, transform_position, rotation_position);
-            explosion.GetComponent<ProjectileController>().direction = transform_right;
-            explosion.transform.localScale = explosionScale;
-            explosion.GetComponent<ProjectileController>().damage = damage;
+            explosion.transform.localScale = new Vector3(explosionScale, explosionScale, explosionScale);
 
-            LightningDamageApply();
+            Destroy(Lightning, 0.6f);
         }
     }
 
     void ShootLightning()
     {
         Debug.Log("Shoot Lightning");
+        // Spawn at a random circle position
+        Vector2 spawnPos = transform.position;
+        spawnPos += Random.insideUnitCircle.normalized * 3f;
         // Shoot at a random position in the screen
-        var position = new Vector2(Random.Range(-8, 8), Random.Range(-4, 4));
-        Lightning = Instantiate(LightningPrefab, position, Quaternion.identity);
-        Invoke(nameof(ShootLightningExplosion), 1.0f);
-    }
+        Lightning = Instantiate(LightningPrefab, spawnPos, Quaternion.identity);
+        Lightning.transform.localScale = new Vector3(10f, 10f, 10f) * explosionScale;
+        Lightning.GetComponent<LightningController>().damage = damage;
 
-    void LightningDamageApply()
-    {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, explosionScale.x);
-        foreach (Collider2D collider in colliders)
-        {
-            if (collider.gameObject.CompareTag("Enemy"))
-            {
-                collider.gameObject.GetComponent<EnemyController>().TakeDamage(1);
-            }
-            if (collider.gameObject.CompareTag("RangedEnemy"))
-            {
-                collider.gameObject.GetComponent<RangedEnemyController>().TakeDamage(1);
-            }
-        }
+        Invoke(nameof(ShootLightningExplosion), 1.5f);
     }
 
     public void LevelUp()
@@ -72,7 +59,7 @@ public class LightningUpgrade : MonoBehaviour, IUpgradable
         // diminui o intervalo de tiro se for nivel 1
         if (level == 1)
         {
-            LightningInterval = 3f;
+            LightningInterval = 2.5f;
             CancelInvoke(nameof(ShootLightning));
             InvokeRepeating(nameof(ShootLightning), 0.0f, LightningInterval);
         }
@@ -84,7 +71,7 @@ public class LightningUpgrade : MonoBehaviour, IUpgradable
         // aumenta a area de dano se for nivel 3
         else if (level == 3)
         {
-            explosionScale = new Vector3(0.5f, 0.5f, 0.5f);
+            explosionScale = 2;
         }
         // aumenta o dano se for nivel 4
         else if (level == 4)
@@ -95,7 +82,7 @@ public class LightningUpgrade : MonoBehaviour, IUpgradable
         else if (level == 5)
         {
             damage += 25;
-            explosionScale = new Vector3(0.8f, 0.8f, 0.8f);
+            explosionScale = 2.5f;
         }
     }
 }
