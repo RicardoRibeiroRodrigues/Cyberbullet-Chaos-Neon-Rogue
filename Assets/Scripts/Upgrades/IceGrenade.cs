@@ -62,7 +62,7 @@ public class IceGrenadeUpgrade : MonoBehaviour, IUpgradable
         } else if (level == 2){
             freezeDuration = 2.0f;
         } else if (level == 3){
-            damage = 35;
+            damage = 60;
         } else if (level == 4){
             numberOfGrenades = 3;
         } else if (level == 5){

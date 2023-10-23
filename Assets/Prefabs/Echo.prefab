@@ -107,6 +107,7 @@ MonoBehaviour:
   moveSpeed: 3
   orbPrefab: {fileID: 786657971002704895, guid: 5e8df33e0fa3fe845a4de16a9378c60b, type: 3}
   weaponUpgradeBoxPrefab: {fileID: 6930030453562109182, guid: c6b883d3f3fe44847b9d60b2c8604af2, type: 3}
+  ExtraLifePrefab: {fileID: 8531065796864618631, guid: 6b45192e7865e64428ed2221e65094f9, type: 3}
 --- !u!95 &8033129937706426516
 Animator:
   serializedVersion: 5

@@ -26,6 +26,7 @@ public class RangedEnemyController : MonoBehaviour
     // Xp drop
     private bool isDying;
     public GameObject orbPrefab;
+    public GameObject ExtraLifePrefab;
     private bool isFreezing;
 
     void Awake()
@@ -88,9 +89,15 @@ public class RangedEnemyController : MonoBehaviour
     // Usado no evento da animacao de morrer.
     void FinishedDyingAnimation()
     {
-        var orb = Instantiate(orbPrefab, transform.position, transform.rotation);
-        // Scale xp with enemy health.
-        orb.GetComponent<XpOrbController>().SetXp(max_health / 2);
+        if (Random.Range(0, 100) <= 3)
+        {
+            // Spawn extra life
+            Instantiate(ExtraLifePrefab, transform.position, transform.rotation);
+        } else {
+            var orb = Instantiate(orbPrefab, transform.position, transform.rotation);
+            // Scale xp with enemy health.
+            orb.GetComponent<XpOrbController>().SetXp(max_health / 2);
+        }
         Destroy(gameObject);
     }
 
@@ -125,7 +132,7 @@ public class RangedEnemyController : MonoBehaviour
         }
         StartCoroutine(TakeDamageCooldown());
     }
-    
+
     IEnumerator TakeDamageCooldown()
     {
         canTakeDamage = false;

@@ -25,6 +25,7 @@ public class EnemyController : MonoBehaviour
     // Drop orb
     public GameObject orbPrefab;
     public GameObject weaponUpgradeBoxPrefab;
+    public GameObject ExtraLifePrefab;
     private bool isFreezing;
     public void TakeDamage(int damage)
     {
@@ -118,6 +119,10 @@ public class EnemyController : MonoBehaviour
         {
             // Spawn weapon upgrade box
             Instantiate(weaponUpgradeBoxPrefab, transform.position, transform.rotation);
+        } else if (Random.Range(0, 100) <= 3)
+        {
+            // Spawn extra life
+            Instantiate(ExtraLifePrefab, transform.position, transform.rotation);
         } else {
             var orb = Instantiate(orbPrefab, transform.position, transform.rotation);
             // Scale xp with enemy health.

@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public int selectedWeaponIndex = 0;
     public bool isDying = false;
     // Player stats
+    private int maxHealth;
     public int health;
     public float moveSpeed;
     public float fireRate;
@@ -39,6 +40,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        maxHealth = health;
         audioSource = GetComponent<AudioSource>();
         var firepoint = gun.GetComponent<FirePoint>();
         firepoint.gunDamage = damage; 
@@ -134,6 +136,9 @@ public class PlayerController : MonoBehaviour
         xp = 0;
         xpToNextLevel = (int) (xpToNextLevel * 1.5f);
         level++;
+        // Level maximo
+        if (level >= 18)
+            yield return null;
 
         // Possiveis upgrades: aqueles com level menor que 5.
         var possibleUpgrades = new List<UpgradeData>();
@@ -239,6 +244,12 @@ public class PlayerController : MonoBehaviour
                 // Damage up
                 gun.GetComponent<FirePoint>().gunDamage = (int) (gun.GetComponent<FirePoint>().gunDamage * 1.2);
             }
+            Destroy(other.gameObject);
+        } else if (other.CompareTag("ExtraLife"))
+        {
+            var new_health = health + 0.4f * maxHealth;
+            health = new_health > maxHealth ? maxHealth : (int) new_health;
+            Destroy(other.gameObject);
         }
     }
 

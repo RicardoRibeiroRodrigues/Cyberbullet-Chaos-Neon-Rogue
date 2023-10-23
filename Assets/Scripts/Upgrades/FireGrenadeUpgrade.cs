@@ -41,7 +41,6 @@ public class FireGrenadeUpgrade : MonoBehaviour, IUpgradable
     {
         for (int i = 0; i < numberOfGrenades; i++)
         {
-            Debug.Log("Shoot Fire Grenade");
             var angle = Quaternion.Euler(0, 0, Random.Range(0, 360));
             var direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0);
             GameObject fireGrenade = Instantiate(grenadeFirePrefab, transform.position, angle);
@@ -66,6 +65,5 @@ public class FireGrenadeUpgrade : MonoBehaviour, IUpgradable
             numberOfGrenades = 5;
             explosionSize = new Vector3(1f, 1f, 1f); 
         }
-        Debug.Log("Grenade Level up! Level: " + level);
     }
 }
