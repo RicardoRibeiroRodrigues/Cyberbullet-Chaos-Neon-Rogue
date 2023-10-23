@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7587367907966834505}
   m_Layer: 3
   m_Name: MechaFusion
-  m_TagString: Enemy
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -75,8 +75,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1691968593
-  m_SortingLayer: 3
+  m_SortingLayerID: -819591699
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 2141695350, guid: 85261adf1f25f2b44a0114f3c64224b9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -184,13 +184,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7598017adf361a4e8b4a15945a8afa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackCooldown: 5
-  attackRange: 4
+  attackCooldown: 1
+  attackRange: 6
   attackPoint: {fileID: 7460748619627647344}
   projectilePrefab: {fileID: 5665809313633969405, guid: 33366bd65c7d52148873335d1c07d1e8, type: 3}
-  health: 2000
-  moveSpeed: 1.2
-  specialAttackCooldown: 15
+  health: 5000
+  moveSpeed: 5
+  specialAttackCooldown: 4
+  damage: 60
+  specialAttackDamage: 180
+  specialAttackPrefab: {fileID: 4132476789513225521, guid: 4bf1a960eb7e477408086409a3c985d5, type: 3}
+  specialAttackExplosionPrefab: {fileID: 1600406571689667736, guid: 1e1948fe50ebb4e439189a84d7fb6ff1, type: 3}
 --- !u!1 &5186247073737058104
 GameObject:
   m_ObjectHideFlags: 0

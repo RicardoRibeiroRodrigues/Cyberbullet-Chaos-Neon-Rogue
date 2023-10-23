@@ -21,7 +21,7 @@ public class MissileController : MonoBehaviour
 
     void FixedUpdate()
     {
-        m_Rigidbody.velocity = direction * speed;
+        m_Rigidbody.velocity = transform.up * speed;
     }
 
     // OnTriggerEnter2D is called when the Collider2D other enters the trigger (2D physics only)

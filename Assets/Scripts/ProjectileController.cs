@@ -29,6 +29,8 @@ public class ProjectileController : MonoBehaviour
         var proj_tag = gameObject.tag;
         if (proj_tag == "EnemyBullet")
         {
+            Debug.Log("Enemy shot" + tag);
+            Debug.Log("Hit" + other.tag);
             if (other.CompareTag("Player"))
             {
                 other.GetComponent<PlayerController>().TakeDamage(damage);
@@ -46,6 +48,11 @@ public class ProjectileController : MonoBehaviour
                 other.GetComponent<RangedEnemyController>().TakeDamage(damage);
                 Destroy(gameObject);
             }
+            if (other.CompareTag("Boss"))
+            {
+                other.GetComponent<BossController>().TakeDamage(damage);
+                Destroy(gameObject);
+            }
         } else if (proj_tag == "Knife"){
             if (other.CompareTag("Enemy"))
             {
@@ -55,7 +62,12 @@ public class ProjectileController : MonoBehaviour
             {
                 other.GetComponent<RangedEnemyController>().TakeDamage(damage);
             }
-            if (other.CompareTag("Enemy") || other.CompareTag("RangedEnemy")){
+            if (other.CompareTag("Boss"))
+            {
+                other.GetComponent<BossController>().TakeDamage(damage);
+                Destroy(gameObject);
+            }
+            if (other.CompareTag("Enemy") || other.CompareTag("RangedEnemy") || other.CompareTag("Boss")){
                 enemiesHit++;
                 if (enemiesHit == 2 && KnifeUpgrade.level == 5){
                     Destroy(gameObject);
@@ -79,6 +91,13 @@ public class ProjectileController : MonoBehaviour
                     other.GetComponent<RangedEnemyController>().TakeDamage(damage);
                 }
             }
+            if (other.CompareTag("Boss"))
+            {
+                other.GetComponent<BossController>().Freeze(freezeDuration);
+                if (IceGrenadeUpgrade.level >= 3){
+                    other.GetComponent<BossController>().TakeDamage(damage);
+                }
+            }
         } else if (proj_tag == "Explosion") {
             if (other.CompareTag("Enemy"))
             {
@@ -86,6 +105,9 @@ public class ProjectileController : MonoBehaviour
             } else if (other.CompareTag("RangedEnemy"))
             {
                 other.GetComponent<RangedEnemyController>().TakeDamage(damage);
+            } else if (other.CompareTag("Boss"))
+            {
+                other.GetComponent<BossController>().TakeDamage(damage);
             }
         }
     }

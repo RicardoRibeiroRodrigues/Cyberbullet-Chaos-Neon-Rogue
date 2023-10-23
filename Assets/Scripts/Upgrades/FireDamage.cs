@@ -25,6 +25,10 @@ public class FireDamage : MonoBehaviour
         {
             collider.gameObject.GetComponent<RangedEnemyController>().TakeDamage(damage);
         }
+        if (collider.gameObject.CompareTag("Boss"))
+        {
+            collider.gameObject.GetComponent<BossController>().TakeDamage(damage);
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -37,7 +41,7 @@ public class FireDamage : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("RangedEnemy"))
+        if (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("RangedEnemy") || other.gameObject.CompareTag("Boss"))
         {
             FireDamageApply(other);
         }

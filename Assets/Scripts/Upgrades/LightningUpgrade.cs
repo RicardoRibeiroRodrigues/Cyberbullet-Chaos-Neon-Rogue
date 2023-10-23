@@ -25,9 +25,8 @@ public class LightningUpgrade : MonoBehaviour, IUpgradable
         // Se o raio ainda existe, destrói ele e cria a explosão instantaneamente na mesma posição
         if (Lightning != null)
         {
-            Vector3 transform_position = Lightning.transform.position;
+            Vector3 transform_position = Lightning.transform.position + new Vector3(0, 6 + (explosionScale * 4.8f - 4.8f), 0);
             Quaternion rotation_position = Lightning.transform.rotation;
-            Vector3 transform_right = Lightning.transform.right;
 
             // Actite collider
             Lightning.GetComponent<CircleCollider2D>().enabled = true;

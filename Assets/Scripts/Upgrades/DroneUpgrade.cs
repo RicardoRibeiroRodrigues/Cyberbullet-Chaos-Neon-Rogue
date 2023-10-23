@@ -13,7 +13,11 @@ public class DroneUpgrade : MonoBehaviour, IUpgradable
     private int level = 0;
     public float missileAttackDelay = 3f;
 
+    private AudioSource audioSource;
+
+
     public void Attack() {
+        audioSource.Play();
         StartCoroutine(firePoint.GetComponent<FirePoint>().ShootBullet());
     }
 
@@ -51,6 +55,7 @@ public class DroneUpgrade : MonoBehaviour, IUpgradable
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         firePoint.GetComponent<FirePoint>().setNShots(n_fires);
         InvokeRepeating(nameof(Attack), 0.0f, (float)1 / attackSpeed);
     }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemySpawnerController : MonoBehaviour
@@ -55,16 +56,17 @@ public class EnemySpawnerController : MonoBehaviour
         
         if (newWave > waveNum)
         {
-            if (newWave > 5) {
-                SpawnBoss();
-                // After spawning the boss, stop spawning enemies.
-                CancelInvoke(nameof(SpawnEnemy));
-                waveNum = newWave;
-                yield return null;
-            }
             waveNum = newWave;
             GameManager.Instance.putTenseMusic();
             yield return new WaitForSeconds(5f);
+
+            if (newWave > 5) {
+                Debug.Log("Boss wave");
+                SpawnBoss();
+                // After spawning the boss, stop spawning enemies.
+                CancelInvoke(nameof(SpawnEnemy));
+                yield break;
+            }
 
             // Increase spawn rate
             spawnDelay = spawnDelay / newWave;
@@ -91,7 +93,8 @@ public class EnemySpawnerController : MonoBehaviour
         Vector2 spawnPos = player.transform.position;
         spawnPos += Random.insideUnitCircle.normalized * spawnRadius;
 
-        for (int i = waveNum; i >= 0; i--)
+        var startIndex = waveNum > 3 ? 3 : waveNum;
+        for (int i = startIndex; i >= 0; i--)
         {
             // Only spawn enemies that are available in the current wave.
             var random = Random.value;
@@ -107,7 +110,9 @@ public class EnemySpawnerController : MonoBehaviour
 
     void SpawnBoss()
     {
-        Instantiate(bossPrefab, player.transform.position, Quaternion.identity);
+        Vector2 spawnPos = player.transform.position;
+        spawnPos += Random.insideUnitCircle.normalized * 4;
+        Instantiate(bossPrefab, spawnPos, Quaternion.identity);
     }
 
     void SpawnMiniBoss()
@@ -134,7 +139,7 @@ public class EnemySpawnerController : MonoBehaviour
         miniboss.transform.localScale *= 3;
         miniboss.name = "MiniBoss";
         var controller = miniboss.GetComponent<EnemyController>();
-        controller.health *= 3;
+        controller.health = (int) (controller.health * 3.5);
         controller.damage *= 2;
     }
 }

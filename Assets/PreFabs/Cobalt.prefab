@@ -144,6 +144,7 @@ MonoBehaviour:
   luck: 1.3
   damage: 40
   xpToNextLevel: 1
+  level: 1
   upgrades:
   - UpgradePrefab: {fileID: 4350146216459109662, guid: bb6e1dbf4dc33d04484b176276ca398f, type: 3}
     UpgradeName: "Drone de Combate S\xE9rie A-7:"
@@ -225,7 +226,7 @@ MonoBehaviour:
       inimigos atingidos."
     - "Reduz significativamente o tempo de recarga do m\xEDssil, permitindo que o
       jogador dispare m\xEDsseis com mais frequ\xEAncia durante os combates."
-    - "O m\xEDssil da mais dano, permitindo matar mais inimigos atingidos. "
+    - "Atira 3 m\xEDsseis."
     - "Aumenta o dano e o area da explos\xE3o."
     index: 4
     icon: {fileID: 490656233, guid: 7b5ed457aca9be74cadba033318bc1d5, type: 3}

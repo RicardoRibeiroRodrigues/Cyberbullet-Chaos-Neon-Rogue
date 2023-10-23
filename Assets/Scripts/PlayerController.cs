@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     // Level mechanic
     private int xp;
     public int xpToNextLevel;
-    private int level = 1;
+    public int level = 1;
     // Upgrade mechanic
     public UpgradeData[] upgrades;
     // Sounds
@@ -146,9 +146,13 @@ public class PlayerController : MonoBehaviour
         xp = 0;
         xpToNextLevel = (int) (xpToNextLevel * 1.5f);
         level++;
-        // Level maximo
-        if (level >= 18)
-            yield return null;
+        Debug.Log("Level up! Level: " + level);
+        // Level maximo - do not upgrade.
+        if (level >= 17)
+        {
+            // Stop the coroutine.
+            yield break;
+        }
 
         // Possiveis upgrades: aqueles com level menor que 5.
         var possibleUpgrades = new List<UpgradeData>();

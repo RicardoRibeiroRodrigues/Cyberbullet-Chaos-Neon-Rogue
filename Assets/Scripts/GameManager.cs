@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -12,6 +13,8 @@ public class GameManager : MonoBehaviour
     private int playerIndex = 0;
     private int selectedWeaponIndex = 0;
     public bool[] EnabledPlayersWeapons = { false, false, false };
+    public int[] UpgradeLevels = { 1, 1, 1 };
+
     // World Prefabs
     public GameObject World;
     public GameObject Spawner;
@@ -82,7 +85,7 @@ public class GameManager : MonoBehaviour
         player.name = "Player";
         player.GetComponent<PlayerController>().selectedWeaponIndex = selectedWeaponIndex;
 
-        if (selectedUpgradeIndex == 1)
+        if (selectedWeaponIndex == 1)
         {
             var controller = player.GetComponent<PlayerController>();
             controller.setNShots(3);
@@ -178,5 +181,35 @@ public class GameManager : MonoBehaviour
         var endGameUi = Instantiate(EndGameUiPrefab, canvas.transform);
         endGameUi.transform.parent = canvas.transform;
         endGameUi.GetComponent<UiDeadEnd>().setUi(won, coins);
+    }
+
+    public int GetUpgradePrice()
+    {
+        return (int)(250 * Mathf.Pow(1.2f, UpgradeLevels[playerIndex]-1));
+    }
+
+    public int GetUpgradeLevel()
+    {
+        return UpgradeLevels[playerIndex];
+    }
+
+    public bool UpgradePlayer()
+    {
+        var upgradePrice = GetUpgradePrice();
+        if (this.coins >= upgradePrice)
+        {
+            this.coins -= upgradePrice;
+            UpgradeLevels[playerIndex]++;
+            var player = players[playerIndex];
+            var playerController = player.GetComponent<PlayerController>();
+            playerController.health += 50;
+            playerController.luck += 0.1f;
+            playerController.damage += 15;
+            if (playerController.fireRate - 0.05f > 0.1f)
+                playerController.fireRate -= 0.05f;
+            playerController.moveSpeed += 0.5f;
+            return true;
+        }
+        return false;
     }
 }

@@ -13,6 +13,7 @@ public class MissileUpgrade : MonoBehaviour, IUpgradable
     private int level = 0;
 
     private int damage = 50;
+    private int nFires = 1;
     private Vector3 explosionScale = new Vector3(0.3f, 0.3f, 0.3f);
 
     void Start()
@@ -22,20 +23,23 @@ public class MissileUpgrade : MonoBehaviour, IUpgradable
     
     void ShootMissile()
     {
-        Debug.Log("Shoot Missile");
-        // Shoot at a direction
-        var angle = Quaternion.Euler(0, 0, Random.Range(0, 360));
-        float anguloZ = angle.eulerAngles.z;
-        float angleRadians = Mathf.Deg2Rad * anguloZ;
-        float direcaoX = Mathf.Cos(angleRadians);
-        float direcaoY = Mathf.Sin(angleRadians);
-        var direction = new Vector2(direcaoX, direcaoY);
-        Missile = Instantiate(MissilePrefab, transform.position, transform.rotation);
-        var controller = Missile.GetComponent<MissileController>();
-        // Damage, explosion scale and interval are set in the controller
-        controller.damage = damage;
-        controller.explosionScale = explosionScale;
-        controller.direction = direction;
+        for (int i = 0; i < nFires; i++)
+        {
+            Debug.Log("Shoot Missile");
+            // Shoot at a direction
+            var angle = Quaternion.Euler(0, 0, Random.Range(0, 360));
+            float anguloZ = angle.eulerAngles.z;
+            float angleRadians = Mathf.Deg2Rad * anguloZ;
+            float direcaoX = Mathf.Cos(angleRadians);
+            float direcaoY = Mathf.Sin(angleRadians);
+            var direction = new Vector2(direcaoX, direcaoY);
+            Missile = Instantiate(MissilePrefab, transform.position, angle);
+            var controller = Missile.GetComponent<MissileController>();
+            // Damage, explosion scale and interval are set in the controller
+            controller.damage = damage;
+            controller.explosionScale = explosionScale;
+            controller.direction = direction;
+        }
     }
 
     public void LevelUp()
@@ -57,7 +61,7 @@ public class MissileUpgrade : MonoBehaviour, IUpgradable
         // aumenta o dano se for nivel 4
         else if (level == 4)
         {
-            damage += 25;
+            nFires = 3;
         }
         // aumenta o dano e raio de explosão se for nivel 5
         else if (level == 5)

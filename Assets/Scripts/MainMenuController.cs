@@ -107,6 +107,8 @@ public class MainMenuController : MonoBehaviour
         CharacterCursor.transform.position = new Vector3(CharacterCursor.transform.position.x, cursorPositionY, CharacterCursor.transform.position.z);
         WeaponPurchaseButton.GetComponentInChildren<TextMeshProUGUI>().text = "$ " + WeaponPrice.ToString();
         WeaponPurchaseButton.SetActive(!GameManager.Instance.EnabledPlayersWeapons[characterIndex]);
+        UpdateLevelIndicatorValue(GameManager.Instance.GetUpgradeLevel());
+        UpdateLevelButtonValue(GameManager.Instance.GetUpgradePrice());
     }
 
     public void SelectWeapon(int weaponIndex)
@@ -145,9 +147,17 @@ public class MainMenuController : MonoBehaviour
     
     public void PurchaseLevelUp()
     {
+        if (!GameManager.Instance.UpgradePlayer())
+        {
+            audioSource.PlayOneShot(errorSound);
+            return;
+        }
+
         audioSource.PlayOneShot(clickSound);
-        UpdateLevelIndicatorValue(2);
-        UpdateLevelButtonValue(500);
+        Money = GameManager.Instance.GetPlayerCoins();
+        UpdateMoneyIndicator();
+        UpdateLevelIndicatorValue(GameManager.Instance.GetUpgradeLevel());
+        UpdateLevelButtonValue(GameManager.Instance.GetUpgradePrice());
     }
 
     public void UpdateLevelIndicatorValue(int value)

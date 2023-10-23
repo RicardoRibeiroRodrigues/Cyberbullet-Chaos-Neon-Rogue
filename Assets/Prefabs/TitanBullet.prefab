@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 240612008317283002}
   - component: {fileID: 8422902108228507490}
   - component: {fileID: 4948047750426712575}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: TitanBullet
   m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
@@ -101,8 +101,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2.5
   lifeTime: 6
-  damage: 25
+  damage: 40
   direction: {x: 0, y: 0}
+  freezeDuration: 0
 --- !u!50 &8422902108228507490
 Rigidbody2D:
   serializedVersion: 4

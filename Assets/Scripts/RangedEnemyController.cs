@@ -150,7 +150,7 @@ public class RangedEnemyController : MonoBehaviour
         GetComponent<Collider2D>().enabled = false;
     }
 
-        public void Freeze(float freezeDuration)
+    public void Freeze(float freezeDuration)
     {
         isFreezing = true;
         GetComponent<SpriteRenderer>().color = new Color(0, 0.5f, 1);
@@ -161,6 +161,7 @@ public class RangedEnemyController : MonoBehaviour
     {
         yield return new WaitForSeconds(freezeDuration);
         isFreezing = false;
+        m_Rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
     }
 }

@@ -158,7 +158,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
-  lifeTime: 1.3
+  lifeTime: 0.9
   damage: 100
   direction: {x: 0, y: 0}
   freezeDuration: 0

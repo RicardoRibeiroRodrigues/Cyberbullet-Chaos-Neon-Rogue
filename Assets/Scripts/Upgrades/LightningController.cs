@@ -16,5 +16,9 @@ public class LightningController : MonoBehaviour
         {
             other.gameObject.GetComponent<RangedEnemyController>().TakeDamage(damage);
         }
+        if (other.gameObject.CompareTag("Boss"))
+        {
+            other.gameObject.GetComponent<BossController>().TakeDamage(damage);
+        }
     }
 }
