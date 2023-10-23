@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class MainMenuController : MonoBehaviour
 {
@@ -14,15 +15,17 @@ public class MainMenuController : MonoBehaviour
     public GameObject Character3;
     public GameObject Character3Weapons;
     public GameObject CharacterCursor;
-    private int Money;
     public GameObject MoneyIndicator;
     public GameObject WeaponCursor;
     public int WeaponPrice = 0;
     public GameObject WeaponPurchaseButton;
+    public GameObject LevelIndicator;
 
     private Vector3 CameraTarget = Vector3.zero;
     private Vector3 CameraVelocity = Vector3.zero;
-    private MainMenuCharacterController SelectedCharacterController;
+    private int ActiveCharacterIndex = 0;
+    private MainMenuCharacterController ActiveCharacterController;
+    private int Money;
 
     // Menu Sounds
     private AudioSource audioSource;
@@ -42,6 +45,7 @@ public class MainMenuController : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         Money = GameManager.Instance.GetPlayerCoins();
+
         UpdateMoneyIndicator();
         SelectCharacter(0);
         UpdateState(0);
@@ -65,43 +69,41 @@ public class MainMenuController : MonoBehaviour
         Character1Weapons.SetActive(false);
         Character2Weapons.SetActive(false);
         Character3Weapons.SetActive(false);
-        SelectWeapon(0);
         GameManager.Instance.SelectPlayer(characterIndex);
-
+        SelectWeapon(0);
 
         switch (characterIndex)
         {
             case 0:
-                SelectedCharacterController = Character1.GetComponent<MainMenuCharacterController>();
+                ActiveCharacterController = Character1.GetComponent<MainMenuCharacterController>();
                 cursorPositionY = 2.98f;
                 Character1Weapons.SetActive(true);
-                WeaponPurchaseButton.SetActive(true);
                 WeaponPrice = 100;
                 break;
             case 1:
-                SelectedCharacterController = Character2.GetComponent<MainMenuCharacterController>();
+                ActiveCharacterController = Character2.GetComponent<MainMenuCharacterController>();
                 cursorPositionY = -0.08f;
                 Character2Weapons.SetActive(true);
-                WeaponPurchaseButton.SetActive(true);
-                WeaponPrice = 150;
+                WeaponPrice = 100;
                 break;
             case 2:
-                SelectedCharacterController = Character3.GetComponent<MainMenuCharacterController>();
+                ActiveCharacterController = Character3.GetComponent<MainMenuCharacterController>();
                 cursorPositionY = -3.08f;
                 Character3Weapons.SetActive(true);
-                WeaponPurchaseButton.SetActive(true);
-                WeaponPrice = 200;
+                WeaponPrice = 100;
                 break;
         }
 
+        ActiveCharacterIndex = characterIndex;
         CharacterCursor.transform.position = new Vector3(CharacterCursor.transform.position.x, cursorPositionY, CharacterCursor.transform.position.z);
         WeaponPurchaseButton.GetComponentInChildren<TextMeshProUGUI>().text = "$ " + WeaponPrice.ToString();
+
+        WeaponPurchaseButton.SetActive(!GameManager.Instance.EnabledPlayersWeapons[characterIndex]);
     }
 
     public void SelectWeapon(int weaponIndex)
     {
         float cursorPositionY = 0.0f;
-        GameManager.Instance.SelectWeapon(weaponIndex);
 
         switch (weaponIndex)
         {
@@ -114,21 +116,42 @@ public class MainMenuController : MonoBehaviour
         }
 
         WeaponCursor.transform.position = new Vector3(WeaponCursor.transform.position.x, cursorPositionY, WeaponCursor.transform.position.z);
+
+        GameManager.Instance.SelectWeapon(weaponIndex);
     }
 
     public void PurchaseWeapon2()
     {
-
-        if (GameManager.Instance.SpendCoins(WeaponPrice))
+        if (!GameManager.Instance.SpendCoins(WeaponPrice))
         {
-            audioSource.PlayOneShot(clickSound);
-            Money -= WeaponPrice;
-            WeaponPurchaseButton.SetActive(false);
-            UpdateMoneyIndicator();
-            SelectWeapon(1);
-        } else {
             audioSource.PlayOneShot(errorSound);
+            return;
         }
+
+        Money -= WeaponPrice;
+        GameManager.Instance.EnabledPlayersWeapons[ActiveCharacterIndex] = true;
+
+        WeaponPurchaseButton.SetActive(false);
+        audioSource.PlayOneShot(clickSound);
+        UpdateMoneyIndicator();
+        SelectWeapon(1);
+    }
+
+    public void PurchaceLevelUp()
+    {
+        audioSource.PlayOneShot(errorSound);
+        UpdateLevelIndicatorValue(2);
+        UpdateLevelButtonValue(500);
+    }
+
+    public void UpdateLevelIndicatorValue(int value)
+    {
+        LevelIndicator.GetComponentInChildren<TextMeshProUGUI>().text = "Level " + value.ToString();
+    }
+
+    public void UpdateLevelButtonValue(int value)
+    {
+        LevelIndicator.GetComponentInChildren<Button>().GetComponentInChildren<TextMeshProUGUI>().text = "$ " + value;
     }
 
     public void UpdateMoneyIndicator()
@@ -165,12 +188,12 @@ public class MainMenuController : MonoBehaviour
     void HandleCharacterScreen()
     {
         CameraTarget = new Vector3(16, 0, -10);
-        SelectedCharacterController.Target.x = 11;
+        ActiveCharacterController.Target.x = 11;
     }
 
     void HandleWeaponScreen()
     {
         CameraTarget = new Vector3(32, 0, -10);
-        SelectedCharacterController.Target.x = 30;
+        ActiveCharacterController.Target.x = 30;
     }
 }

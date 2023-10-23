@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] players;
     private int playerIndex = 0;
     private int selectedWeaponIndex = 0;
+    public bool[] EnabledPlayersWeapons = { false, false, false };
     // World Prefabs
     public GameObject World;
     public GameObject Spawner;
