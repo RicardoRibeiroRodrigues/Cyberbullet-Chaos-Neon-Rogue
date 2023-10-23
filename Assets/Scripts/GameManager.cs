@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
-using UnityEditor;
+using TMPro;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -26,6 +24,7 @@ public class GameManager : MonoBehaviour
     // Item select ui
     public GameObject itemSelectUiPrefab;
     public GameObject EndGameUiPrefab;
+    public GameObject UpgradeUiPrefab;
     private int selectedUpgradeIndex;
     // Player coins
     private int coins = 0;
@@ -211,5 +210,14 @@ public class GameManager : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public void SpawnPowerUpText(string Text)
+    {
+        var canvas = GameObject.Find("Canvas");
+        var upgradeUi = Instantiate(UpgradeUiPrefab, canvas.transform);
+        upgradeUi.transform.parent = canvas.transform;
+        upgradeUi.GetComponent<TextMeshProUGUI>().text = Text;
+        Destroy(upgradeUi, 2f);
     }
 }

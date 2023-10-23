@@ -76,33 +76,28 @@ public class PlayerController : MonoBehaviour
         if (isDying)
             return;
         
-        if (!isMoving)
+        if (Movement != Vector2.zero)
         {
-            if (Movement != Vector2.zero)
+            // Rotate the player to face the direction of movement.
+            if (Movement.x < 0)
             {
-                // Rotate the player to face the direction of movement.
-                if (Movement.x < 0)
-                {
-                    transform.rotation = Quaternion.Euler(0, 180, 0);
-                } else
-                {
-                    transform.rotation = Quaternion.Euler(0, 0, 0);
-                }
-                var targetPos = transform.position;
-                targetPos.x += Movement.x;
-                targetPos.y += Movement.y;
-                StartCoroutine(Move(targetPos));
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+            } else
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
             }
+            var targetPos = transform.position;
+            targetPos.x += Movement.x;
+            targetPos.y += Movement.y;
+            var direction = targetPos - transform.position;
+            direction.Normalize();
+            isMoving = true;
+            m_Rigidbody.velocity = direction * moveSpeed;
+        } else {
+            m_Rigidbody.velocity = Vector3.zero;
+            isMoving = false;
         }
         animator.SetBool("isMoving", isMoving);
-    }
-
-    IEnumerator Move(Vector3 targetPos)
-    {
-        isMoving = true;
-        m_Rigidbody.MovePosition(Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime));
-        yield return null;
-        isMoving = false;
     }
 
     void OnMove(InputValue value)
@@ -128,7 +123,7 @@ public class PlayerController : MonoBehaviour
     // Usado no evento da animacao de morrer.
     void FinishedDyingAnimation()
     {
-        var coins = level * 25 - 100 > 0 ? level * 20 - 100 : 0;
+        var coins = level * 25 - 25 > 0 ? level * 20 - 25 : 0;
         GameManager.Instance.AddCoins(coins);
         GameManager.Instance.endGame(false, coins);
         Destroy(gameObject);
@@ -261,6 +256,7 @@ public class PlayerController : MonoBehaviour
             } else if (randomUpgrade == 2)
             {
                 // Damage up
+                GameManager.Instance.SpawnPowerUpText("Dano upgrade!");
                 gun.GetComponent<FirePoint>().gunDamage = (int) (gun.GetComponent<FirePoint>().gunDamage * 1.2);
             }
             Destroy(other.gameObject);
@@ -280,6 +276,7 @@ public class PlayerController : MonoBehaviour
     // Stats upgrades
     public void SetFireRate(float newFireRate)
     {
+        GameManager.Instance.SpawnPowerUpText("Fire rate upgrade!");
         fireRate = newFireRate;
         CancelInvoke(nameof(ShootBullet));
         InvokeRepeating(nameof(ShootBullet), 0.0f, fireRate);
@@ -287,6 +284,7 @@ public class PlayerController : MonoBehaviour
 
     public void setNShots(int n)
     {
+        GameManager.Instance.SpawnPowerUpText("Numero de tiros upgrade!");
         gun.GetComponent<FirePoint>().nShots = n;
     }
 
