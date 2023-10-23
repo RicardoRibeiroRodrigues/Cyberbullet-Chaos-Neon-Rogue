@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class MainMenuController : MonoBehaviour
 {
@@ -22,13 +23,15 @@ public class MainMenuController : MonoBehaviour
 
     private Vector3 CameraTarget = Vector3.zero;
     private Vector3 CameraVelocity = Vector3.zero;
-    private MainMenuCharacterController SelectedCharacterController;
+    private MainMenuCharacterController ActiveCharacterController;
 
     // Menu Sounds
     private AudioSource audioSource;
     public AudioClip clickSound;
     public AudioClip errorSound;
     public AudioClip primaryButtonSound;
+    private int ActiveCharacterIndex = 0;
+    public GameObject LevelIndicator;
 
     public enum state
     {
@@ -78,36 +81,37 @@ public class MainMenuController : MonoBehaviour
         switch (characterIndex)
         {
             case 0:
-                SelectedCharacterController = Character1.GetComponent<MainMenuCharacterController>();
+                ActiveCharacterController = Character1.GetComponent<MainMenuCharacterController>();
                 cursorPositionY = 2.98f;
                 Character1Weapons.SetActive(true);
                 WeaponPurchaseButton.SetActive(true);
                 WeaponPrice = 100;
                 break;
             case 1:
-                SelectedCharacterController = Character2.GetComponent<MainMenuCharacterController>();
+                ActiveCharacterController = Character2.GetComponent<MainMenuCharacterController>();
                 cursorPositionY = -0.08f;
                 Character2Weapons.SetActive(true);
                 WeaponPurchaseButton.SetActive(true);
                 WeaponPrice = 150;
                 break;
             case 2:
-                SelectedCharacterController = Character3.GetComponent<MainMenuCharacterController>();
+                ActiveCharacterController = Character3.GetComponent<MainMenuCharacterController>();
                 cursorPositionY = -3.08f;
                 Character3Weapons.SetActive(true);
                 WeaponPurchaseButton.SetActive(true);
                 WeaponPrice = 200;
                 break;
         }
+        ActiveCharacterIndex = characterIndex;
 
         CharacterCursor.transform.position = new Vector3(CharacterCursor.transform.position.x, cursorPositionY, CharacterCursor.transform.position.z);
         WeaponPurchaseButton.GetComponentInChildren<TextMeshProUGUI>().text = "$ " + WeaponPrice.ToString();
+        WeaponPurchaseButton.SetActive(!GameManager.Instance.EnabledPlayersWeapons[characterIndex]);
     }
 
     public void SelectWeapon(int weaponIndex)
     {
         float cursorPositionY = 0.0f;
-        GameManager.Instance.SelectWeapon(weaponIndex);
 
         switch (weaponIndex)
         {
@@ -120,21 +124,40 @@ public class MainMenuController : MonoBehaviour
         }
 
         WeaponCursor.transform.position = new Vector3(WeaponCursor.transform.position.x, cursorPositionY, WeaponCursor.transform.position.z);
+        GameManager.Instance.SelectWeapon(weaponIndex);
     }
 
     public void PurchaseWeapon2()
     {
 
-        if (GameManager.Instance.SpendCoins(WeaponPrice))
+        if (!GameManager.Instance.SpendCoins(WeaponPrice))
         {
-            audioSource.PlayOneShot(clickSound);
-            Money -= WeaponPrice;
-            WeaponPurchaseButton.SetActive(false);
-            UpdateMoneyIndicator();
-            SelectWeapon(1);
-        } else {
             audioSource.PlayOneShot(errorSound);
+            return;
         }
+        GameManager.Instance.EnabledPlayersWeapons[ActiveCharacterIndex] = true;
+        audioSource.PlayOneShot(clickSound);
+        Money -= WeaponPrice;
+        WeaponPurchaseButton.SetActive(false);
+        UpdateMoneyIndicator();
+        SelectWeapon(1);
+    }
+    
+    public void PurchaseLevelUp()
+    {
+        audioSource.PlayOneShot(clickSound);
+        UpdateLevelIndicatorValue(2);
+        UpdateLevelButtonValue(500);
+    }
+
+    public void UpdateLevelIndicatorValue(int value)
+    {
+        LevelIndicator.GetComponentInChildren<TextMeshProUGUI>().text = "Level " + value.ToString();
+    }
+
+    public void UpdateLevelButtonValue(int value)
+    {
+        LevelIndicator.GetComponentInChildren<Button>().GetComponentInChildren<TextMeshProUGUI>().text = "$ " + value;
     }
 
     public void UpdateMoneyIndicator()
@@ -171,12 +194,12 @@ public class MainMenuController : MonoBehaviour
     void HandleCharacterScreen()
     {
         CameraTarget = new Vector3(16, 0, -10);
-        SelectedCharacterController.Target.x = 11;
+        ActiveCharacterController.Target.x = 11;
     }
 
     void HandleWeaponScreen()
     {
         CameraTarget = new Vector3(32, 0, -10);
-        SelectedCharacterController.Target.x = 30;
+        ActiveCharacterController.Target.x = 30;
     }
 }

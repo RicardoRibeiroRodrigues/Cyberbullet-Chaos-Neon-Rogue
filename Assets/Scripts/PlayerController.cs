@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour
     public AudioClip shootSound;
     public AudioClip hurtSound;
     private int selectedUpgradeIndex;
+    // HUD
+    private HUDController hudController;
     
     private void Awake()
     {
@@ -40,6 +42,9 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        hudController = GameObject.Find("Canvas").GetComponent<HUDController>();
+        hudController.updateHealthValue(100);
+        hudController.updateExperienceProgress(xp);
         maxHealth = health;
         audioSource = GetComponent<AudioSource>();
         var firepoint = gun.GetComponent<FirePoint>();
@@ -59,6 +64,11 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        var healthPercent = (float) health / maxHealth * 100;
+        var xpPercent = (float) xp / xpToNextLevel;
+        hudController.updateHealthValue((int) healthPercent);
+        hudController.updateExperienceProgress(xpPercent);
+    
         if (isDying)
             return;
         
@@ -189,6 +199,7 @@ public class PlayerController : MonoBehaviour
 
         if (selectedUpgrade.upgradeLevel == 1)
         {
+            hudController.addItem(selectedUpgrade.icon);
             var upgrade = Instantiate(selectedUpgrade.UpgradePrefab, transform.position, transform.rotation);
             // Set upgrade parent to player.
             upgrade.transform.parent = transform;

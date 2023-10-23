@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] players;
     private int playerIndex = 0;
     private int selectedWeaponIndex = 0;
+    public bool[] EnabledPlayersWeapons = { false, false, false };
     // World Prefabs
     public GameObject World;
     public GameObject Spawner;
@@ -70,6 +71,9 @@ public class GameManager : MonoBehaviour
         Instantiate(Spawner, new Vector3(0, 0, 0), Quaternion.identity);
         // Spawn player
         SpawnPlayer();
+        // Canvas
+        var canvasController = GameObject.Find("Canvas").GetComponent<HUDController>();
+        canvasController.SetActiveAvatar(playerIndex);
     }
 
     void SpawnPlayer()

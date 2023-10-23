@@ -70,7 +70,7 @@ public class EnemyController : MonoBehaviour
             // Locks the enemy in place x, y and z.
             m_Rigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
             return;
-        }
+        } 
         
         var targetPos = player.transform.position;
         var distance = Vector2.Distance(transform.position, targetPos);
@@ -155,6 +155,8 @@ public class EnemyController : MonoBehaviour
     {
         yield return new WaitForSeconds(freezeDuration);
         isFreezing = false;
+        // Unlocks the enemy in place x, y
+        m_Rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         // Return the enemy to normal color
         GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
     }
