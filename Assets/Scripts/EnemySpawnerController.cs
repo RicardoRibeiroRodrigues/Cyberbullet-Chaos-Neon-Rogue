@@ -117,6 +117,7 @@ public class EnemySpawnerController : MonoBehaviour
 
     void SpawnMiniBoss()
     {
+        GetComponent<AudioSource>().Play();
         var chosenEnemy = enemies[0];
         Vector2 spawnPos = player.transform.position;
         spawnPos += Random.insideUnitCircle.normalized * spawnRadius;

@@ -131,6 +131,7 @@ public class PlayerController : MonoBehaviour
 
     void Die()
     {
+        GetComponent<AudioSource>().Play();
         isDying = true;
         // Trigger death animation
         animator.SetTrigger("isDead");
