@@ -87,13 +87,13 @@ public class GameManager : MonoBehaviour
         if (selectedWeaponIndex == 1)
         {
             var controller = player.GetComponent<PlayerController>();
-            controller.setNShots(3);
+            controller.setNShots(3, true);
 
             if (playerIndex == 0)
             {
                 controller.setSpread(true);
             } else {
-                controller.SetFireRate(controller.fireRate - 0.1f > 0.1f ? controller.fireRate - 0.1f : 0.1f);
+                controller.SetFireRate(controller.fireRate - 0.1f > 0.1f ? controller.fireRate - 0.1f : 0.1f, true);
             }
         }
         // Set camera to follow player

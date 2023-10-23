@@ -275,17 +275,19 @@ public class PlayerController : MonoBehaviour
     }
     
     // Stats upgrades
-    public void SetFireRate(float newFireRate)
+    public void SetFireRate(float newFireRate, bool gameStart = false)
     {
-        GameManager.Instance.SpawnPowerUpText("Fire rate upgrade!");
+        if (!gameStart)
+            GameManager.Instance.SpawnPowerUpText("Fire rate upgrade!");
         fireRate = newFireRate;
         CancelInvoke(nameof(ShootBullet));
         InvokeRepeating(nameof(ShootBullet), 0.0f, fireRate);
     }
 
-    public void setNShots(int n)
+    public void setNShots(int n, bool gameStart = false)
     {
-        GameManager.Instance.SpawnPowerUpText("Numero de tiros upgrade!");
+        if (!gameStart)
+            GameManager.Instance.SpawnPowerUpText("Numero de tiros upgrade!");
         gun.GetComponent<FirePoint>().nShots = n;
     }
 

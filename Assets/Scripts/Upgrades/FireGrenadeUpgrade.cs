@@ -10,7 +10,7 @@ public class FireGrenadeUpgrade : MonoBehaviour, IUpgradable
     private float grenadeFireInterval = 5f;
     private int numberOfGrenades = 1;
     private List<GameObject> fireGrenades = new();
-    private int damage = 10;
+    private int damage = 15;
     private Vector3 explosionSize = new(0.6f, 0.6f, 0.6f);
     
     void Start()
@@ -54,16 +54,18 @@ public class FireGrenadeUpgrade : MonoBehaviour, IUpgradable
     {
         level++;
         if (level == 1){ 
-            explosionSize = new Vector3(0.8f, 0.8f, 0.8f); 
+            explosionSize = new Vector3(0.75f, 0.75f, 0.75f); 
         } else if (level == 2){
-            damage = 20;
+            damage += 15;
         } else if (level == 3){
             numberOfGrenades = 3;
         } else if (level == 4){
-            grenadeFireInterval = 2.5f;
+            grenadeFireInterval = 3f;
+            CancelInvoke(nameof(ShootFireGrenade));
+            InvokeRepeating(nameof(ShootFireGrenade), grenadeFireInterval, grenadeFireInterval);
         } else if (level == 5){
             numberOfGrenades = 5;
-            explosionSize = new Vector3(1f, 1f, 1f); 
+            explosionSize = new Vector3(0.95f, 0.95f, 0.95f); 
         }
     }
 }

@@ -7,12 +7,12 @@ public class IceGrenadeUpgrade : MonoBehaviour, IUpgradable
     public GameObject grenadeIcePrefab;
     public GameObject grenadeIceExplosionPrefab;
     public static int level = 0;
-    private float grenadeIceInterval = 4f;
+    private float grenadeIceInterval = 3f;
     private int numberOfGrenades = 1;
     private List<GameObject> iceGrenades = new();
     private int damage = 0;
-    private Vector3 explosionSize = new(0.2f, 0.2f, 0.2f);
-    private float freezeDuration = 1.0f;
+    private Vector3 explosionSize = new(0.35f, 0.35f, 0.35f);
+    private float freezeDuration = 3.0f;
     
     void Start()
     {
@@ -58,15 +58,17 @@ public class IceGrenadeUpgrade : MonoBehaviour, IUpgradable
     {
         level++;
         if (level == 1){ 
-            explosionSize = new Vector3(0.4f, 0.4f, 0.4f); 
+            explosionSize = new Vector3(0.58f, 0.58f, 0.58f); 
         } else if (level == 2){
-            freezeDuration = 2.0f;
+            freezeDuration = 5.0f;
         } else if (level == 3){
-            damage = 60;
+            damage = 65;
         } else if (level == 4){
             numberOfGrenades = 3;
         } else if (level == 5){
-            grenadeIceInterval = 2f; 
+            grenadeIceInterval = 1.3f; 
+            CancelInvoke(nameof(ShootIceGrenade));
+            InvokeRepeating(nameof(ShootIceGrenade), grenadeIceInterval, grenadeIceInterval);
         }
         Debug.Log("Grenade Ice Level up! Level: " + level);
     }
