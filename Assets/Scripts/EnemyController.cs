@@ -24,6 +24,7 @@ public class EnemyController : MonoBehaviour
     public float moveSpeed;
     // Drop orb
     public GameObject orbPrefab;
+    public GameObject weaponUpgradeBoxPrefab;
     private bool isFreezing;
     public void TakeDamage(int damage)
     {
@@ -112,9 +113,17 @@ public class EnemyController : MonoBehaviour
     // Usado no evento da animacao de morrer.
     void FinishedDyingAnimation()
     {
-        var orb = Instantiate(orbPrefab, transform.position, transform.rotation);
-        // Scale xp with enemy health.
-        orb.GetComponent<XpOrbController>().SetXp(max_health / 2);
+        // Se o nome for MiniBoss
+        if (gameObject.name == "MiniBoss")
+        {
+            // Spawn weapon upgrade box
+            Instantiate(weaponUpgradeBoxPrefab, transform.position, transform.rotation);
+        } else {
+            var orb = Instantiate(orbPrefab, transform.position, transform.rotation);
+            // Scale xp with enemy health.
+            orb.GetComponent<XpOrbController>().SetXp(max_health / 2);
+        }
+        
         Destroy(gameObject);
     }
 

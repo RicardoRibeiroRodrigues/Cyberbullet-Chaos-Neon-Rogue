@@ -17,6 +17,7 @@ TagManager:
   - Spawner
   - IceGrenade
   - IceExplosion
+  - WeaponUpgrade
   layers:
   - Default
   - TransparentFX

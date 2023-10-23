@@ -197,6 +197,7 @@ MonoBehaviour:
   xpToNextLevel: 180
   upgrades: []
   shootSound: {fileID: 8300000, guid: b4d1d0ae0cc77d84095d6981a6b1979f, type: 3}
+  hurtSound: {fileID: 8300000, guid: 09d9cb0f6c9e838438522825c05aebbc, type: 3}
 --- !u!70 &2549275909963505249
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -321,7 +322,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

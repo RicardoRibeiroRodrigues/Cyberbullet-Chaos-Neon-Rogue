@@ -12,13 +12,7 @@ public class EnemySpawnerController : MonoBehaviour
         public float delayTime;
        
     }
-
-    // // Echo enemy
-    // public GameObject echoPrefab;
-    // // Titan enemy
-    // public GameObject titanPrefab;
-    // // Punk enemy
-    // public GameObject punkPrefab;
+    // Enemy prefabs
     public enemy[] enemies;
     public GameObject bossPrefab;
     // Spawn delay
@@ -77,8 +71,9 @@ public class EnemySpawnerController : MonoBehaviour
             Debug.Log("Spawn delay: " + spawnDelay);
             CancelInvoke(nameof(SpawnEnemy));
             InvokeRepeating(nameof(SpawnEnemy), spawnDelay, spawnDelay);
-            
             SetupWaveEnemies();
+            // Spawns a mini boss after some time of the wave.
+            Invoke(nameof(SpawnMiniBoss), 45f);
         }
     }
 
@@ -113,5 +108,33 @@ public class EnemySpawnerController : MonoBehaviour
     void SpawnBoss()
     {
         Instantiate(bossPrefab, player.transform.position, Quaternion.identity);
+    }
+
+    void SpawnMiniBoss()
+    {
+        var chosenEnemy = enemies[0];
+        Vector2 spawnPos = player.transform.position;
+        spawnPos += Random.insideUnitCircle.normalized * spawnRadius;
+
+        for (int i = waveNum; i >= 0; i--)
+        {
+            // Exclude the ranged enemy.
+            if (i == 2)
+                continue;
+            // Only spawn enemies that are available in the current wave.
+            var random = Random.value;
+            if (random < enemies[i].chance)
+            {
+                chosenEnemy = enemies[i];
+                break;
+            }
+        }
+   
+        var miniboss = Instantiate(chosenEnemy.prefab, spawnPos, Quaternion.identity);
+        miniboss.transform.localScale *= 3;
+        miniboss.name = "MiniBoss";
+        var controller = miniboss.GetComponent<EnemyController>();
+        controller.health *= 3;
+        controller.damage *= 2;
     }
 }

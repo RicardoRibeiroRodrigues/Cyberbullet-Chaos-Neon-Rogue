@@ -77,15 +77,19 @@ public class GameManager : MonoBehaviour
         var player = Instantiate(players[playerIndex], new Vector3(0, 0, 0), Quaternion.identity);
         player.name = "Player";
         player.GetComponent<PlayerController>().selectedWeaponIndex = selectedWeaponIndex;
-        // REFACTOR: mover armas separadas.
-        // if (selectedUpgradeIndex == 1)
-        // {
-        //     // TODO: setar variaveis da arma do player.
-        //     // Cobalt
-        //     if (playerIndex == 0)
-        //     {
-        //     }
-        // }
+
+        if (selectedUpgradeIndex == 1)
+        {
+            var controller = player.GetComponent<PlayerController>();
+            controller.setNShots(3);
+
+            if (playerIndex == 0)
+            {
+                controller.setSpread(true);
+            } else {
+                controller.SetFireRate(controller.fireRate - 0.1f > 0.1f ? controller.fireRate - 0.1f : 0.1f);
+            }
+        }
         // Set camera to follow player
         Camera.main.GetComponent<CameraController>().SetPlayer(player);
     }
@@ -112,6 +116,11 @@ public class GameManager : MonoBehaviour
     public int GetPlayerCoins()
     {
         return coins;
+    }
+
+    public void AddCoins(int amount)
+    {
+        coins += amount;
     }
 
     public bool SpendCoins(int amount)

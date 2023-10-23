@@ -19,7 +19,6 @@ public class FireDamage : MonoBehaviour
         
         if (collider.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("Enemy take dmg" + damage);
             collider.gameObject.GetComponent<EnemyController>().TakeDamage(damage);
         }
         if (collider.gameObject.CompareTag("RangedEnemy"))

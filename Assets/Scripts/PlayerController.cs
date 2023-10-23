@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     // Sounds
     private AudioSource audioSource;
     public AudioClip shootSound;
+    public AudioClip hurtSound;
     private int selectedUpgradeIndex;
     
     private void Awake()
@@ -98,6 +99,7 @@ public class PlayerController : MonoBehaviour
         if (isDying)
             return;
         
+        audioSource.PlayOneShot(hurtSound);
         health -= damage;
         if (health <= 0)
         {
@@ -110,7 +112,9 @@ public class PlayerController : MonoBehaviour
     // Usado no evento da animacao de morrer.
     void FinishedDyingAnimation()
     {
-        GameManager.Instance.endGame(false, level * 100 - 100);
+        var coins = level * 25 - 100 > 0 ? level * 20 - 100 : 0;
+        GameManager.Instance.AddCoins(coins);
+        GameManager.Instance.endGame(false, coins);
         Destroy(gameObject);
     }
 
@@ -133,12 +137,23 @@ public class PlayerController : MonoBehaviour
 
         // Possiveis upgrades: aqueles com level menor que 5.
         var possibleUpgrades = new List<UpgradeData>();
-        foreach (var upgrade in upgrades)
+        if (playerHasFullUpgradesSlots())
         {
-            if (upgrade.upgradeLevel < 5)
+            foreach (var upgrade in upgrades)
             {
-                possibleUpgrades.Add(upgrade);
-                Debug.Log("Possible upgrade: " + upgrade.UpgradeName);
+                if (upgrade.upgradeLevel < 5 && upgrade.upgradeLevel > 0)
+                {
+                    possibleUpgrades.Add(upgrade);
+                }
+            }
+        } else {
+            foreach (var upgrade in upgrades)
+            {
+                if (upgrade.upgradeLevel < 5)
+                {
+                    possibleUpgrades.Add(upgrade);
+                    Debug.Log("Possible upgrade: " + upgrade.UpgradeName);
+                }
             }
         }
         // Now choose 3 random upgrades from the possible upgrades.
@@ -186,6 +201,19 @@ public class PlayerController : MonoBehaviour
         yield return null;
     }
 
+    bool playerHasFullUpgradesSlots()
+    {
+        var count = 0;
+        foreach (var upgrade in upgrades)
+        {
+            if (upgrade.upgradeLevel > 0)
+            {
+                count++;
+            }
+        }
+        return count == 3;
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("XpOrb"))
@@ -196,6 +224,21 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(LevelUp());
             }
             Destroy(other.gameObject);
+        } else if (other.CompareTag("WeaponUpgrade"))
+        {
+            // Random upgrade from 0 to 2.
+            var randomUpgrade = Random.Range(0, 2);
+            if (randomUpgrade == 0)
+            {
+                SetFireRate(fireRate - 0.1f > 0.1f ? fireRate - 0.1f : 0.1f);
+            } else if (randomUpgrade == 1)
+            {
+                setNShots(gun.GetComponent<FirePoint>().nShots + 1);
+            } else if (randomUpgrade == 2)
+            {
+                // Damage up
+                gun.GetComponent<FirePoint>().gunDamage = (int) (gun.GetComponent<FirePoint>().gunDamage * 1.2);
+            }
         }
     }
 
@@ -203,4 +246,23 @@ public class PlayerController : MonoBehaviour
     {
         selectedUpgradeIndex = index;
     }
+    
+    // Stats upgrades
+    public void SetFireRate(float newFireRate)
+    {
+        fireRate = newFireRate;
+        CancelInvoke(nameof(ShootBullet));
+        InvokeRepeating(nameof(ShootBullet), 0.0f, fireRate);
+    }
+
+    public void setNShots(int n)
+    {
+        gun.GetComponent<FirePoint>().nShots = n;
+    }
+
+    public void setSpread(bool spread)
+    {
+        gun.GetComponent<FirePoint>().spread = spread;
+    }
+
 }

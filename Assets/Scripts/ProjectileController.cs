@@ -10,7 +10,6 @@ public class ProjectileController : MonoBehaviour
     public int damage;
     private Rigidbody2D m_Rigidbody;
     public Vector2 direction;
-    private bool isDamaging = true;
     private int enemiesHit = 0;
     public float freezeDuration;
     void Awake()

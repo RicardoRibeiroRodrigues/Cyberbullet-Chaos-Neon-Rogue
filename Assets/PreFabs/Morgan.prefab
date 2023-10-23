@@ -250,6 +250,7 @@ MonoBehaviour:
     icon: {fileID: 0}
     activeUpgrade: {fileID: 0}
   shootSound: {fileID: 8300000, guid: 64692782353d0c14ab47b80f1391709e, type: 3}
+  hurtSound: {fileID: 8300000, guid: 09d9cb0f6c9e838438522825c05aebbc, type: 3}
 --- !u!70 &5942643773033562116
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

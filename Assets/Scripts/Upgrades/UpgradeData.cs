@@ -8,6 +8,6 @@ public class UpgradeData
     public int upgradeLevel = 0;
     public string[] upgradeDescriptions;
     public int index;
-    public Texture icon;
+    public Sprite icon;
     public GameObject activeUpgrade;
 }

@@ -15,7 +15,6 @@ public class UpgradeSelectUi : MonoBehaviour
             assembleUpgradeCard(upgradeCards[i], upgrades[i]);
         }
     }
-    
 
     void assembleUpgradeCard(GameObject upgradeCard, UpgradeData upgradeData)
     {
@@ -28,7 +27,10 @@ public class UpgradeSelectUi : MonoBehaviour
         // Set upgrade card icon
         var icon = upgradeCard.transform.Find("UpImage");
         // Raw image texture
-        icon.GetComponent<UnityEngine.UI.RawImage>().texture = upgradeData.icon;
+        icon.GetComponent<UnityEngine.UI.Image>().sprite = upgradeData.icon;
+        // Level text
+        var level = upgradeCard.transform.Find("LvlText");
+        level.GetComponent<TextMeshProUGUI>().text = "Level " + upgradeData.upgradeLevel.ToString();
         upgradeCard.SetActive(true);
     }
 
