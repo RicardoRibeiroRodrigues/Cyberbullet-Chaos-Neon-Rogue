@@ -66,6 +66,10 @@ public class PlayerController : MonoBehaviour
     {
         var healthPercent = (float) health / maxHealth * 100;
         var xpPercent = (float) xp / xpToNextLevel;
+        if (level == 17)
+        {
+            xpPercent = 1;
+        }
         hudController.updateHealthValue((int) healthPercent);
         hudController.updateExperienceProgress(xpPercent);
     

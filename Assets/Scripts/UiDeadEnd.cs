@@ -18,11 +18,11 @@ public class UiDeadEnd : MonoBehaviour
         if (hasWin)
         {
             // Title
-            title.GetComponent<TextMeshProUGUI>().text = "You Win!";
+            title.GetComponent<TextMeshProUGUI>().text = "Você venceu!";
         }
         else {
             // Title
-            title.GetComponent<TextMeshProUGUI>().text = "You died, come back stronger!";
+            title.GetComponent<TextMeshProUGUI>().text = "Você morreu, fique mais forte e tente novamente!";
         }
         // Coins
         var coins = transform.Find("CoinsDisplay").transform.Find("CoinsText");
