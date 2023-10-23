@@ -13,6 +13,8 @@ public class RangedEnemyController : MonoBehaviour
 	// Attack mechanic.
 	private bool playerInRange;
 	private bool canAttack;
+    // Can take damage
+    public bool canTakeDamage = true;
     [SerializeField]
     private float attackRange;
     public Transform attackPoint;
@@ -24,9 +26,9 @@ public class RangedEnemyController : MonoBehaviour
     // Xp drop
     private bool isDying;
     public GameObject orbPrefab;
+    public GameObject ExtraLifePrefab;
+    private bool isFreezing;
 
-    
-    // Start is called before the first frame update
     void Awake()
     {
         animator = GetComponent<Animator>();
@@ -38,8 +40,13 @@ public class RangedEnemyController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isDying)
+        if (isDying || player == null)
             return;
+        if (isFreezing) {
+            // Locks the enemy in place x, y and z.
+            m_Rigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+            return;
+        }
         
         var targetPos = player.transform.position;
         // if is already in a certain dist, stop moving
@@ -82,9 +89,15 @@ public class RangedEnemyController : MonoBehaviour
     // Usado no evento da animacao de morrer.
     void FinishedDyingAnimation()
     {
-        var orb = Instantiate(orbPrefab, transform.position, transform.rotation);
-        // Scale xp with enemy health.
-        orb.GetComponent<XpOrbController>().SetXp(max_health / 2);
+        if (Random.Range(0, 100) <= 3)
+        {
+            // Spawn extra life
+            Instantiate(ExtraLifePrefab, transform.position, transform.rotation);
+        } else {
+            var orb = Instantiate(orbPrefab, transform.position, transform.rotation);
+            // Scale xp with enemy health.
+            orb.GetComponent<XpOrbController>().SetXp(max_health / 2);
+        }
         Destroy(gameObject);
     }
 
@@ -106,7 +119,7 @@ public class RangedEnemyController : MonoBehaviour
     public void TakeDamage(int damage)
     {
         // Evita bug de morrer duas vezes.
-        if (isDying)
+        if (isDying || !canTakeDamage)
             return;
         
         health -= damage;
@@ -117,6 +130,14 @@ public class RangedEnemyController : MonoBehaviour
             // Trigger hurt animation
             animator.SetTrigger("Hurt");
         }
+        StartCoroutine(TakeDamageCooldown());
+    }
+
+    IEnumerator TakeDamageCooldown()
+    {
+        canTakeDamage = false;
+        yield return new WaitForSeconds(0.5f);
+        canTakeDamage = true;
     }
 
     void Die()
@@ -127,5 +148,20 @@ public class RangedEnemyController : MonoBehaviour
         animator.SetTrigger("Dying");
         // Disable the enemy
         GetComponent<Collider2D>().enabled = false;
+    }
+
+    public void Freeze(float freezeDuration)
+    {
+        isFreezing = true;
+        GetComponent<SpriteRenderer>().color = new Color(0, 0.5f, 1);
+        StartCoroutine(FreezeDuration(freezeDuration));
+    }
+
+    IEnumerator FreezeDuration(float freezeDuration)
+    {
+        yield return new WaitForSeconds(freezeDuration);
+        isFreezing = false;
+        m_Rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+        GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
     }
 }

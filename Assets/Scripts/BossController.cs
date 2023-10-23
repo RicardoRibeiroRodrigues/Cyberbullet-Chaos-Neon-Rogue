@@ -7,7 +7,7 @@ public class BossController : MonoBehaviour
     
     private GameObject player;
     private Animator animator;
-	public int attackCooldown;
+	public float attackCooldown;
     private Rigidbody2D m_Rigidbody;
     private bool isMoving;
 	// Attack mechanic.
@@ -22,6 +22,14 @@ public class BossController : MonoBehaviour
     public int health;
     public float moveSpeed;
     public float specialAttackCooldown;
+    private bool isFreezing;
+    public int damage;
+    public int specialAttackDamage;
+    private bool isDying;
+    // Special attack
+    public GameObject specialAttackPrefab;
+    public GameObject specialAttackExplosionPrefab;
+    private GameObject specialAttack;
 
     
     // Start is called before the first frame update
@@ -36,6 +44,8 @@ public class BossController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (player == null || isFreezing || isDying)
+            return;
         var targetPos = player.transform.position;
         // if is already in a certain dist, stop moving
         var distance = Vector2.Distance(transform.position, targetPos);
@@ -91,11 +101,74 @@ public class BossController : MonoBehaviour
         direction.Normalize();
         var bullet = Instantiate(projectilePrefab, attackPoint.position, attackPoint.rotation);
         bullet.GetComponent<ProjectileController>().direction = direction;
+        bullet.GetComponent<ProjectileController>().damage = damage;
     }
 
     void SpecialAttack()
     {
         animator.SetTrigger("Special");
         StartCoroutine(SpecialAttackCooldown());
+        Vector2 spawnPos = player.transform.position;
+        spawnPos += Random.insideUnitCircle.normalized * 0.35f;
+        // Shoot at a random position in the screen
+        specialAttack = Instantiate(specialAttackPrefab, spawnPos, Quaternion.identity);
+        specialAttack.transform.localScale = new Vector3(10f, 10f, 10f) * 2;
+        specialAttack.GetComponent<BossSpecial>().damage = specialAttackDamage;
+
+        Invoke(nameof(ShootSpecialExplosion), 1f);
+    }
+
+    void ShootSpecialExplosion()
+    {
+        Vector3 transform_position = specialAttack.transform.position;
+        Quaternion rotation_position = specialAttack.transform.rotation;
+        Vector3 transform_right = specialAttack.transform.right;
+
+        // Actite collider
+        specialAttack.GetComponent<CircleCollider2D>().enabled = true;
+
+        var explosion = Instantiate(specialAttackExplosionPrefab, transform_position, rotation_position);
+        explosion.transform.localScale = new Vector3(1f, 1f, 1f);
+        // Damage, is given in the controller
+        explosion.GetComponent<ProjectileController>().damage = 0;
+
+        Destroy(specialAttack, 0.6f);
+    }
+
+    void FinishedDyingAnimation()
+    {
+        var playerController = player.GetComponent<PlayerController>();
+        GameManager.Instance.AddCoins(playerController.level * 25 + 200);
+        GameManager.Instance.endGame(true, playerController.level * 25 + 200);
+        Destroy(gameObject);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (isDying)
+            return;
+        health -= damage;
+        animator.SetTrigger("Hurt");
+        if (health <= 0)
+        {
+            isDying = true;
+            animator.SetTrigger("Dying");
+            Invoke(nameof(FinishedDyingAnimation), 1.5f);
+        }
+    }
+
+    public void Freeze(float freezeDuration)
+    {
+        isFreezing = true;
+        GetComponent<SpriteRenderer>().color = new Color(0, 0.5f, 1);
+        StartCoroutine(FreezeDuration(freezeDuration));
+    }
+
+    IEnumerator FreezeDuration(float freezeDuration)
+    {
+        yield return new WaitForSeconds(freezeDuration);
+        isFreezing = false;
+        m_Rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+        GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
     }
 }
