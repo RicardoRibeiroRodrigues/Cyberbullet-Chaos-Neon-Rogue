@@ -13,6 +13,11 @@ TagManager:
   - Knife
   - Explosion
   - FireGrenade
+  - World
+  - Spawner
+  - IceGrenade
+  - IceExplosion
+  - WeaponUpgrade
   layers:
   - Default
   - TransparentFX

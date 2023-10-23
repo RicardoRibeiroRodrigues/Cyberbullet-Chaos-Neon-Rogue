@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2003476761057402909
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6482587243300223113}
+  - component: {fileID: 1432352512223765548}
+  m_Layer: 0
+  m_Name: EnemySpawner
+  m_TagString: Spawner
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6482587243300223113
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2003476761057402909}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1432352512223765548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2003476761057402909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e348c55301be1a4d9bc4cda242e8249, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemies:
+  - prefab: {fileID: 8190744854642912107, guid: 23ced515125bca942887c21a5001c727, type: 3}
+    chance: 0.5
+    delayTime: 2
+  - prefab: {fileID: 777861825621062878, guid: a4b870ccd95b95b40a06b98dbad4e554, type: 3}
+    chance: 0.33
+    delayTime: 4
+  - prefab: {fileID: 2271872548250038749, guid: 44a3a2357f8a3b842aab3ebddfb9a766, type: 3}
+    chance: 0.16
+    delayTime: 8
+  - prefab: {fileID: 8779605752328249974, guid: 33eb60b7160e55f49a2d91b29632f2a8, type: 3}
+    chance: 0.065
+    delayTime: 25
+  bossPrefab: {fileID: 2406476338755793067, guid: 7ef013a2b05a0a0419218309e3adec16, type: 3}
+  spawnDelay: 1.4
+  spawnRadius: 10
+  time: 0
+  numEnemies: 15

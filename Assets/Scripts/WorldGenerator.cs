@@ -67,6 +67,8 @@ public class WorldGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (player == null) return;
+        
         var playerPos = player.transform.position;
         var currPlayerTileX = (int)playerPos.x / tileSize;
         var currPlayerTileY = (int)playerPos.y / tileSize;

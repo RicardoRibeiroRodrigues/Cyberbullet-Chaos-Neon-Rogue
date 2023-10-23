@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,19 +10,26 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     private Rigidbody2D m_Rigidbody;
     public GameObject gun;
-    private bool isDying;
+    public int selectedWeaponIndex = 0;
+    public bool isDying = false;
     // Player stats
+    private int maxHealth;
     public int health;
     public float moveSpeed;
     public float fireRate;
+    public float luck;
+    public int damage;
     // Level mechanic
     private int xp;
     public int xpToNextLevel;
     private int level = 1;
     // Upgrade mechanic
-    [SerializeField]
-    private GameObject[] possibleUpgrades;
-    private int[] Upgradelevels;
+    public UpgradeData[] upgrades;
+    // Sounds
+    private AudioSource audioSource;
+    public AudioClip shootSound;
+    public AudioClip hurtSound;
+    private int selectedUpgradeIndex;
     
     private void Awake()
     {
@@ -31,11 +39,13 @@ public class PlayerController : MonoBehaviour
     }
 
     void Start()
-    {   
-        // Para a bala
+    {
+        maxHealth = health;
+        audioSource = GetComponent<AudioSource>();
+        var firepoint = gun.GetComponent<FirePoint>();
+        firepoint.gunDamage = damage; 
+        firepoint.weaponTier = selectedWeaponIndex;
         InvokeRepeating(nameof(ShootBullet), 0.0f, fireRate);
-        // Para o laser
-        // InvokeRepeating(nameof(ShootBullet), 0.0f, 0.25f);
     }
 
     void ShootBullet()
@@ -43,6 +53,7 @@ public class PlayerController : MonoBehaviour
         if (isDying)
             return;
         
+        audioSource.PlayOneShot(shootSound);
         StartCoroutine(gun.GetComponent<FirePoint>().ShootBullet());
     }
 
@@ -90,6 +101,7 @@ public class PlayerController : MonoBehaviour
         if (isDying)
             return;
         
+        audioSource.PlayOneShot(hurtSound);
         health -= damage;
         if (health <= 0)
         {
@@ -97,14 +109,15 @@ public class PlayerController : MonoBehaviour
         }
         // Trigger hurt animation
         animator.SetTrigger("isHurt");
-
     }
 
     // Usado no evento da animacao de morrer.
     void FinishedDyingAnimation()
     {
+        var coins = level * 25 - 100 > 0 ? level * 20 - 100 : 0;
+        GameManager.Instance.AddCoins(coins);
+        GameManager.Instance.endGame(false, coins);
         Destroy(gameObject);
-        // TODO: Logica de terminar o jogo aqui.
     }
 
     void Die()
@@ -114,29 +127,153 @@ public class PlayerController : MonoBehaviour
         animator.SetTrigger("isDead");
         // Disable the player
         GetComponent<Collider2D>().enabled = false;
+        Invoke(nameof(FinishedDyingAnimation), 3f);
     }
 
-    void LevelUp()
+    IEnumerator LevelUp()
     {
+        selectedUpgradeIndex = -1;
         xp = 0;
         xpToNextLevel = (int) (xpToNextLevel * 1.5f);
         level++;
-        Debug.Log("Level up! Level: " + level);
-        // TODO: colocar logica escolher um upgrade aqui.
+        // Level maximo
+        if (level >= 18)
+            yield return null;
 
+        // Possiveis upgrades: aqueles com level menor que 5.
+        var possibleUpgrades = new List<UpgradeData>();
+        if (playerHasFullUpgradesSlots())
+        {
+            foreach (var upgrade in upgrades)
+            {
+                if (upgrade.upgradeLevel < 5 && upgrade.upgradeLevel > 0)
+                {
+                    possibleUpgrades.Add(upgrade);
+                }
+            }
+        } else {
+            foreach (var upgrade in upgrades)
+            {
+                if (upgrade.upgradeLevel < 5)
+                {
+                    possibleUpgrades.Add(upgrade);
+                    Debug.Log("Possible upgrade: " + upgrade.UpgradeName);
+                }
+            }
+        }
+        // Now choose 3 random upgrades from the possible upgrades.
+        var chosenUpgrades = new List<UpgradeData>();
+        if (possibleUpgrades.Count <= 3)
+        {
+            chosenUpgrades = possibleUpgrades;
+        } else {
+            for (int i = 0; i < 3; i++)
+            {
+                // Most be unique.
+                var randomIndex = Random.Range(0, possibleUpgrades.Count);
+                while (chosenUpgrades.Contains(possibleUpgrades[randomIndex]))
+                {
+                    randomIndex = Random.Range(0, possibleUpgrades.Count);
+                }
+                Debug.Log("Random index: " + randomIndex);
+                chosenUpgrades.Add(possibleUpgrades[randomIndex]);
+            }
+        }
+        // Select one of the chosen upgrades.
+        StartCoroutine(GameManager.Instance.SelectItem(chosenUpgrades, this));
+        yield return new WaitUntil(() => selectedUpgradeIndex != -1);
+        var selectedUpgrade = upgrades[selectedUpgradeIndex];
+        selectedUpgrade.upgradeLevel++;
+        // Aplica o upgrade.
+        Debug.Log("Selected upgrade: " + selectedUpgrade.UpgradeName + "With index: " + selectedUpgradeIndex);
+
+        if (selectedUpgrade.upgradeLevel == 1)
+        {
+            var upgrade = Instantiate(selectedUpgrade.UpgradePrefab, transform.position, transform.rotation);
+            // Set upgrade parent to player.
+            upgrade.transform.parent = transform;
+            // Maintain same relative position.
+            upgrade.transform.localPosition = selectedUpgrade.UpgradePrefab.transform.position;
+            selectedUpgrade.activeUpgrade = upgrade;
+        } else {
+            if (selectedUpgrade.activeUpgrade.TryGetComponent(out IUpgradable upgradableObject))
+            {
+                upgradableObject.LevelUp();
+            } else {
+                Debug.Log("Upgrade not found!");
+            }
+        }
+        yield return null;
+    }
+
+    bool playerHasFullUpgradesSlots()
+    {
+        var count = 0;
+        foreach (var upgrade in upgrades)
+        {
+            if (upgrade.upgradeLevel > 0)
+            {
+                count++;
+            }
+        }
+        return count == 3;
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("XpOrb"))
         {
-            xp += other.GetComponent<XpOrbController>().GetXp();
-            Debug.Log("Curr xp: " + xp);
+            xp += (int) luck * other.GetComponent<XpOrbController>().GetXp();
             if (xp >= xpToNextLevel)
             {
-                LevelUp();
+                StartCoroutine(LevelUp());
             }
+            Destroy(other.gameObject);
+        } else if (other.CompareTag("WeaponUpgrade"))
+        {
+            // Random upgrade from 0 to 2.
+            var randomUpgrade = Random.Range(0, 2);
+            if (randomUpgrade == 0)
+            {
+                SetFireRate(fireRate - 0.1f > 0.1f ? fireRate - 0.1f : 0.1f);
+            } else if (randomUpgrade == 1)
+            {
+                setNShots(gun.GetComponent<FirePoint>().nShots + 1);
+            } else if (randomUpgrade == 2)
+            {
+                // Damage up
+                gun.GetComponent<FirePoint>().gunDamage = (int) (gun.GetComponent<FirePoint>().gunDamage * 1.2);
+            }
+            Destroy(other.gameObject);
+        } else if (other.CompareTag("ExtraLife"))
+        {
+            var new_health = health + 0.4f * maxHealth;
+            health = new_health > maxHealth ? maxHealth : (int) new_health;
             Destroy(other.gameObject);
         }
     }
+
+    public void setSelectedUpgrade(int index)
+    {
+        selectedUpgradeIndex = index;
+    }
+    
+    // Stats upgrades
+    public void SetFireRate(float newFireRate)
+    {
+        fireRate = newFireRate;
+        CancelInvoke(nameof(ShootBullet));
+        InvokeRepeating(nameof(ShootBullet), 0.0f, fireRate);
+    }
+
+    public void setNShots(int n)
+    {
+        gun.GetComponent<FirePoint>().nShots = n;
+    }
+
+    public void setSpread(bool spread)
+    {
+        gun.GetComponent<FirePoint>().spread = spread;
+    }
+
 }

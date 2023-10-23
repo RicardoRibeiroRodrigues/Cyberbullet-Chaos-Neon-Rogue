@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
@@ -9,7 +10,8 @@ public class ProjectileController : MonoBehaviour
     public int damage;
     private Rigidbody2D m_Rigidbody;
     public Vector2 direction;
-
+    private int enemiesHit = 0;
+    public float freezeDuration;
     void Awake()
     {
         m_Rigidbody = GetComponent<Rigidbody2D>();
@@ -44,7 +46,39 @@ public class ProjectileController : MonoBehaviour
                 other.GetComponent<RangedEnemyController>().TakeDamage(damage);
                 Destroy(gameObject);
             }
+        } else if (proj_tag == "Knife"){
+            if (other.CompareTag("Enemy"))
+            {
+                other.GetComponent<EnemyController>().TakeDamage(damage);
+            }
+            if (other.CompareTag("RangedEnemy"))
+            {
+                other.GetComponent<RangedEnemyController>().TakeDamage(damage);
+            }
+            if (other.CompareTag("Enemy") || other.CompareTag("RangedEnemy")){
+                enemiesHit++;
+                if (enemiesHit == 2 && KnifeUpgrade.level == 5){
+                    Destroy(gameObject);
+                } else if (KnifeUpgrade.level < 5){
+                    Destroy(gameObject);
+                }
+            }
+        } else if (proj_tag == "IceExplosion")  
+        {
+            if (other.CompareTag("Enemy"))
+            {
+                other.GetComponent<EnemyController>().Freeze(freezeDuration);
+                if (IceGrenadeUpgrade.level >= 3){
+                    other.GetComponent<EnemyController>().TakeDamage(damage);
+                }
+            }
+            if (other.CompareTag("RangedEnemy"))
+            {
+                other.GetComponent<RangedEnemyController>().Freeze(freezeDuration);
+                if (IceGrenadeUpgrade.level >= 3){
+                    other.GetComponent<RangedEnemyController>().TakeDamage(damage);
+                }
+            }
         }
     }
-
 }

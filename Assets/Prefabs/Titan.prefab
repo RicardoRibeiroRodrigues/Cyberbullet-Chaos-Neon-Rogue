@@ -101,13 +101,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7de8f3a7d151bb24495aa2b000c063e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackCooldown: 7
+  attackCooldown: 5
+  canTakeDamage: 1
   attackRange: 4
   attackPoint: {fileID: 5573832691201042968}
   projectilePrefab: {fileID: 77069148546848564, guid: 826d12ff656a34d49b110254b8e4eeb9, type: 3}
   health: 110
   moveSpeed: 2
   orbPrefab: {fileID: 786657971002704895, guid: 5e8df33e0fa3fe845a4de16a9378c60b, type: 3}
+  ExtraLifePrefab: {fileID: 8531065796864618631, guid: 6b45192e7865e64428ed2221e65094f9, type: 3}
 --- !u!95 &6506784050689688797
 Animator:
   serializedVersion: 5
