@@ -91,5 +91,5 @@ This project is MIT licensed. [See more](LICENSE).
     <li>
         Trevor Pupkin. <strong><a href="https://trevor-pupkin.itch.io/tech-dungeon-roguelite">Tech Dungeon: Roguelite</a></strong>
     </li>
-    <li>coffeevalenbat. <strong> <a href="https://coffeevalenbat.itch.io/sweet-sounds-sfx-pack"/> </li>
+    <li>coffeevalenbat. <strong> <a href="https://coffeevalenbat.itch.io/sweet-sounds-sfx-pack"> Player hurt sfx </a></li>
 </ul>
