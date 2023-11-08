@@ -1,51 +1,51 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class BossController : MonoBehaviour
+public class RangedEnemyController : MonoBehaviour, IEnemy
 {
-    
     private GameObject player;
     private Animator animator;
-	public float attackCooldown;
+	public int attackCooldown;
     private Rigidbody2D m_Rigidbody;
     private bool isMoving;
 	// Attack mechanic.
 	private bool playerInRange;
 	private bool canAttack;
-    private bool canUseSpecialAttack;
+    // Can take damage
+    public bool canTakeDamage = true;
     [SerializeField]
     private float attackRange;
     public Transform attackPoint;
     public GameObject projectilePrefab;
     // Enemy stats -> Damage in on enemys projectile
     public int health;
+    private int max_health;
     public float moveSpeed;
-    public float specialAttackCooldown;
+    // Xp drop
+    public bool isDying { get; set; }
+    public GameObject orbPrefab;
+    public GameObject ExtraLifePrefab;
     private bool isFreezing;
-    public int damage;
-    public int specialAttackDamage;
-    private bool isDying;
-    // Special attack
-    public GameObject specialAttackPrefab;
-    public GameObject specialAttackExplosionPrefab;
-    private GameObject specialAttack;
 
-    
-    // Start is called before the first frame update
     void Awake()
     {
         animator = GetComponent<Animator>();
         m_Rigidbody = GetComponent<Rigidbody2D>();
         canAttack = true;
-        canUseSpecialAttack = true;
         player = GameObject.Find("Player");
+        max_health = health;
     }
 
     void FixedUpdate()
     {
-        if (player == null || isFreezing || isDying)
+        if (isDying || player == null)
             return;
+        if (isFreezing) {
+            // Locks the enemy in place x, y and z.
+            m_Rigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+            return;
+        }
+        
         var targetPos = player.transform.position;
         // if is already in a certain dist, stop moving
         var distance = Vector2.Distance(transform.position, targetPos);
@@ -74,10 +74,7 @@ public class BossController : MonoBehaviour
 		if (playerInRange && canAttack)
 		{
             Attack(direction);
-		} else if (playerInRange && canUseSpecialAttack)
-        {
-            SpecialAttack();
-        }
+		}
     }
 
 	IEnumerator AttackCooldown()
@@ -87,75 +84,69 @@ public class BossController : MonoBehaviour
         canAttack = true;
     }
 
-    IEnumerator SpecialAttackCooldown()
+    // Usado no evento da animacao de morrer.
+    void FinishedDyingAnimation()
     {
-        canUseSpecialAttack = false;
-        yield return new WaitForSeconds(specialAttackCooldown);
-        canUseSpecialAttack = true;
+        if (Random.Range(0, 100) <= 3)
+        {
+            // Spawn extra life
+            Instantiate(ExtraLifePrefab, transform.position, transform.rotation);
+        } else {
+            var orb = Instantiate(orbPrefab, transform.position, transform.rotation);
+            // Scale xp with enemy health.
+            orb.GetComponent<XpOrbController>().SetXp(max_health / 2);
+        }
+        // Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
     void Attack(Vector3 direction)
     {
+        var targetY = 0;
+        if (direction.y > 0.5)
+            targetY = 1;
+        else if (direction.y < -0.5)
+            targetY = -1;
+        animator.SetInteger("AttackDir", targetY);
         animator.SetTrigger("Attack");
         StartCoroutine(AttackCooldown());
         direction.Normalize();
         var bullet = Instantiate(projectilePrefab, attackPoint.position, attackPoint.rotation);
         bullet.GetComponent<ProjectileController>().direction = direction;
-        bullet.GetComponent<ProjectileController>().damage = damage;
-    }
-
-    void SpecialAttack()
-    {
-        animator.SetTrigger("Special");
-        StartCoroutine(SpecialAttackCooldown());
-        Vector2 spawnPos = player.transform.position;
-        spawnPos += Random.insideUnitCircle.normalized * 0.35f;
-        // Shoot at a random position in the screen
-        specialAttack = Instantiate(specialAttackPrefab, spawnPos, Quaternion.identity);
-        specialAttack.transform.localScale = new Vector3(10f, 10f, 10f) * 2;
-        specialAttack.GetComponent<BossSpecial>().damage = specialAttackDamage;
-
-        Invoke(nameof(ShootSpecialExplosion), 1f);
-    }
-
-    void ShootSpecialExplosion()
-    {
-        Vector3 transform_position = specialAttack.transform.position;
-        Quaternion rotation_position = specialAttack.transform.rotation;
-        Vector3 transform_right = specialAttack.transform.right;
-
-        // Actite collider
-        specialAttack.GetComponent<CircleCollider2D>().enabled = true;
-
-        var explosion = Instantiate(specialAttackExplosionPrefab, transform_position, rotation_position);
-        explosion.transform.localScale = new Vector3(1f, 1f, 1f);
-        // Damage, is given in the controller
-        explosion.GetComponent<ProjectileController>().damage = 0;
-
-        Destroy(specialAttack, 0.6f);
-    }
-
-    void FinishedDyingAnimation()
-    {
-        var playerController = player.GetComponent<PlayerController>();
-        GameManager.Instance.AddCoins(playerController.level * 25 + 200);
-        GameManager.Instance.endGame(true, playerController.level * 25 + 200);
-        Destroy(gameObject);
     }
 
     public void TakeDamage(int damage)
     {
-        if (isDying)
+        // Evita bug de morrer duas vezes.
+        if (isDying || !canTakeDamage)
             return;
+        
         health -= damage;
-        animator.SetTrigger("Hurt");
         if (health <= 0)
         {
-            GetComponent<AudioSource>().Play();
-            isDying = true;
-            animator.SetTrigger("Dying");
-            Invoke(nameof(FinishedDyingAnimation), 1.5f);
+            Die();
+        } else {
+            // Trigger hurt animation
+            animator.SetTrigger("Hurt");
         }
+        StartCoroutine(TakeDamageCooldown());
+    }
+
+    IEnumerator TakeDamageCooldown()
+    {
+        canTakeDamage = false;
+        yield return new WaitForSeconds(0.5f);
+        canTakeDamage = true;
+    }
+
+    void Die()
+    {
+        m_Rigidbody.velocity = Vector3.zero;
+        isDying = true;
+        // Trigger death animation
+        animator.SetTrigger("Dying");
+        // Disable the enemy
+        GetComponent<Collider2D>().enabled = false;
     }
 
     public void Freeze(float freezeDuration)
@@ -171,5 +162,20 @@ public class BossController : MonoBehaviour
         isFreezing = false;
         m_Rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
+    }
+
+    public void SetPlayer(GameObject player)
+    {
+        this.player = player;
+    }
+
+    // Reset Enemy for pooling
+    public void resetEnemy()
+    {
+        isDying = false;
+        canTakeDamage = true;
+        health = max_health;
+        isFreezing = false;
+        GetComponent<Collider2D>().enabled = true;
     }
 }

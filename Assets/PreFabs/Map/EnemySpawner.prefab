@@ -60,7 +60,7 @@ MonoBehaviour:
     delayTime: 25
   bossPrefab: {fileID: 2406476338755793067, guid: 7ef013a2b05a0a0419218309e3adec16, type: 3}
   spawnDelay: 1.4
-  spawnRadius: 10
+  spawnRadius: 22
   time: 0
   numEnemies: 15
 --- !u!82 &5434266617270820177
