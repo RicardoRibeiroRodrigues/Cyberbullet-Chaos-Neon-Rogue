@@ -26,7 +26,9 @@ public class GameManager : MonoBehaviour
     public GameObject EndGameUiPrefab;
     public GameObject UpgradeUiPrefab;
     private int selectedUpgradeIndex;
+    private GameObject endGameUi;
     // Player coins
+
     private int coins = 0;
 
 
@@ -176,8 +178,9 @@ public class GameManager : MonoBehaviour
     public void endGame(bool won, int coins)
     {
         pauseGame();
+        
         var canvas = GameObject.Find("Canvas");
-        var endGameUi = Instantiate(EndGameUiPrefab, canvas.transform);
+        endGameUi = Instantiate(EndGameUiPrefab, canvas.transform);
         endGameUi.transform.parent = canvas.transform;
         endGameUi.GetComponent<UiDeadEnd>().setUi(won, coins);
     }
