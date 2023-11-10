@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Advertisements;
-public class initializeAds : MonoBehaviour,IUnityAdsInitializationListener
+
+public class initializeAds : MonoBehaviour, IUnityAdsInitializationListener
 {
     public string androidGameId;
     public string iosGameId;
@@ -26,7 +25,7 @@ public class initializeAds : MonoBehaviour,IUnityAdsInitializationListener
         gameId = androidGameId;//for testing
 #endif
 
-        if (!Advertisement.isInitialized&&Advertisement.isSupported)
+        if (!Advertisement.isInitialized && Advertisement.isSupported)
         {
             Advertisement.Initialize(gameId, isTestingMode, this);//ONLY ONCE
         }

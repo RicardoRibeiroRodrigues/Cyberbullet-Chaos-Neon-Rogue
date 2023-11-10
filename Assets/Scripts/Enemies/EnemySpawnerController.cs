@@ -55,7 +55,7 @@ public class EnemySpawnerController : MonoBehaviour
         {
             waveNum = newWave;
             GameManager.Instance.putTenseMusic();
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(1f);
 
             if (newWave > 5) {
                 Debug.Log("Boss wave");
