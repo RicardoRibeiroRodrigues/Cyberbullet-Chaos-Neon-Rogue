@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -75,7 +76,7 @@ public class PlayerController : MonoBehaviour
     
         if (isDying)
             return;
-        
+
         if (Movement != Vector2.zero)
         {
             // Rotate the player to face the direction of movement.
