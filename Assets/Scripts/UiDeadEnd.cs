@@ -35,6 +35,7 @@ public class UiDeadEnd : MonoBehaviour
     {
         if (!doubleCoins)
         {
+            GameManager.Instance.DoublePlayerCoins();
             coinsvar = coinsvar * 2;
             var coins = transform.Find("CoinsDisplay").transform.Find("CoinsText");
             coins.GetComponent<TextMeshProUGUI>().text = "+" + coinsvar.ToString();

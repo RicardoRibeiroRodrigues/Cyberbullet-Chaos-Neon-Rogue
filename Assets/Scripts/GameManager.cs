@@ -215,6 +215,12 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
+    public void DoublePlayerCoins()
+    {
+        coins *= 2;
+    }
+
+
     public void SpawnPowerUpText(string Text)
     {
         var canvas = GameObject.Find("Canvas");
