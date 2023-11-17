@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Diagnostics.Tracing;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -111,6 +110,7 @@ public class EnemyManager : MonoBehaviour
 
     int ExpandPool(int index)
     {
+        Debug.Log("Expanding pool " + index.ToString());
         switch (index)
         {
             case (int)EnemyTypes.Echo:
@@ -128,6 +128,59 @@ public class EnemyManager : MonoBehaviour
             default:
                 return 0;
         }
+    }
+
+
+    public IEnumerator ActivateEnemyBatch(int index, int quantity, GameObject player, float spawnRadius)
+    {
+        GameObject[] pool;
+        switch (index)
+        {
+            case (int)EnemyTypes.Echo:
+                pool = EchoPool;
+                break;
+            case (int)EnemyTypes.Punk:
+                pool = PunkPool;
+                break;
+            case (int)EnemyTypes.Titan:
+                pool = TitanPool;
+                break;
+            case (int)EnemyTypes.Chef:
+                pool = ChefPool;
+                break;
+            default:
+                yield break;
+        }
+        
+        int activated = 0;
+        for (int i = 0; i < pool.Length; i++)
+        {
+            if (!pool[i].activeInHierarchy)
+            {
+                Vector2 spawnPos = player.transform.position;
+                spawnPos += Random.insideUnitCircle.normalized * spawnRadius;
+                var enemy = pool[i];
+                enemy.transform.SetPositionAndRotation(spawnPos, Quaternion.identity);
+                enemy.SetActive(true);
+                enemy.GetComponent<Animator>().enabled = false;
+                if (enemy.TryGetComponent(out IEnemy enemyObject))
+                {
+                    enemyObject.resetEnemy();
+                    enemyObject.SetPlayer(player);
+                }
+                pool[i].SetActive(true);
+                activated++;
+                yield return new WaitForSeconds(0.05f);
+                if (activated >= quantity)
+                {
+                    yield break;
+                }
+            }
+        }
+        // Pool is full, expand it
+        ExpandPool(index);
+        yield return new WaitForSeconds(0.6f);
+        StartCoroutine(ActivateEnemyBatch(index, quantity - activated, player, spawnRadius));
     }
 
 }

@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     public GameObject UpgradeUiPrefab;
     private int selectedUpgradeIndex;
     private GameObject endGameUi;
-    // Player coins
+    private PlayerData playerData;    
 
     private int coins = 0;
 
@@ -43,8 +43,78 @@ public class GameManager : MonoBehaviour
         else
         {
             Destroy(this.gameObject);
+            return;
+        }
+        LoadData();
+    }
+
+    void OnApplicationQuit()
+    {   
+        SaveData();
+    }
+
+    void SaveData()
+    {
+        Debug.Log("Saving data");
+        playerData.coins = coins;
+        playerData.upgradeLevels = UpgradeLevels;
+        int i = 0;
+        var characterStats = new CharacterStats[players.Length];
+        foreach (var player in players)
+        {
+            var charStats = new CharacterStats();
+            var playerController = player.GetComponent<PlayerController>();
+            // Get player stats
+            charStats.health = playerController.health;
+            charStats.luck = playerController.luck;
+            charStats.damage = playerController.damage;
+            charStats.fireRate = playerController.fireRate;
+            charStats.moveSpeed = playerController.moveSpeed;
+            // Save player stats
+            characterStats[i] = charStats;
+            i++;
+        }
+        playerData.characterStats = characterStats;
+        DataManager.Save(playerData);
+    }
+
+    void LoadData()
+    {
+        Debug.Log("Loading data");
+        var res = DataManager.Load();
+        if (res != null)
+        {
+            playerData = res;
+            coins = playerData.coins;
+            UpgradeLevels = playerData.upgradeLevels;
+            for (int i = 0; i < players.Length; i++)
+            {
+                var player = players[i];
+                var playerController = player.GetComponent<PlayerController>();
+                var charStats = playerData.characterStats[i];
+                // Set player stats
+                playerController.health = charStats.health;
+                playerController.luck = charStats.luck;
+                playerController.damage = charStats.damage;
+                playerController.fireRate = charStats.fireRate;
+                playerController.moveSpeed = charStats.moveSpeed;
+            }
+            // EnabledPlayersWeapons = playerData.weaponLevels;
+        } else {
+            playerData = new PlayerData();
         }
     }
+
+     void OnApplicationFocus(bool hasFocus)
+    {
+        if (!hasFocus)
+        {
+            SaveData();
+        } else {
+            LoadData();
+        }
+    }
+
 
     public void pauseGame()
     {
@@ -181,7 +251,7 @@ public class GameManager : MonoBehaviour
         
         var canvas = GameObject.Find("Canvas");
         endGameUi = Instantiate(EndGameUiPrefab, canvas.transform);
-        endGameUi.transform.parent = canvas.transform;
+        endGameUi.transform.SetParent(canvas.transform);
         endGameUi.GetComponent<UiDeadEnd>().setUi(won, coins);
     }
 
