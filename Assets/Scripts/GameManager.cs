@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     public GameObject UpgradeUiPrefab;
     private int selectedUpgradeIndex;
     private GameObject endGameUi;
+    private GameObject player;
     // Player coins
 
     private int coins = 0;
@@ -82,7 +83,7 @@ public class GameManager : MonoBehaviour
 
     void SpawnPlayer()
     {
-        var player = Instantiate(players[playerIndex], new Vector3(0, 0, 0), Quaternion.identity);
+        player = Instantiate(players[playerIndex], new Vector3(0, 0, 0), Quaternion.identity);
         player.name = "Player";
         player.GetComponent<PlayerController>().selectedWeaponIndex = selectedWeaponIndex;
 
@@ -223,5 +224,14 @@ public class GameManager : MonoBehaviour
         upgradeUi.transform.parent = canvas.transform;
         upgradeUi.GetComponent<TextMeshProUGUI>().text = Text;
         Destroy(upgradeUi, 2f);
+    }
+
+    public void RespawnPlayer()
+    {
+        EnemyManager.Instance.DisableAllEnemies();
+        EnemySpawnerController.Instance.RestartWave();
+        player.GetComponent<PlayerController>().revivePlayer();
+        resumeGame();
+        Destroy(endGameUi);
     }
 }

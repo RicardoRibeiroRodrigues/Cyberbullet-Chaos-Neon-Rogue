@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class EnemySpawnerController : MonoBehaviour
 {
+    public static EnemySpawnerController Instance;
     [System.Serializable]
     public class enemy {
         public GameObject prefab;
@@ -21,7 +22,7 @@ public class EnemySpawnerController : MonoBehaviour
     private float spawnRadius;
     // Time
     [SerializeField]
-    private float time;
+    private float time { get; set;}
     // Player reference
     private GameObject player;
     // Wave mechanics
@@ -150,5 +151,11 @@ public class EnemySpawnerController : MonoBehaviour
         var controller = miniboss.GetComponent<EnemyController>();
         controller.health = (int) (controller.health * 3.5);
         controller.damage *= 2;
+    }
+
+    public void RestartWave()
+    {
+        waveNum--;
+        time -= 60 * 2;
     }
 }

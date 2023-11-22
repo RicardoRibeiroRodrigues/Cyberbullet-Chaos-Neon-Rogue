@@ -136,7 +136,7 @@ public class PlayerController : MonoBehaviour
         var coins = level * 25 - 25 > 0 ? level * 20 - 25 : 0;
         GameManager.Instance.AddCoins(coins);
         GameManager.Instance.endGame(false, coins);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
     void Die()
@@ -306,4 +306,10 @@ public class PlayerController : MonoBehaviour
         gun.GetComponent<FirePoint>().spread = spread;
     }
 
+    public void revivePlayer()
+    {
+        health = maxHealth;
+        isDying = false;
+        gameObject.SetActive(true);
+    }
 }

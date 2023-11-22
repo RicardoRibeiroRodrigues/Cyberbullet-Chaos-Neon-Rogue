@@ -130,4 +130,24 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    public void DisableAllEnemies()
+    {
+        foreach (var enemy in EchoPool)
+        {
+            enemy.SetActive(false);
+        }
+        foreach (var enemy in PunkPool)
+        {
+            enemy.SetActive(false);
+        }
+        foreach (var enemy in TitanPool)
+        {
+            enemy.SetActive(false);
+        }
+        foreach (var enemy in ChefPool)
+        {
+            enemy.SetActive(false);
+        }
+    }
+
 }

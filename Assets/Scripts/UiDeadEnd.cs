@@ -7,6 +7,7 @@ public class UiDeadEnd : MonoBehaviour
     public AudioClip clickSound;
     public int coinsvar = 0;
     public bool doubleCoins = false;
+    public bool revivead = false;
 
     void Start()
     {
@@ -29,6 +30,20 @@ public class UiDeadEnd : MonoBehaviour
         coinsvar = coinsEarned;
         var coins = transform.Find("CoinsDisplay").transform.Find("CoinsText");
         coins.GetComponent<TextMeshProUGUI>().text = "+" + coinsEarned.ToString();
+    }
+
+    public void ReviveCharacter()
+    {
+        if (!revivead) 
+        {
+            // Chama o método de respawn
+            GameManager.Instance.RespawnPlayer();
+            revivead = true;
+            // Desativa o botão de reviver após a primeira revivida
+            transform.Find("ReviveAd").gameObject.SetActive(false);
+            // Ativa o botão de dobrar moedas
+            transform.Find("RewardedAd").gameObject.SetActive(true);
+        }
     }
 
     public void DoubleCoins()
