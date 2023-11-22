@@ -7,7 +7,6 @@ public class MainMenuController : MonoBehaviour
     public state State = state.HomeScreen;
     public GameObject Camera;
     public float CameraSmoothTime = 1.0f;
-    public Canvas canvas;
     public GameObject Character1;
     public GameObject Character1Weapons;
     public GameObject Character2;
@@ -31,7 +30,9 @@ public class MainMenuController : MonoBehaviour
     public AudioClip errorSound;
     public AudioClip primaryButtonSound;
     private int ActiveCharacterIndex = 0;
+    public GameObject StatsIndicator;
     public GameObject LevelIndicator;
+    public GameObject LevelUpCostText;
 
     public enum state
     {
@@ -82,21 +83,21 @@ public class MainMenuController : MonoBehaviour
         {
             case 0:
                 ActiveCharacterController = Character1.GetComponent<MainMenuCharacterController>();
-                cursorPositionY = 2.98f;
+                cursorPositionY = 3.0f;
                 Character1Weapons.SetActive(true);
                 WeaponPurchaseButton.SetActive(true);
                 WeaponPrice = 100;
                 break;
             case 1:
                 ActiveCharacterController = Character2.GetComponent<MainMenuCharacterController>();
-                cursorPositionY = -0.08f;
+                cursorPositionY = -0.0f;
                 Character2Weapons.SetActive(true);
                 WeaponPurchaseButton.SetActive(true);
                 WeaponPrice = 150;
                 break;
             case 2:
                 ActiveCharacterController = Character3.GetComponent<MainMenuCharacterController>();
-                cursorPositionY = -3.08f;
+                cursorPositionY = -3.0f;
                 Character3Weapons.SetActive(true);
                 WeaponPurchaseButton.SetActive(true);
                 WeaponPrice = 200;
@@ -118,10 +119,13 @@ public class MainMenuController : MonoBehaviour
         switch (weaponIndex)
         {
             case 0:
-                cursorPositionY = 1.985f;
+                cursorPositionY = 3.0f;
                 break;
             case 1:
-                cursorPositionY = -2.015f;
+                cursorPositionY = -0.0f;
+                break;
+            case 2:
+                cursorPositionY = -3.0f;
                 break;
         }
 
@@ -158,16 +162,30 @@ public class MainMenuController : MonoBehaviour
         UpdateMoneyIndicator();
         UpdateLevelIndicatorValue(GameManager.Instance.GetUpgradeLevel());
         UpdateLevelButtonValue(GameManager.Instance.GetUpgradePrice());
+        UpdatePlayerStatsBoardText();
     }
 
     public void UpdateLevelIndicatorValue(int value)
     {
-        LevelIndicator.GetComponentInChildren<TextMeshProUGUI>().text = "Level " + value.ToString();
+        LevelIndicator.GetComponentInChildren<TextMeshProUGUI>().text = "Nível " + value.ToString();
+    }
+
+    public void UpdatePlayerStatsBoardText()
+    {
+        GameObject player = GameManager.Instance.players[ActiveCharacterIndex];
+        PlayerController playerController = player.GetComponent<PlayerController>();
+        string health = "Vida: " + playerController.health.ToString();
+        string damage = "Dano: " + playerController.damage.ToString();
+        string speed = "Velocidade: " + playerController.moveSpeed.ToString("F1") + "x";
+        string fireRate = "Fire Rate: " + (1 / playerController.fireRate).ToString("F1") + "/s";
+        string luck = "Sorte: " + playerController.luck.ToString("F1") + "x";
+
+        StatsIndicator.GetComponent<TextMeshProUGUI>().text = health + "\n\n" + damage + "\n\n" + speed + "\n\n" + fireRate + "\n\n" + luck;
     }
 
     public void UpdateLevelButtonValue(int value)
     {
-        LevelIndicator.GetComponentInChildren<Button>().GetComponentInChildren<TextMeshProUGUI>().text = "$ " + value;
+        LevelUpCostText.GetComponent<TextMeshProUGUI>().text = "$ " + value;
     }
 
     public void UpdateMoneyIndicator()
@@ -203,13 +221,15 @@ public class MainMenuController : MonoBehaviour
 
     void HandleCharacterScreen()
     {
-        CameraTarget = new Vector3(16, 0, -10);
-        ActiveCharacterController.Target.x = 11;
+        CameraTarget = new Vector3(21, 0, -10);
+        ActiveCharacterController.Target.x = 14;
     }
 
     void HandleWeaponScreen()
     {
-        CameraTarget = new Vector3(32, 0, -10);
-        ActiveCharacterController.Target.x = 30;
+        CameraTarget = new Vector3(42, 0, -10);
+        ActiveCharacterController.Target.x = 43;
+
+        UpdatePlayerStatsBoardText();
     }
 }
