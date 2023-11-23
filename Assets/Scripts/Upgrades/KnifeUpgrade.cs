@@ -22,7 +22,6 @@ public class KnifeUpgrade : MonoBehaviour, IUpgradable
 
     void Attack()
     {
-        Debug.Log("Shoot Knifes");
         StartCoroutine(ShootKnifes());
     }
 

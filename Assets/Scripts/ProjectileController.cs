@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
@@ -29,8 +26,6 @@ public class ProjectileController : MonoBehaviour
         var proj_tag = gameObject.tag;
         if (proj_tag == "EnemyBullet")
         {
-            Debug.Log("Enemy shot" + tag);
-            Debug.Log("Hit" + other.tag);
             if (other.CompareTag("Player"))
             {
                 other.GetComponent<PlayerController>().TakeDamage(damage);
@@ -38,34 +33,16 @@ public class ProjectileController : MonoBehaviour
             }
         } else if (proj_tag == "PlayerBullet")
         {
-            if (other.CompareTag("Enemy"))
+            if (other.CompareTag("Enemy") || other.CompareTag("RangedEnemy") || other.CompareTag("Boss"))
             {
-                other.GetComponent<EnemyController>().TakeDamage(damage);
-                Destroy(gameObject);
-            }
-            if (other.CompareTag("RangedEnemy"))
-            {
-                other.GetComponent<RangedEnemyController>().TakeDamage(damage);
-                Destroy(gameObject);
-            }
-            if (other.CompareTag("Boss"))
-            {
-                other.GetComponent<BossController>().TakeDamage(damage);
+                // TakeDamage on IEnemy interface
+                other.GetComponent<IEnemy>().TakeDamage(damage);
                 Destroy(gameObject);
             }
         } else if (proj_tag == "Knife"){
-            if (other.CompareTag("Enemy"))
+            if (other.CompareTag("Enemy") || other.CompareTag("RangedEnemy") || other.CompareTag("Boss"))
             {
-                other.GetComponent<EnemyController>().TakeDamage(damage);
-            }
-            if (other.CompareTag("RangedEnemy"))
-            {
-                other.GetComponent<RangedEnemyController>().TakeDamage(damage);
-            }
-            if (other.CompareTag("Boss"))
-            {
-                other.GetComponent<BossController>().TakeDamage(damage);
-                Destroy(gameObject);
+                other.GetComponent<IEnemy>().TakeDamage(damage);
             }
             if (other.CompareTag("Enemy") || other.CompareTag("RangedEnemy") || other.CompareTag("Boss")){
                 enemiesHit++;
@@ -77,37 +54,17 @@ public class ProjectileController : MonoBehaviour
             }
         } else if (proj_tag == "IceExplosion")  
         {
-            if (other.CompareTag("Enemy"))
+            if (other.CompareTag("Enemy") || other.CompareTag("RangedEnemy") || other.CompareTag("Boss"))
             {
-                other.GetComponent<EnemyController>().Freeze(freezeDuration);
+                other.GetComponent<IEnemy>().Freeze(freezeDuration);
                 if (IceGrenadeUpgrade.level >= 3){
-                    other.GetComponent<EnemyController>().TakeDamage(damage);
-                }
-            }
-            if (other.CompareTag("RangedEnemy"))
-            {
-                other.GetComponent<RangedEnemyController>().Freeze(freezeDuration);
-                if (IceGrenadeUpgrade.level >= 3){
-                    other.GetComponent<RangedEnemyController>().TakeDamage(damage);
-                }
-            }
-            if (other.CompareTag("Boss"))
-            {
-                other.GetComponent<BossController>().Freeze(freezeDuration);
-                if (IceGrenadeUpgrade.level >= 3){
-                    other.GetComponent<BossController>().TakeDamage(damage);
+                    other.GetComponent<IEnemy>().TakeDamage(damage);
                 }
             }
         } else if (proj_tag == "Explosion") {
-            if (other.CompareTag("Enemy"))
+            if (other.CompareTag("Enemy") || other.CompareTag("RangedEnemy") || other.CompareTag("Boss"))
             {
-                other.GetComponent<EnemyController>().TakeDamage(damage);
-            } else if (other.CompareTag("RangedEnemy"))
-            {
-                other.GetComponent<RangedEnemyController>().TakeDamage(damage);
-            } else if (other.CompareTag("Boss"))
-            {
-                other.GetComponent<BossController>().TakeDamage(damage);
+                other.GetComponent<IEnemy>().TakeDamage(damage);
             }
         }
     }

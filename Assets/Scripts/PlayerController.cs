@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,6 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     private bool isMoving;
     public Vector2 Movement;
+    private Joystick movementJoystick;
     private Animator animator;
     private Rigidbody2D m_Rigidbody;
     public GameObject gun;
@@ -51,6 +53,11 @@ public class PlayerController : MonoBehaviour
         firepoint.gunDamage = damage; 
         firepoint.weaponTier = selectedWeaponIndex;
         InvokeRepeating(nameof(ShootBullet), 0.0f, fireRate);
+        GameObject floatingJoystick = GameObject.FindWithTag("Joystick");
+        if(floatingJoystick != null)
+        {
+            movementJoystick = floatingJoystick.GetComponent<Joystick>();
+        }
     }
 
     void ShootBullet()
@@ -75,7 +82,15 @@ public class PlayerController : MonoBehaviour
     
         if (isDying)
             return;
-        
+
+        if(movementJoystick.Direction.y != 0)
+        {
+            Movement = new Vector2(movementJoystick.Direction.x * moveSpeed, movementJoystick.Direction.y * moveSpeed);
+        } else
+        {
+            Movement = Vector2.zero;
+        }
+
         if (Movement != Vector2.zero)
         {
             // Rotate the player to face the direction of movement.
@@ -99,12 +114,7 @@ public class PlayerController : MonoBehaviour
         }
         animator.SetBool("isMoving", isMoving);
     }
-
-    void OnMove(InputValue value)
-    {
-        Movement = value.Get<Vector2>();
-    }
-
+    
     public void TakeDamage(int damage)
     {
         if (isDying)

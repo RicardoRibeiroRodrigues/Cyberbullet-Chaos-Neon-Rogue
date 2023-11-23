@@ -25,7 +25,6 @@ public class MissileUpgrade : MonoBehaviour, IUpgradable
     {
         for (int i = 0; i < nFires; i++)
         {
-            Debug.Log("Shoot Missile");
             // Shoot at a direction
             var angle = Quaternion.Euler(0, 0, Random.Range(0, 360));
             float anguloZ = angle.eulerAngles.z;

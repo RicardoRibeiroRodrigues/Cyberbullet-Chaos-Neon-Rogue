@@ -44,7 +44,6 @@ public class IceGrenadeUpgrade : MonoBehaviour, IUpgradable
     {
         for (int i = 0; i < numberOfGrenades; i++)
         {
-            Debug.Log("Shoot Ice Grenade level: " + level);
             var angle = Quaternion.Euler(0, 0, Random.Range(0, 360));
             var direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0);
             GameObject IceGrenade = Instantiate(grenadeIcePrefab, transform.position, angle);

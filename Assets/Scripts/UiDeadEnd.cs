@@ -5,7 +5,8 @@ public class UiDeadEnd : MonoBehaviour
 {
     private AudioSource audioSource;
     public AudioClip clickSound;
-
+    public int coinsvar = 0;
+    public bool doubleCoins = false;
 
     void Start()
     {
@@ -25,8 +26,21 @@ public class UiDeadEnd : MonoBehaviour
             title.GetComponent<TextMeshProUGUI>().text = "Você morreu, fique mais forte e tente novamente!";
         }
         // Coins
+        coinsvar = coinsEarned;
         var coins = transform.Find("CoinsDisplay").transform.Find("CoinsText");
         coins.GetComponent<TextMeshProUGUI>().text = "+" + coinsEarned.ToString();
+    }
+
+    public void DoubleCoins()
+    {
+        if (!doubleCoins)
+        {
+            coinsvar = coinsvar * 2;
+            var coins = transform.Find("CoinsDisplay").transform.Find("CoinsText");
+            coins.GetComponent<TextMeshProUGUI>().text = "+" + coinsvar.ToString();
+            doubleCoins = true;
+            transform.Find("RewardedAd").gameObject.SetActive(false);
+        }
     }
 
     public void RestartGame()

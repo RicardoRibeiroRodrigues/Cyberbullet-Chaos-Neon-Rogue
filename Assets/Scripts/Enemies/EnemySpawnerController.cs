@@ -1,13 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemySpawnerController : MonoBehaviour
 {
     [System.Serializable]
     public class enemy {
-       
         public GameObject prefab;
         public float chance;
         public float delayTime;
@@ -58,7 +55,6 @@ public class EnemySpawnerController : MonoBehaviour
         {
             waveNum = newWave;
             GameManager.Instance.putTenseMusic();
-            yield return new WaitForSeconds(5f);
 
             if (newWave > 5) {
                 Debug.Log("Boss wave");
@@ -73,39 +69,68 @@ public class EnemySpawnerController : MonoBehaviour
             Debug.Log("Spawn delay: " + spawnDelay);
             CancelInvoke(nameof(SpawnEnemy));
             InvokeRepeating(nameof(SpawnEnemy), spawnDelay, spawnDelay);
-            SetupWaveEnemies();
+            StartCoroutine(SetupWaveEnemies());
             // Spawns a mini boss after some time of the wave.
             Invoke(nameof(SpawnMiniBoss), 45f);
         }
     }
 
-    void SetupWaveEnemies()
+    IEnumerator SetupWaveEnemies()
     {
-        for (int i = 0; i < numEnemies * (waveNum+1); i++)
+        var EnemiesDict = new Hashtable();
+        for (int i = 0; i < numEnemies * (waveNum + 1); i++)
         {
-            SpawnEnemy();
+            var enemyIndex = selectEnemy();
+            if (!EnemiesDict.ContainsKey(enemyIndex))
+            {
+                EnemiesDict.Add(enemyIndex, 1);
+            }
+            else {
+                EnemiesDict[enemyIndex] = (int) EnemiesDict[enemyIndex] + 1;
+            }
+            yield return new WaitForSeconds(0.06f);
+        }
+
+        foreach (DictionaryEntry entry in EnemiesDict)
+        {
+            var enemyIndex = (int) entry.Key;
+            var enemyCount = (int) entry.Value;
+            StartCoroutine(EnemyManager.Instance.ActivateEnemyBatch(enemyIndex, enemyCount, player, spawnRadius));
         }
     }
 
-    void SpawnEnemy()
+    int selectEnemy()
     {
-        var chosenEnemy = enemies[0];
-        Vector2 spawnPos = player.transform.position;
-        spawnPos += Random.insideUnitCircle.normalized * spawnRadius;
-
-        var startIndex = waveNum > 3 ? 3 : waveNum;
+        var startIndex = waveNum > enemies.Length ? enemies.Length : waveNum;
         for (int i = startIndex; i >= 0; i--)
         {
             // Only spawn enemies that are available in the current wave.
             var random = Random.value;
             if (random < enemies[i].chance)
             {
-                chosenEnemy = enemies[i];
-                break;
+                return i;
             }
         }
+        return 0;
+    }
+
+    void SpawnEnemy()
+    {
+        Vector2 spawnPos = player.transform.position;
+        spawnPos += Random.insideUnitCircle.normalized * spawnRadius;
+
+        var i = selectEnemy();
    
-        Instantiate(chosenEnemy.prefab, spawnPos, Quaternion.identity);
+        // Instantiate(chosenEnemy.prefab, spawnPos, Quaternion.identity);
+        var enemy = EnemyManager.Instance.GetPooledObject(i);
+        enemy.transform.SetPositionAndRotation(spawnPos, Quaternion.identity);
+        enemy.SetActive(true);
+        enemy.GetComponent<Animator>().enabled = false;
+        if (enemy.TryGetComponent(out IEnemy enemyObject))
+        {
+            enemyObject.resetEnemy();
+            enemyObject.SetPlayer(player);
+        }
     }
 
     void SpawnBoss()
@@ -117,10 +142,11 @@ public class EnemySpawnerController : MonoBehaviour
 
     void SpawnMiniBoss()
     {
-        GetComponent<AudioSource>().Play();
         var chosenEnemy = enemies[0];
         Vector2 spawnPos = player.transform.position;
         spawnPos += Random.insideUnitCircle.normalized * spawnRadius;
+        transform.position = spawnPos;
+        GetComponent<AudioSource>().Play();
 
         var startIndex = waveNum > 3 ? 3 : waveNum;
         for (int i = startIndex; i >= 0; i--)
