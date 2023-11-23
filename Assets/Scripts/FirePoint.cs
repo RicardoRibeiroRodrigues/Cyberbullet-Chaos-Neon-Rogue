@@ -1,9 +1,9 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class FirePoint : MonoBehaviour
 {
-    private Vector3 mousePosition;
     public GameObject[] bulletPrefab;
     public int gunDamage;
     public int nShots = 1;
@@ -13,8 +13,7 @@ public class FirePoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GameObject[] enemies = FindEnemies();
-        GameObject closest = FindClosestEnemy(enemies);
+        GameObject closest = FindClosestEnemy(PlayerRange.enemiesInRange);
         if (closest != null)
         {
             transform.rotation = Quaternion.LookRotation(Vector3.forward, closest.transform.position - transform.position) * Quaternion.Euler(0, 0, 90f);
@@ -26,7 +25,7 @@ public class FirePoint : MonoBehaviour
         nShots = n;
     }
 
-    GameObject FindClosestEnemy(GameObject[] enemies)
+    GameObject FindClosestEnemy(List<GameObject> enemies)
     {
         GameObject closest = null;
         float distance = Mathf.Infinity;
@@ -44,17 +43,6 @@ public class FirePoint : MonoBehaviour
         return closest;
     }
 
-    GameObject[] FindEnemies()
-    {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        GameObject[] bosses = GameObject.FindGameObjectsWithTag("Boss");
-        GameObject[] rangedEnemies = GameObject.FindGameObjectsWithTag("RangedEnemy");
-        GameObject[] allEnemies = new GameObject[enemies.Length + bosses.Length + rangedEnemies.Length];
-        enemies.CopyTo(allEnemies, 0);
-        bosses.CopyTo(allEnemies, enemies.Length);
-        rangedEnemies.CopyTo(allEnemies, enemies.Length + bosses.Length);
-        return allEnemies;
-    }
     public IEnumerator ShootBullet()
     {
         if (spread)
