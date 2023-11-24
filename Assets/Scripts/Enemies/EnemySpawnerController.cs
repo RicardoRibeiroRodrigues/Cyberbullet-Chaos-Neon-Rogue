@@ -101,7 +101,7 @@ public class EnemySpawnerController : MonoBehaviour
 
     int selectEnemy()
     {
-        var startIndex = waveNum > enemies.Length ? enemies.Length : waveNum;
+        var startIndex = waveNum >= enemies.Length ? enemies.Length - 1 : waveNum;
         for (int i = startIndex; i >= 0; i--)
         {
             // Only spawn enemies that are available in the current wave.
