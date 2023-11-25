@@ -124,6 +124,7 @@ public class PlayerController : MonoBehaviour
         health -= damage;
         if (health <= 0)
         {
+            Debug.Log("Morreu");
             Die();
         }
         // Trigger hurt animation
@@ -133,14 +134,17 @@ public class PlayerController : MonoBehaviour
     // Usado no evento da animacao de morrer.
     void FinishedDyingAnimation()
     {
+        Debug.Log("Finished dying animation");
         var coins = level * 25 - 25 > 0 ? level * 20 - 25 : 0;
         GameManager.Instance.AddCoins(coins);
         GameManager.Instance.endGame(false, coins);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+        CancelInvoke(nameof(FinishedDyingAnimation));
     }
 
     void Die()
     {
+        Debug.Log("Player died");
         GetComponent<AudioSource>().Play();
         isDying = true;
         // Trigger death animation
@@ -306,4 +310,13 @@ public class PlayerController : MonoBehaviour
         gun.GetComponent<FirePoint>().spread = spread;
     }
 
+    public void revivePlayer()
+    {
+        Debug.Log("Player revive");
+        health = maxHealth;
+        gameObject.SetActive(true);
+        isDying = false;
+        GetComponent<Collider2D>().enabled = true;
+        Camera.main.GetComponent<CameraController>().SetPlayer(gameObject);
+    }
 }

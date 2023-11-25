@@ -8,6 +8,7 @@ public class loadRewarded : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowL
     public string androidAdUnitId;
     public string iosAdUnitId;
 
+    public GameObject endGameScreen;
     string adUnitId;
 
     void Awake()
@@ -55,10 +56,14 @@ public class loadRewarded : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowL
 
     public void OnUnityAdsShowComplete(string placementId, UnityAdsShowCompletionState showCompletionState)
     {
-        if (placementId.Equals(adUnitId)&&showCompletionState.Equals(UnityAdsCompletionState.COMPLETED))
-        {
-            print("Rewarded show complete , Distribute the rewards");
+        print("Rewarded show complete");
+        if (UiDeadEnd.revivead == false){
+            Debug.Log("revive ads");
+            GameObject.FindWithTag("EndGameScreen").GetComponent<UiDeadEnd>().ReviveCharacter();   
+        }else if (UiDeadEnd.doubleCoins == false){
+            GameObject.FindWithTag("EndGameScreen").GetComponent<UiDeadEnd>().DoubleCoins();
         }
+             
     }
 
     public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message)

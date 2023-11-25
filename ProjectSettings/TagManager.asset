@@ -23,6 +23,7 @@ TagManager:
   - ExtraLife
   - Boss
   - Joystick
+  - EndGameScreen
   layers:
   - Default
   - TransparentFX
