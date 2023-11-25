@@ -147,7 +147,7 @@ public class EnemyManager : MonoBehaviour
         GameObject[] enemies = FindEnemies();
         foreach (var enemy in enemies)
         {
-//             Destroy(enemy);
+            enemy.SetActive(false);
         }
     }
 

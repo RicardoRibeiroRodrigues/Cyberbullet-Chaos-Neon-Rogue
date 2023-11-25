@@ -22,7 +22,7 @@ public class EnemySpawnerController : MonoBehaviour
     private float spawnRadius;
     // Time
     [SerializeField]
-    private float time { get; set;}
+    private float time;
     // Player reference
     private GameObject player;
     // Wave mechanics
@@ -174,7 +174,6 @@ public class EnemySpawnerController : MonoBehaviour
 
     public void RestartWave()
     {
-        waveNum--;
-        time -= 60 * 2;
+        time = waveNum * 60 * 2;
     }
 }

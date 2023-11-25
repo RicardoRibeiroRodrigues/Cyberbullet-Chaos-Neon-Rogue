@@ -136,7 +136,6 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Finished dying animation");
         var coins = level * 25 - 25 > 0 ? level * 20 - 25 : 0;
-        GameManager.Instance.AddCoins(coins);
         GameManager.Instance.endGame(false, coins);
         gameObject.SetActive(false);
         CancelInvoke(nameof(FinishedDyingAnimation));

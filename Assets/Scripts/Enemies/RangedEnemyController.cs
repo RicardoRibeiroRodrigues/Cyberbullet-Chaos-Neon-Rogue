@@ -91,6 +91,9 @@ public class RangedEnemyController : MonoBehaviour, IEnemy
     // Usado no evento da animacao de morrer.
     void FinishedDyingAnimation()
     {
+        if (!gameObject.activeInHierarchy)
+            return;
+        
         if (Random.Range(0, 100) <= 3)
         {
             // Spawn extra life

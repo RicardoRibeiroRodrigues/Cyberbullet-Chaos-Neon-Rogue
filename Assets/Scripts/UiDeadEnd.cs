@@ -48,20 +48,18 @@ public class UiDeadEnd : MonoBehaviour
         coinsvar = coinsEarned;
         var coins = transform.Find("CoinsDisplay").transform.Find("CoinsText");
         coins.GetComponent<TextMeshProUGUI>().text = "+" + coinsEarned.ToString();
-
-
     }
 
     public void ReviveCharacter()
     {
         if (!revivead) 
         {
+            audioSource.PlayOneShot(clickSound);
             // Chama o método de respawn
             GameManager.Instance.RespawnPlayer();
             revivead = true;
             Debug.Log("Revive ad");
             // Desativa o botão de reviver após a primeira revivida
-
         }
     }
 
@@ -69,7 +67,7 @@ public class UiDeadEnd : MonoBehaviour
     {
         if (!doubleCoins)
         {
-            GameManager.Instance.AddCoins(coinsvar);
+            audioSource.PlayOneShot(clickSound);
             coinsvar = coinsvar * 2;
             var coins = transform.Find("CoinsDisplay").transform.Find("CoinsText");
             coins.GetComponent<TextMeshProUGUI>().text = "+" + coinsvar.ToString();
@@ -82,6 +80,7 @@ public class UiDeadEnd : MonoBehaviour
     {
         revivead = false;
         doubleCoins = false;
+        GameManager.Instance.AddCoins(coinsvar);
         audioSource.PlayOneShot(clickSound);
         GameManager.Instance.StartGame();
     } 
@@ -90,6 +89,7 @@ public class UiDeadEnd : MonoBehaviour
     {
         revivead = false;
         doubleCoins = false;
+        GameManager.Instance.AddCoins(coinsvar);
         audioSource.PlayOneShot(clickSound);
         GameManager.Instance.GoToMainMenu();
     }

@@ -143,7 +143,6 @@ public class BossController : MonoBehaviour, IEnemy
     void FinishedDyingAnimation()
     {
         var playerController = player.GetComponent<PlayerController>();
-        GameManager.Instance.AddCoins(playerController.level * 25 + 200);
         GameManager.Instance.endGame(true, playerController.level * 25 + 200);
         Destroy(gameObject);
     }

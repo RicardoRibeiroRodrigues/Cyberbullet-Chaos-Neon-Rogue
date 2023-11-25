@@ -251,8 +251,6 @@ public class GameManager : MonoBehaviour
     public void endGame(bool won, int coins)
     {
         Debug.Log("End game");
-      
-        
         var canvas = GameObject.Find("Canvas");
         endGameUi = Instantiate(EndGameUiPrefab, canvas.transform);
         endGameUi.transform.SetParent(canvas.transform);

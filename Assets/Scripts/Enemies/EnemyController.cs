@@ -116,11 +116,15 @@ public class EnemyController : MonoBehaviour, IEnemy
     // Usado no evento da animacao de morrer.
     void FinishedDyingAnimation()
     {
+        if (!gameObject.activeInHierarchy)
+            return;
+        
         // Se o nome for MiniBoss
         if (gameObject.name == "MiniBoss")
         {
             // Spawn weapon upgrade box
             Instantiate(weaponUpgradeBoxPrefab, transform.position, transform.rotation);
+            Destroy(gameObject);
         } else if (Random.Range(0, 100) <= 3)
         {
             // Spawn extra life
