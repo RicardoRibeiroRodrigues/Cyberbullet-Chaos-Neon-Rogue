@@ -21,11 +21,13 @@ public class RangedEnemyController : MonoBehaviour, IEnemy
     public int health;
     private int max_health;
     public float moveSpeed;
+    private float normalSpeed;
     // Xp drop
     public bool isDying { get; set; }
     public GameObject orbPrefab;
     public GameObject ExtraLifePrefab;
     private bool isFreezing;
+    public bool offScreen { get; set; } = true;
 
     void Awake()
     {
@@ -34,6 +36,7 @@ public class RangedEnemyController : MonoBehaviour, IEnemy
         canAttack = true;
         player = GameObject.Find("Player");
         max_health = health;
+        normalSpeed = moveSpeed;
     }
 
     void FixedUpdate()
@@ -57,6 +60,7 @@ public class RangedEnemyController : MonoBehaviour, IEnemy
         
         if (distance >= attackRange)
         {
+            ChangeSpeed();
             // Ajusta a velocidade do inimigo
             direction.Normalize();
             m_Rigidbody.velocity = direction * moveSpeed;
@@ -176,6 +180,15 @@ public class RangedEnemyController : MonoBehaviour, IEnemy
         canTakeDamage = true;
         health = max_health;
         isFreezing = false;
+        offScreen = true;
         GetComponent<Collider2D>().enabled = true;
+    }
+
+    public void ChangeSpeed()
+    {
+        if (offScreen)
+            moveSpeed = 10;
+        else
+            moveSpeed = normalSpeed;
     }
 }

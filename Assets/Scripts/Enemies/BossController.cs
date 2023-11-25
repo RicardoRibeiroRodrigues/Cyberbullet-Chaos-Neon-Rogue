@@ -21,6 +21,7 @@ public class BossController : MonoBehaviour, IEnemy
     // Enemy stats -> Damage in on enemys projectile
     public int health;
     public float moveSpeed;
+    private float normalSpeed;
     public float specialAttackCooldown;
     private bool isFreezing;
     public int damage;
@@ -31,6 +32,8 @@ public class BossController : MonoBehaviour, IEnemy
     public GameObject specialAttackExplosionPrefab;
     private GameObject specialAttack;
 
+    public bool offScreen { get; set; } = true;
+
     
     // Start is called before the first frame update
     void Awake()
@@ -40,6 +43,7 @@ public class BossController : MonoBehaviour, IEnemy
         canAttack = true;
         canUseSpecialAttack = true;
         player = GameObject.Find("Player");
+        normalSpeed = moveSpeed;
     }
 
     void FixedUpdate()
@@ -57,6 +61,7 @@ public class BossController : MonoBehaviour, IEnemy
         
         if (distance >= attackRange)
         {
+            ChangeSpeed();
             // Ajusta a velocidade do inimigo
             direction.Normalize();
             m_Rigidbody.velocity = direction * moveSpeed;
@@ -180,5 +185,13 @@ public class BossController : MonoBehaviour, IEnemy
 
     public void resetEnemy()
     {
+    }
+
+    public void ChangeSpeed()
+    {
+        if (offScreen)
+            moveSpeed = 10;
+        else
+            moveSpeed = normalSpeed;
     }
 }

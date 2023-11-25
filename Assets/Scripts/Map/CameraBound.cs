@@ -8,6 +8,8 @@ public class CameraBound : MonoBehaviour
             if (other.GetComponent<IEnemy>().isDying) return;
             // Deactivate Animator
             other.GetComponent<Animator>().enabled = false;
+            // Slow down enemy
+            other.GetComponent<IEnemy>().offScreen = true;
         }
     }
 
@@ -16,6 +18,8 @@ public class CameraBound : MonoBehaviour
         {
             // Activate Animator
             other.GetComponent<Animator>().enabled = true;
+            // Return to normal speed
+            other.GetComponent<IEnemy>().offScreen = false;
         }
     }
 }
