@@ -65,11 +65,11 @@ public class GameManager : MonoBehaviour
 
     IEnumerator LoadMainGame()
     {
-        SceneManager.LoadScene("MainGameJoystick 1");
+        SceneManager.LoadScene("MainGameJoystickFullScreen");
         // Play music
         audioSource.clip = mainGameMusic;
         audioSource.Play();
-        yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "MainGameJoystick 1");
+        yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "MainGameJoystickFullScreen");
         // Spawn world
         Instantiate(World, new Vector3(0, 0, 0), Quaternion.identity);
         // Spawn spawner
