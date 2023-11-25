@@ -130,6 +130,26 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+     GameObject[] FindEnemies()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject[] bosses = GameObject.FindGameObjectsWithTag("Boss");
+        GameObject[] rangedEnemies = GameObject.FindGameObjectsWithTag("RangedEnemy");
+        GameObject[] allEnemies = new GameObject[enemies.Length + bosses.Length + rangedEnemies.Length];
+        enemies.CopyTo(allEnemies, 0);
+        bosses.CopyTo(allEnemies, enemies.Length);
+        rangedEnemies.CopyTo(allEnemies, enemies.Length + bosses.Length);
+        return allEnemies;
+    }
+
+    public void DisableAllEnemies()
+    {
+        GameObject[] enemies = FindEnemies();
+        foreach (var enemy in enemies)
+        {
+            enemy.SetActive(false);
+        }
+    }
 
     public IEnumerator ActivateEnemyBatch(int index, int quantity, GameObject player, float spawnRadius)
     {

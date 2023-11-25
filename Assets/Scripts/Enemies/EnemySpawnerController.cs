@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class EnemySpawnerController : MonoBehaviour
 {
+    public static EnemySpawnerController Instance;
     [System.Serializable]
     public class enemy {
         public GameObject prefab;
@@ -101,7 +102,7 @@ public class EnemySpawnerController : MonoBehaviour
 
     int selectEnemy()
     {
-        var startIndex = waveNum > enemies.Length ? enemies.Length : waveNum;
+        var startIndex = waveNum >= enemies.Length ? enemies.Length - 1 : waveNum;
         for (int i = startIndex; i >= 0; i--)
         {
             // Only spawn enemies that are available in the current wave.
@@ -169,5 +170,10 @@ public class EnemySpawnerController : MonoBehaviour
         var controller = miniboss.GetComponent<EnemyController>();
         controller.health = (int) (controller.health * 3.5);
         controller.damage *= 2;
+    }
+
+    public void RestartWave()
+    {
+        time = waveNum * 60 * 2;
     }
 }

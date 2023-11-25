@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
     public GameObject UpgradeUiPrefab;
     private int selectedUpgradeIndex;
     private GameObject endGameUi;
+    private GameObject player;
+    // Player coins
     private PlayerData playerData;    
 
     private int coins = 0;
@@ -134,11 +136,12 @@ public class GameManager : MonoBehaviour
 
     IEnumerator LoadMainGame()
     {
-        SceneManager.LoadScene("MainGamePause");
+        SceneManager.LoadScene("MainGameJoystickFullScreen");
         // Play music
         audioSource.clip = mainGameMusic;
         audioSource.Play();
-        yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "MainGamePause");
+        yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "MainGameJoystickFullScreen");
+
         // Spawn world
         Instantiate(World, new Vector3(0, 0, 0), Quaternion.identity);
         // Spawn spawner
@@ -150,9 +153,9 @@ public class GameManager : MonoBehaviour
         canvasController.SetActiveAvatar(playerIndex);
     }
 
-    void SpawnPlayer()
+    public void SpawnPlayer()
     {
-        var player = Instantiate(players[playerIndex], new Vector3(0, 0, 0), Quaternion.identity);
+        player = Instantiate(players[playerIndex], new Vector3(0, 0, 0), Quaternion.identity);
         player.name = "Player";
         player.GetComponent<PlayerController>().selectedWeaponIndex = selectedWeaponIndex;
 
@@ -247,12 +250,12 @@ public class GameManager : MonoBehaviour
 
     public void endGame(bool won, int coins)
     {
-        pauseGame();
-        
+        Debug.Log("End game");
         var canvas = GameObject.Find("Canvas");
         endGameUi = Instantiate(EndGameUiPrefab, canvas.transform);
         endGameUi.transform.SetParent(canvas.transform);
         endGameUi.GetComponent<UiDeadEnd>().setUi(won, coins);
+        pauseGame();
     }
 
     public int GetUpgradePrice()
@@ -285,6 +288,7 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
+
     public void SpawnPowerUpText(string Text)
     {
         var canvas = GameObject.Find("Canvas");
@@ -292,5 +296,15 @@ public class GameManager : MonoBehaviour
         upgradeUi.transform.parent = canvas.transform;
         upgradeUi.GetComponent<TextMeshProUGUI>().text = Text;
         Destroy(upgradeUi, 2f);
+    }
+
+    public void RespawnPlayer()
+    {
+        resumeGame();
+        Debug.Log("Player respawn");
+        // EnemyManager.Instance.DisableAllEnemies();
+        Destroy(endGameUi);
+        player.GetComponent<PlayerController>().revivePlayer();
+        // EnemySpawnerController.Instance.RestartWave();
     }
 }

@@ -11,4 +11,5 @@ public interface IEnemy
     bool isDying { get; }
 
     void resetEnemy();
+    bool offScreen { get; set; }
 }

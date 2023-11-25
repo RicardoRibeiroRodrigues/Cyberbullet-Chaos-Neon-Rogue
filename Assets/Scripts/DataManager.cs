@@ -39,9 +39,6 @@ public class DataManager : MonoBehaviour
             if (sharedData != null)
             {
                 Debug.Log("Loaded data");
-                Debug.Log(sharedData.coins);
-                Debug.Log(sharedData.upgradeLevels);
-                Debug.Log(sharedData.characterStats);
                 return sharedData;
             }
             return null;

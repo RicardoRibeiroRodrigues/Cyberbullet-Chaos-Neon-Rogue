@@ -19,11 +19,14 @@ public class EnemyController : MonoBehaviour, IEnemy
     public int health;
     public int damage;
     public float moveSpeed;
+    private float normalSpeed;
     // Drop orb
     public GameObject orbPrefab;
     public GameObject weaponUpgradeBoxPrefab;
     public GameObject ExtraLifePrefab;
     private bool isFreezing;
+    public bool offScreen { get; set; } = true;
+
     public void TakeDamage(int damage)
     {
         // Evita bug de morrer duas vezes.
@@ -55,6 +58,7 @@ public class EnemyController : MonoBehaviour, IEnemy
         canAttack = true;
         player = GameObject.Find("Player");
         max_health = health;
+        normalSpeed = moveSpeed;
     }
 
     void FixedUpdate()
@@ -80,6 +84,7 @@ public class EnemyController : MonoBehaviour, IEnemy
         // Para o inimigo nao ficar tentanto entrar no player.
         if (distance >= 0.5f && !isFreezing)
         {
+            ChangeSpeed();
             // Ajusta a velocidade do inimigo
             direction.Normalize();
             m_Rigidbody.velocity = direction * moveSpeed;
@@ -111,11 +116,15 @@ public class EnemyController : MonoBehaviour, IEnemy
     // Usado no evento da animacao de morrer.
     void FinishedDyingAnimation()
     {
+        if (!gameObject.activeInHierarchy)
+            return;
+        
         // Se o nome for MiniBoss
         if (gameObject.name == "MiniBoss")
         {
             // Spawn weapon upgrade box
             Instantiate(weaponUpgradeBoxPrefab, transform.position, transform.rotation);
+            Destroy(gameObject);
         } else if (Random.Range(0, 100) <= 3)
         {
             // Spawn extra life
@@ -167,10 +176,19 @@ public class EnemyController : MonoBehaviour, IEnemy
     // Reset Enemy for pooling
     public void resetEnemy()
     {
+        offScreen = true;
         isDying = false;
         isFreezing = false;
         canTakeDamage = true;
         health = max_health;
         GetComponent<Collider2D>().enabled = true;
+    }
+
+    public void ChangeSpeed()
+    {
+        if (offScreen)
+            moveSpeed = 10;
+        else
+            moveSpeed = normalSpeed;
     }
 }

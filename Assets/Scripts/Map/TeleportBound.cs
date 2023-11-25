@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TeleportBound : MonoBehaviour
@@ -12,7 +13,6 @@ public class TeleportBound : MonoBehaviour
             // Teleport enemy to a random position closer to the player, this gameObject is centered in the player
             Vector2 spawnPosition = transform.position;
             spawnPosition += Random.insideUnitCircle.normalized * teleportRadius;
-            
             other.transform.position = spawnPosition;
         }
     }
