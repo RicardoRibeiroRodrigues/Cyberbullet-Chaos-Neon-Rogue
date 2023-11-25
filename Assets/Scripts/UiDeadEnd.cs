@@ -6,8 +6,8 @@ public class UiDeadEnd : MonoBehaviour
     private AudioSource audioSource;
     public AudioClip clickSound;
     public int coinsvar = 0;
-    public bool doubleCoins = false;
-    public bool revivead = false;
+    public static bool  doubleCoins = false;
+    public static bool revivead = false;
 
     void Start()
     {
@@ -19,17 +19,37 @@ public class UiDeadEnd : MonoBehaviour
         var title = transform.Find("Title");
         if (hasWin)
         {
+            revivead = true;
             // Title
             title.GetComponent<TextMeshProUGUI>().text = "Você venceu!";
+            if (!doubleCoins){
+                transform.Find("ReviveAd").gameObject.SetActive(false);
+                transform.Find("RewardedAd").gameObject.SetActive(true);
+            }else{
+                transform.Find("ReviveAd").gameObject.SetActive(false);
+                transform.Find("RewardedAd").gameObject.SetActive(false);
+            }
         }
         else {
             // Title
             title.GetComponent<TextMeshProUGUI>().text = "Você morreu, fique mais forte e tente novamente!";
+            if (!revivead){
+                transform.Find("ReviveAd").gameObject.SetActive(true);
+                transform.Find("RewardedAd").gameObject.SetActive(false);
+            }else if (!doubleCoins){
+                transform.Find("ReviveAd").gameObject.SetActive(false);
+                transform.Find("RewardedAd").gameObject.SetActive(true);
+            }else{
+                transform.Find("ReviveAd").gameObject.SetActive(false);
+                transform.Find("RewardedAd").gameObject.SetActive(false);
+            }    
         }
         // Coins
         coinsvar = coinsEarned;
         var coins = transform.Find("CoinsDisplay").transform.Find("CoinsText");
         coins.GetComponent<TextMeshProUGUI>().text = "+" + coinsEarned.ToString();
+
+
     }
 
     public void ReviveCharacter()
@@ -39,10 +59,9 @@ public class UiDeadEnd : MonoBehaviour
             // Chama o método de respawn
             GameManager.Instance.RespawnPlayer();
             revivead = true;
+            Debug.Log("Revive ad");
             // Desativa o botão de reviver após a primeira revivida
-            transform.Find("ReviveAd").gameObject.SetActive(false);
-            // Ativa o botão de dobrar moedas
-            transform.Find("RewardedAd").gameObject.SetActive(true);
+
         }
     }
 
@@ -61,12 +80,16 @@ public class UiDeadEnd : MonoBehaviour
 
     public void RestartGame()
     {
+        revivead = false;
+        doubleCoins = false;
         audioSource.PlayOneShot(clickSound);
         GameManager.Instance.StartGame();
     } 
 
     public void MainMenu()
     {
+        revivead = false;
+        doubleCoins = false;
         audioSource.PlayOneShot(clickSound);
         GameManager.Instance.GoToMainMenu();
     }

@@ -268,18 +268,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 7943907803861297866}
-        m_TargetAssemblyTypeName: UiDeadEnd, Assembly-CSharp
-        m_MethodName: ReviveCharacter
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &2400591900084948581
 GameObject:
   m_ObjectHideFlags: 0
@@ -342,6 +330,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   androidAdUnitId: Rewarded_Android
   iosAdUnitId: Rewarded_iOS
+  endGameScreen: {fileID: 0}
 --- !u!1 &2565045825376020966
 GameObject:
   m_ObjectHideFlags: 0
@@ -1177,7 +1166,7 @@ GameObject:
   - component: {fileID: 5551167634585211849}
   m_Layer: 5
   m_Name: EndGameScreen
-  m_TagString: Untagged
+  m_TagString: EndGameScreen
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1261,7 +1250,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clickSound: {fileID: 8300000, guid: 2eb4bc80c8fea464db95d6f1cf260e08, type: 3}
   coinsvar: 0
-  doubleCoins: 0
 --- !u!82 &5551167634585211849
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1919,18 +1907,6 @@ MonoBehaviour:
       - m_Target: {fileID: 8516821837506269127}
         m_TargetAssemblyTypeName: loadRewarded, Assembly-CSharp
         m_MethodName: LoadAd
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 7943907803861297866}
-        m_TargetAssemblyTypeName: UiDeadEnd, Assembly-CSharp
-        m_MethodName: DoubleCoins
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

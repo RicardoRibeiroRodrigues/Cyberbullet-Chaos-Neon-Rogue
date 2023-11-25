@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
         canvasController.SetActiveAvatar(playerIndex);
     }
 
-    void SpawnPlayer()
+    public void SpawnPlayer()
     {
         player = Instantiate(players[playerIndex], new Vector3(0, 0, 0), Quaternion.identity);
         player.name = "Player";
@@ -178,12 +178,14 @@ public class GameManager : MonoBehaviour
 
     public void endGame(bool won, int coins)
     {
-        pauseGame();
+        Debug.Log("End game");
+      
         
         var canvas = GameObject.Find("Canvas");
         endGameUi = Instantiate(EndGameUiPrefab, canvas.transform);
-        endGameUi.transform.parent = canvas.transform;
+        endGameUi.transform.SetParent(canvas.transform);
         endGameUi.GetComponent<UiDeadEnd>().setUi(won, coins);
+        pauseGame();
     }
 
     public int GetUpgradePrice()
@@ -228,10 +230,11 @@ public class GameManager : MonoBehaviour
 
     public void RespawnPlayer()
     {
-        EnemyManager.Instance.DisableAllEnemies();
-        EnemySpawnerController.Instance.RestartWave();
-        player.GetComponent<PlayerController>().revivePlayer();
         resumeGame();
+        Debug.Log("Player respawn");
+        // EnemyManager.Instance.DisableAllEnemies();
         Destroy(endGameUi);
+        player.GetComponent<PlayerController>().revivePlayer();
+        // EnemySpawnerController.Instance.RestartWave();
     }
 }

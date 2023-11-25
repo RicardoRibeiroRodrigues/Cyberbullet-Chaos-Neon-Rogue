@@ -130,24 +130,24 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    public void DisableAllEnemies()
+     GameObject[] FindEnemies()
     {
-        foreach (var enemy in EchoPool)
-        {
-            enemy.SetActive(false);
-        }
-        foreach (var enemy in PunkPool)
-        {
-            enemy.SetActive(false);
-        }
-        foreach (var enemy in TitanPool)
-        {
-            enemy.SetActive(false);
-        }
-        foreach (var enemy in ChefPool)
-        {
-            enemy.SetActive(false);
-        }
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject[] bosses = GameObject.FindGameObjectsWithTag("Boss");
+        GameObject[] rangedEnemies = GameObject.FindGameObjectsWithTag("RangedEnemy");
+        GameObject[] allEnemies = new GameObject[enemies.Length + bosses.Length + rangedEnemies.Length];
+        enemies.CopyTo(allEnemies, 0);
+        bosses.CopyTo(allEnemies, enemies.Length);
+        rangedEnemies.CopyTo(allEnemies, enemies.Length + bosses.Length);
+        return allEnemies;
     }
 
+    public void DisableAllEnemies()
+    {
+        GameObject[] enemies = FindEnemies();
+        foreach (var enemy in enemies)
+        {
+            Destroy(enemy);
+        }
+    }
 }
