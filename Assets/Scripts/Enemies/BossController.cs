@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossController : MonoBehaviour
+public class BossController : MonoBehaviour, IEnemy
 {
     
     private GameObject player;
@@ -21,15 +21,18 @@ public class BossController : MonoBehaviour
     // Enemy stats -> Damage in on enemys projectile
     public int health;
     public float moveSpeed;
+    private float normalSpeed;
     public float specialAttackCooldown;
     private bool isFreezing;
     public int damage;
     public int specialAttackDamage;
-    private bool isDying;
+    public bool isDying { get; set; }
     // Special attack
     public GameObject specialAttackPrefab;
     public GameObject specialAttackExplosionPrefab;
     private GameObject specialAttack;
+
+    public bool offScreen { get; set; } = true;
 
     
     // Start is called before the first frame update
@@ -40,6 +43,7 @@ public class BossController : MonoBehaviour
         canAttack = true;
         canUseSpecialAttack = true;
         player = GameObject.Find("Player");
+        normalSpeed = moveSpeed;
     }
 
     void FixedUpdate()
@@ -57,6 +61,7 @@ public class BossController : MonoBehaviour
         
         if (distance >= attackRange)
         {
+            ChangeSpeed();
             // Ajusta a velocidade do inimigo
             direction.Normalize();
             m_Rigidbody.velocity = direction * moveSpeed;
@@ -138,7 +143,6 @@ public class BossController : MonoBehaviour
     void FinishedDyingAnimation()
     {
         var playerController = player.GetComponent<PlayerController>();
-        GameManager.Instance.AddCoins(playerController.level * 25 + 200);
         GameManager.Instance.endGame(true, playerController.level * 25 + 200);
         Destroy(gameObject);
     }
@@ -171,5 +175,22 @@ public class BossController : MonoBehaviour
         isFreezing = false;
         m_Rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
+    }
+
+    public void SetPlayer(GameObject player)
+    {
+        this.player = player;
+    }
+
+    public void resetEnemy()
+    {
+    }
+
+    public void ChangeSpeed()
+    {
+        if (offScreen)
+            moveSpeed = 10;
+        else
+            moveSpeed = normalSpeed;
     }
 }

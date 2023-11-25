@@ -1,14 +1,14 @@
 using System.Collections;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : MonoBehaviour, IEnemy
 {
     private GameObject player;
     private Animator animator;
    	public float attackCooldown;
     private Rigidbody2D m_Rigidbody;
     private bool isMoving;
-    private bool isDying;
+    public bool isDying { get; set; }
     // Can take damage
     public bool canTakeDamage = true;
 	// Attack mechanic.
@@ -19,11 +19,14 @@ public class EnemyController : MonoBehaviour
     public int health;
     public int damage;
     public float moveSpeed;
+    private float normalSpeed;
     // Drop orb
     public GameObject orbPrefab;
     public GameObject weaponUpgradeBoxPrefab;
     public GameObject ExtraLifePrefab;
     private bool isFreezing;
+    public bool offScreen { get; set; } = true;
+
     public void TakeDamage(int damage)
     {
         // Evita bug de morrer duas vezes.
@@ -55,6 +58,7 @@ public class EnemyController : MonoBehaviour
         canAttack = true;
         player = GameObject.Find("Player");
         max_health = health;
+        normalSpeed = moveSpeed;
     }
 
     void FixedUpdate()
@@ -80,6 +84,7 @@ public class EnemyController : MonoBehaviour
         // Para o inimigo nao ficar tentanto entrar no player.
         if (distance >= 0.5f && !isFreezing)
         {
+            ChangeSpeed();
             // Ajusta a velocidade do inimigo
             direction.Normalize();
             m_Rigidbody.velocity = direction * moveSpeed;
@@ -111,11 +116,15 @@ public class EnemyController : MonoBehaviour
     // Usado no evento da animacao de morrer.
     void FinishedDyingAnimation()
     {
+        if (!gameObject.activeInHierarchy)
+            return;
+        
         // Se o nome for MiniBoss
         if (gameObject.name == "MiniBoss")
         {
             // Spawn weapon upgrade box
             Instantiate(weaponUpgradeBoxPrefab, transform.position, transform.rotation);
+            Destroy(gameObject);
         } else if (Random.Range(0, 100) <= 3)
         {
             // Spawn extra life
@@ -126,17 +135,18 @@ public class EnemyController : MonoBehaviour
             orb.GetComponent<XpOrbController>().SetXp(max_health / 2);
         }
         
-        Destroy(gameObject);
+        // Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
     void Die()
     {
-        m_Rigidbody.velocity = Vector3.zero;
         isDying = true;
+        m_Rigidbody.velocity = Vector3.zero;
         // Trigger death animation
         animator.SetTrigger("Dying");
         // Disable the enemy
-        GetComponent<Collider2D>().enabled = false;
+        GetComponent<Collider2D>().enabled = false; 
         Invoke(nameof(FinishedDyingAnimation), 3f);
     }
 
@@ -156,5 +166,29 @@ public class EnemyController : MonoBehaviour
         m_Rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         // Return the enemy to normal color
         GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
+    }
+
+    public void SetPlayer(GameObject player)
+    {
+        this.player = player;
+    }
+
+    // Reset Enemy for pooling
+    public void resetEnemy()
+    {
+        offScreen = true;
+        isDying = false;
+        isFreezing = false;
+        canTakeDamage = true;
+        health = max_health;
+        GetComponent<Collider2D>().enabled = true;
+    }
+
+    public void ChangeSpeed()
+    {
+        if (offScreen)
+            moveSpeed = 10;
+        else
+            moveSpeed = normalSpeed;
     }
 }

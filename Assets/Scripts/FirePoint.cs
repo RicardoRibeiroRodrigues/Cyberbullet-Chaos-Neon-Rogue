@@ -1,9 +1,9 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class FirePoint : MonoBehaviour
 {
-    private Vector3 mousePosition;
     public GameObject[] bulletPrefab;
     public int gunDamage;
     public int nShots = 1;
@@ -13,14 +13,34 @@ public class FirePoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        mousePosition = Input.mousePosition;
-        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-        transform.rotation = Quaternion.LookRotation(Vector3.forward, mousePosition - transform.position) * Quaternion.Euler(0, 0, 90f);
+        GameObject closest = FindClosestEnemy(PlayerRange.enemiesInRange);
+        if (closest != null)
+        {
+            transform.rotation = Quaternion.LookRotation(Vector3.forward, closest.transform.position - transform.position) * Quaternion.Euler(0, 0, 90f);
+        }
     }
 
     public void setNShots(int n)
     {
         nShots = n;
+    }
+
+    GameObject FindClosestEnemy(List<GameObject> enemies)
+    {
+        GameObject closest = null;
+        float distance = Mathf.Infinity;
+        Vector3 position = transform.position;
+        foreach (GameObject enemy in enemies)
+        {
+            Vector3 diff = enemy.transform.position - position;
+            float curDistance = diff.sqrMagnitude;
+            if (curDistance < distance)
+            {
+                closest = enemy;
+                distance = curDistance;
+            }
+        }
+        return closest;
     }
 
     public IEnumerator ShootBullet()

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LightningUpgrade : MonoBehaviour, IUpgradable
@@ -40,7 +38,6 @@ public class LightningUpgrade : MonoBehaviour, IUpgradable
 
     void ShootLightning()
     {
-        Debug.Log("Shoot Lightning");
         // Spawn at a random circle position
         Vector2 spawnPos = transform.position;
         spawnPos += Random.insideUnitCircle.normalized * 3f;

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class RangedEnemyController : MonoBehaviour
+public class RangedEnemyController : MonoBehaviour, IEnemy
 {
     private GameObject player;
     private Animator animator;
@@ -21,11 +21,13 @@ public class RangedEnemyController : MonoBehaviour
     public int health;
     private int max_health;
     public float moveSpeed;
+    private float normalSpeed;
     // Xp drop
-    private bool isDying;
+    public bool isDying { get; set; }
     public GameObject orbPrefab;
     public GameObject ExtraLifePrefab;
     private bool isFreezing;
+    public bool offScreen { get; set; } = true;
 
     void Awake()
     {
@@ -34,6 +36,7 @@ public class RangedEnemyController : MonoBehaviour
         canAttack = true;
         player = GameObject.Find("Player");
         max_health = health;
+        normalSpeed = moveSpeed;
     }
 
     void FixedUpdate()
@@ -57,6 +60,7 @@ public class RangedEnemyController : MonoBehaviour
         
         if (distance >= attackRange)
         {
+            ChangeSpeed();
             // Ajusta a velocidade do inimigo
             direction.Normalize();
             m_Rigidbody.velocity = direction * moveSpeed;
@@ -87,6 +91,9 @@ public class RangedEnemyController : MonoBehaviour
     // Usado no evento da animacao de morrer.
     void FinishedDyingAnimation()
     {
+        if (!gameObject.activeInHierarchy)
+            return;
+        
         if (Random.Range(0, 100) <= 3)
         {
             // Spawn extra life
@@ -96,7 +103,8 @@ public class RangedEnemyController : MonoBehaviour
             // Scale xp with enemy health.
             orb.GetComponent<XpOrbController>().SetXp(max_health / 2);
         }
-        Destroy(gameObject);
+        // Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
     void Attack(Vector3 direction)
@@ -161,5 +169,29 @@ public class RangedEnemyController : MonoBehaviour
         isFreezing = false;
         m_Rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
+    }
+
+    public void SetPlayer(GameObject player)
+    {
+        this.player = player;
+    }
+
+    // Reset Enemy for pooling
+    public void resetEnemy()
+    {
+        isDying = false;
+        canTakeDamage = true;
+        health = max_health;
+        isFreezing = false;
+        offScreen = true;
+        GetComponent<Collider2D>().enabled = true;
+    }
+
+    public void ChangeSpeed()
+    {
+        if (offScreen)
+            moveSpeed = 10;
+        else
+            moveSpeed = normalSpeed;
     }
 }

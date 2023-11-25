@@ -22,6 +22,8 @@ TagManager:
   - Missile
   - ExtraLife
   - Boss
+  - Joystick
+  - EndGameScreen
   layers:
   - Default
   - TransparentFX
