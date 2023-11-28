@@ -15,7 +15,7 @@ public class CharacterStats {
 public class PlayerData {
     public int coins;
     public int [] upgradeLevels;
-    public int [] weaponLevels;
+    public bool [] enabledWeapon;
 
     public CharacterStats []characterStats;
 }

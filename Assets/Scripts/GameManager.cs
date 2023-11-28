@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] players;
     private int playerIndex = 0;
     private int selectedWeaponIndex = 0;
-    public bool[] EnabledPlayersWeapons = { false, false, false };
+    public bool[] EnabledPlayersWeapons = { false, false, false, false, false, false };
     public int[] UpgradeLevels = { 1, 1, 1 };
 
     // World Prefabs
@@ -31,7 +31,8 @@ public class GameManager : MonoBehaviour
     // Player coins
     private PlayerData playerData;    
 
-    private int coins = 0;
+    private int coins = 400;
+    private int bossKills = 20;
 
 
     void Awake()
@@ -60,6 +61,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Saving data");
         playerData.coins = coins;
         playerData.upgradeLevels = UpgradeLevels;
+        playerData.enabledWeapon = EnabledPlayersWeapons;
         int i = 0;
         var characterStats = new CharacterStats[players.Length];
         foreach (var player in players)
@@ -89,6 +91,7 @@ public class GameManager : MonoBehaviour
             playerData = res;
             coins = playerData.coins;
             UpgradeLevels = playerData.upgradeLevels;
+            EnabledPlayersWeapons = playerData.enabledWeapon;
             for (int i = 0; i < players.Length; i++)
             {
                 var player = players[i];
@@ -209,6 +212,25 @@ public class GameManager : MonoBehaviour
         if (coins >= amount)
         {
             coins -= amount;
+            return true;
+        }
+        return false;
+    }
+
+    public int GetPlayerBossKills() {
+        return bossKills;
+    }
+
+    public void AddBossKills(int amount = 1)
+    {
+        bossKills += amount;
+    }
+
+    public bool SpendBossKills(int amount)
+    {
+        if (bossKills >= amount)
+        {
+            bossKills -= amount;
             return true;
         }
         return false;

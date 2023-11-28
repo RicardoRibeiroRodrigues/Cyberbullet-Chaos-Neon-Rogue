@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab:
   - {fileID: 7808266576223495791, guid: 1a31a8ed3f8932942b6d1527e7874809, type: 3}
+  - {fileID: 7808266576223495791, guid: 1a31a8ed3f8932942b6d1527e7874809, type: 3}
   - {fileID: 4694806534874031159, guid: eb2a45c34fb9ac842ac87497e9746055, type: 3}
   gunDamage: 50
   nShots: 1
@@ -409,7 +410,7 @@ MonoBehaviour:
   - {x: 0.25, y: 0.35, z: 0}
   m_ShapePathHash: 1569811476
   m_Mesh: {fileID: 0}
-  m_InstanceId: 67020
+  m_InstanceId: 46162
   m_LocalBounds:
     m_Center: {x: -0.0150000155, y: 0.52650136, z: 0}
     m_Extent: {x: 0.265, y: 0.17650135, z: 0}
