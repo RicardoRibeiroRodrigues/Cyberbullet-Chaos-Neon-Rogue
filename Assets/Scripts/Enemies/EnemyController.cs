@@ -125,7 +125,7 @@ public class EnemyController : MonoBehaviour, IEnemy
             // Spawn weapon upgrade box
             Instantiate(weaponUpgradeBoxPrefab, transform.position, transform.rotation);
             Destroy(gameObject);
-        } else if (Random.Range(0, 100) <= 3)
+        } else if (Random.Range(0, 100) <= 2)
         {
             // Spawn extra life
             Instantiate(ExtraLifePrefab, transform.position, transform.rotation);
