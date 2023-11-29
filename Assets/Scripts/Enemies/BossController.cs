@@ -123,7 +123,7 @@ public class BossController : MonoBehaviour, IEnemy
         spawnPos += Random.insideUnitCircle.normalized * 0.35f;
         // Shoot at a random position in the screen
         specialAttack = Instantiate(specialAttackPrefab, spawnPos, Quaternion.identity);
-        specialAttack.transform.localScale = new Vector3(10f, 10f, 10f) * 2;
+        specialAttack.transform.localScale = new Vector3(12f, 12f, 12f) * 2;
         specialAttack.GetComponent<BossSpecial>().damage = specialAttackDamage;
 
         Invoke(nameof(ShootSpecialExplosion), 1f);

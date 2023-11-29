@@ -190,7 +190,7 @@ MonoBehaviour:
   gun: {fileID: 101795865641429580}
   selectedWeaponIndex: 0
   isDying: 0
-  health: 800
+  health: 600
   moveSpeed: 5
   fireRate: 1
   luck: 1
