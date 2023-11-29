@@ -35,6 +35,10 @@ public class RangedEnemyController : MonoBehaviour, IEnemy
         m_Rigidbody = GetComponent<Rigidbody2D>();
         canAttack = true;
         player = GameObject.Find("Player");
+        // Set enemy stats with difficulty
+        var difficulty = GameManager.Instance.difficulty;
+        health = (int) (health * difficulty);
+        moveSpeed += moveSpeed * ((1 - difficulty) / 2);
         max_health = health;
         normalSpeed = moveSpeed;
     }
@@ -119,7 +123,9 @@ public class RangedEnemyController : MonoBehaviour, IEnemy
         StartCoroutine(AttackCooldown());
         direction.Normalize();
         var bullet = Instantiate(projectilePrefab, attackPoint.position, attackPoint.rotation);
-        bullet.GetComponent<ProjectileController>().direction = direction;
+        var bulletController = bullet.GetComponent<ProjectileController>();
+        bulletController.direction = direction;
+        bulletController.damage = (int) (bulletController.damage * GameManager.Instance.difficulty);
     }
 
     public void TakeDamage(int damage)

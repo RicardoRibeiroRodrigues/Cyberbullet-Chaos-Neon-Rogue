@@ -57,7 +57,12 @@ public class EnemyController : MonoBehaviour, IEnemy
         m_Rigidbody = GetComponent<Rigidbody2D>();
         canAttack = true;
         player = GameObject.Find("Player");
-        max_health = health;
+        // Set enemy stats with difficulty
+        var difficulty = GameManager.Instance.difficulty;
+        health = (int) (health * difficulty);
+        damage = (int) (damage * difficulty);
+        moveSpeed += moveSpeed * ((1 - difficulty) / 2);
+        max_health = health ;
         normalSpeed = moveSpeed;
     }
 

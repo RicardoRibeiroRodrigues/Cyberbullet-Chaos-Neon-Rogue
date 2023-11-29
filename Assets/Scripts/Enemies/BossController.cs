@@ -43,6 +43,12 @@ public class BossController : MonoBehaviour, IEnemy
         canAttack = true;
         canUseSpecialAttack = true;
         player = GameObject.Find("Player");
+        // Set enemy stats with difficulty
+        var difficulty = GameManager.Instance.difficulty;
+        health = (int) (health * difficulty);
+        damage = (int) (damage * difficulty);
+        specialAttackDamage = (int) (specialAttackDamage * difficulty);
+        moveSpeed += moveSpeed * ((1 - difficulty) / 2);
         normalSpeed = moveSpeed;
     }
 

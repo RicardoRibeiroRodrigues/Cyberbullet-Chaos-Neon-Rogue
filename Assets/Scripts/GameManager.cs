@@ -24,15 +24,18 @@ public class GameManager : MonoBehaviour
     // Item select ui
     public GameObject itemSelectUiPrefab;
     public GameObject EndGameUiPrefab;
+    public GameObject ScreenBlockPrefab;
     public GameObject UpgradeUiPrefab;
     private int selectedUpgradeIndex;
     private GameObject endGameUi;
+    private GameObject ScreenBlock;
     private GameObject player;
     // Player coins
     private PlayerData playerData;    
-
-    private int coins = 400;
-    private int bossKills = 20;
+    // Game currency
+    private int coins = 0;
+    private int bossKills = 0;
+    public float difficulty { get; private set; } = 1f;
 
 
     void Awake()
@@ -49,6 +52,7 @@ public class GameManager : MonoBehaviour
             return;
         }
         LoadData();
+        Debug.Log("Difficulty: " + difficulty.ToString());
     }
 
     void OnApplicationQuit()
@@ -60,8 +64,10 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Saving data");
         playerData.coins = coins;
+        playerData.bossKills = bossKills;
         playerData.upgradeLevels = UpgradeLevels;
         playerData.enabledWeapon = EnabledPlayersWeapons;
+        playerData.difficulty = difficulty;
         int i = 0;
         var characterStats = new CharacterStats[players.Length];
         foreach (var player in players)
@@ -89,7 +95,9 @@ public class GameManager : MonoBehaviour
         if (res != null)
         {
             playerData = res;
+            difficulty = playerData.difficulty;
             coins = playerData.coins;
+            bossKills = playerData.bossKills;
             UpgradeLevels = playerData.upgradeLevels;
             EnabledPlayersWeapons = playerData.enabledWeapon;
             for (int i = 0; i < players.Length; i++)
@@ -173,6 +181,11 @@ public class GameManager : MonoBehaviour
             } else {
                 controller.SetFireRate(controller.fireRate - 0.1f > 0.1f ? controller.fireRate - 0.1f : 0.1f, true);
             }
+        } else if (selectedWeaponIndex == 2)
+        {
+            var controller = player.GetComponent<PlayerController>();
+            controller.setNShots(3, true);
+            controller.SetFireRate(controller.fireRate - 0.2f > 0.1f ? controller.fireRate - 0.2f : 0.1f, true);
         }
         // Set camera to follow player
         Camera.main.GetComponent<CameraController>().SetPlayer(player);
@@ -272,10 +285,17 @@ public class GameManager : MonoBehaviour
 
     public void endGame(bool won, int coins)
     {
+        if (won)
+        {
+            difficulty += 0.1f;
+            AddBossKills();
+        }
         Debug.Log("End game");
         var canvas = GameObject.Find("Canvas");
-        endGameUi = Instantiate(EndGameUiPrefab, canvas.transform);
-        endGameUi.transform.SetParent(canvas.transform);
+        ScreenBlock = Instantiate(ScreenBlockPrefab, canvas.transform);
+        ScreenBlock.transform.SetParent(canvas.transform);
+        endGameUi = Instantiate(EndGameUiPrefab, ScreenBlock.transform);
+        endGameUi.transform.SetParent(ScreenBlock.transform);
         endGameUi.GetComponent<UiDeadEnd>().setUi(won, coins);
         pauseGame();
     }
@@ -326,6 +346,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Player respawn");
         // EnemyManager.Instance.DisableAllEnemies();
         Destroy(endGameUi);
+        Destroy(ScreenBlock);
         player.GetComponent<PlayerController>().revivePlayer();
         // EnemySpawnerController.Instance.RestartWave();
     }

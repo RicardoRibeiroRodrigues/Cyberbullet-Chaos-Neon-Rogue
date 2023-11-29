@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
 
 public class MainMenuController : MonoBehaviour
 {
@@ -147,7 +146,8 @@ public class MainMenuController : MonoBehaviour
 
     public void UnlockWeapon3()
     {
-        if (!GameManager.Instance.SpendBossKills(10))
+        var TimesToUnlockW3 = 3;
+        if (!GameManager.Instance.SpendBossKills(TimesToUnlockW3))
         {
             audioSource.PlayOneShot(errorSound);
             return;
@@ -244,11 +244,12 @@ public class MainMenuController : MonoBehaviour
         Weapon3UnlockButton.SetActive(!GameManager.Instance.EnabledPlayersWeapons[ActiveCharacterIndex + 3]);
         UpdateLevelIndicatorValue(GameManager.Instance.GetUpgradeLevel());
         UpdateLevelButtonValue(GameManager.Instance.GetUpgradePrice());
+        var TimesToUnlockW3 = 3;
 
         int playerBossKills = GameManager.Instance.GetPlayerBossKills();
-        if (playerBossKills < 10)
+        if (playerBossKills < TimesToUnlockW3)
         {
-            Weapon3UnlockButton.GetComponentInChildren<TextMeshProUGUI>().text = "Chefão Final x" + (10 - playerBossKills).ToString();
+            Weapon3UnlockButton.GetComponentInChildren<TextMeshProUGUI>().text = "Chefão Final x" + (TimesToUnlockW3 - playerBossKills).ToString();
         }
         else
         {

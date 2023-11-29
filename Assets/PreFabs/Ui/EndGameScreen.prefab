@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 2500741868150870465}
   - component: {fileID: 7602806700560298403}
   m_Layer: 5
-  m_Name: ReviveAd (1)
+  m_Name: ReviveAd
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -246,7 +246,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0.000061035156, y: 29.999992}
+  m_AnchoredPosition: {x: 0, y: 143}
   m_SizeDelta: {x: 288.69, y: 82.2316}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &7239949826017201748
@@ -356,7 +356,7 @@ GameObject:
   - component: {fileID: 6301646694388724258}
   - component: {fileID: 1808776365019404101}
   m_Layer: 5
-  m_Name: RestartButton (1)
+  m_Name: RestartButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -465,7 +465,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 7943907803861297866}
         m_TargetAssemblyTypeName: UiDeadEnd, Assembly-CSharp
         m_MethodName: RestartGame
         m_Mode: 1
@@ -490,7 +490,7 @@ GameObject:
   - component: {fileID: 1706050521496507700}
   - component: {fileID: 1826342939536420168}
   m_Layer: 5
-  m_Name: RewardedAd (1)
+  m_Name: RewardedAd
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -514,7 +514,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0.000061035156, y: 29.999992}
+  m_AnchoredPosition: {x: 0, y: 143}
   m_SizeDelta: {x: 288.69, y: 82.2316}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &9163725846882672438
@@ -832,7 +832,7 @@ GameObject:
   - component: {fileID: 1512261891368567091}
   - component: {fileID: 800797245649029515}
   m_Layer: 5
-  m_Name: CoinsDisplay (1)
+  m_Name: CoinsDisplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1043,7 +1043,7 @@ GameObject:
   - component: {fileID: 3593009367362198517}
   - component: {fileID: 2785106481496476747}
   m_Layer: 0
-  m_Name: AdsManager (1)
+  m_Name: AdsManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1078,7 +1078,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   androidGameId: 5464859
   iosGameId: 5464858
-  isTestingMode: 1
+  isTestingMode: 0
 --- !u!114 &2785106481496476747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1315,7 +1315,7 @@ GameObject:
   - component: {fileID: 457045799763807489}
   - component: {fileID: 5488303028492637673}
   m_Layer: 5
-  m_Name: Coins (1)
+  m_Name: Coins
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1583,7 +1583,7 @@ GameObject:
   - component: {fileID: 7673357427729451424}
   - component: {fileID: 7570585830916657386}
   m_Layer: 5
-  m_Name: Title (1)
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1605,8 +1605,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: -29.999939}
-  m_SizeDelta: {x: 1280, y: 50}
+  m_AnchoredPosition: {x: -1.0359, y: -29.999939}
+  m_SizeDelta: {x: 700, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &7673357427729451424
 CanvasRenderer:
@@ -1699,7 +1699,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 2.6416016, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1793,7 +1793,7 @@ GameObject:
   - component: {fileID: 276652561113651519}
   - component: {fileID: 5293263788595729818}
   m_Layer: 5
-  m_Name: MainMenuButton (1)
+  m_Name: MainMenuButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1902,7 +1902,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 7943907803861297866}
         m_TargetAssemblyTypeName: UiDeadEnd, Assembly-CSharp
         m_MethodName: MainMenu
         m_Mode: 1
