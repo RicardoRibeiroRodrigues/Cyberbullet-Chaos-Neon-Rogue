@@ -269,11 +269,14 @@ public class GameManager : MonoBehaviour
         selectedUpgradeIndex = -1;
         pauseGame();
         var canvas = GameObject.Find("Canvas");
-        var itemSelectUi = Instantiate(itemSelectUiPrefab, canvas.transform);
-        itemSelectUi.transform.SetParent(canvas.transform);
+        var ScreenBlock = Instantiate(ScreenBlockPrefab, canvas.transform);
+        ScreenBlock.transform.SetParent(canvas.transform);
+        var itemSelectUi = Instantiate(itemSelectUiPrefab, ScreenBlock.transform);
+        itemSelectUi.transform.SetParent(ScreenBlock.transform);
         itemSelectUi.GetComponent<UpgradeSelectUi>().selectUpgrade(upgrades);
         yield return new WaitUntil(() => selectedUpgradeIndex != -1);
         Destroy(itemSelectUi);
+        Destroy(ScreenBlock);
         resumeGame();
         player.setSelectedUpgrade(selectedUpgradeIndex);
     }
