@@ -66,7 +66,14 @@ public class EnemySpawnerController : MonoBehaviour
             }
 
             // Increase spawn rate
-            spawnDelay = spawnDelay / newWave;
+            if (newWave < 3)
+            {
+                spawnDelay = spawnDelay / 3;
+            }
+            else if (newWave < 5)
+            {
+                spawnDelay = spawnDelay / 2;
+            }
             Debug.Log("Spawn delay: " + spawnDelay);
             CancelInvoke(nameof(SpawnEnemy));
             InvokeRepeating(nameof(SpawnEnemy), spawnDelay, spawnDelay);
