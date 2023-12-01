@@ -112,7 +112,7 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -132,7 +132,7 @@ CapsuleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -189,11 +189,11 @@ MonoBehaviour:
   attackRange: 6
   attackPoint: {fileID: 7460748619627647344}
   projectilePrefab: {fileID: 5665809313633969405, guid: 33366bd65c7d52148873335d1c07d1e8, type: 3}
-  health: 5000
+  health: 10000
   moveSpeed: 5
   specialAttackCooldown: 4
-  damage: 60
-  specialAttackDamage: 180
+  damage: 100
+  specialAttackDamage: 200
   specialAttackPrefab: {fileID: 4132476789513225521, guid: 4bf1a960eb7e477408086409a3c985d5, type: 3}
   specialAttackExplosionPrefab: {fileID: 1600406571689667736, guid: 1e1948fe50ebb4e439189a84d7fb6ff1, type: 3}
 --- !u!82 &-92301943553452203

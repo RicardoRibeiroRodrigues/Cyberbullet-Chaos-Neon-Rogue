@@ -57,7 +57,12 @@ public class EnemyController : MonoBehaviour, IEnemy
         m_Rigidbody = GetComponent<Rigidbody2D>();
         canAttack = true;
         player = GameObject.Find("Player");
-        max_health = health;
+        // Set enemy stats with difficulty
+        var difficulty = GameManager.Instance.difficulty;
+        health = (int) (health * difficulty);
+        damage = (int) (damage * difficulty);
+        moveSpeed += moveSpeed * ((1 - difficulty) / 2);
+        max_health = health ;
         normalSpeed = moveSpeed;
     }
 
@@ -125,7 +130,7 @@ public class EnemyController : MonoBehaviour, IEnemy
             // Spawn weapon upgrade box
             Instantiate(weaponUpgradeBoxPrefab, transform.position, transform.rotation);
             Destroy(gameObject);
-        } else if (Random.Range(0, 100) <= 3)
+        } else if (Random.Range(0, 100) <= 2)
         {
             // Spawn extra life
             Instantiate(ExtraLifePrefab, transform.position, transform.rotation);

@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] players;
     private int playerIndex = 0;
     private int selectedWeaponIndex = 0;
-    public bool[] EnabledPlayersWeapons = { false, false, false };
+    public bool[] EnabledPlayersWeapons = { false, false, false, false, false, false };
     public int[] UpgradeLevels = { 1, 1, 1 };
 
     // World Prefabs
@@ -24,14 +24,18 @@ public class GameManager : MonoBehaviour
     // Item select ui
     public GameObject itemSelectUiPrefab;
     public GameObject EndGameUiPrefab;
+    public GameObject ScreenBlockPrefab;
     public GameObject UpgradeUiPrefab;
     private int selectedUpgradeIndex;
     private GameObject endGameUi;
+    private GameObject ScreenBlock;
     private GameObject player;
     // Player coins
     private PlayerData playerData;    
-
+    // Game currency
     private int coins = 0;
+    private int bossKills = 0;
+    public float difficulty { get; private set; } = 1f;
 
 
     void Awake()
@@ -48,6 +52,7 @@ public class GameManager : MonoBehaviour
             return;
         }
         LoadData();
+        Debug.Log("Difficulty: " + difficulty.ToString());
     }
 
     void OnApplicationQuit()
@@ -59,7 +64,10 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Saving data");
         playerData.coins = coins;
+        playerData.bossKills = bossKills;
         playerData.upgradeLevels = UpgradeLevels;
+        playerData.enabledWeapon = EnabledPlayersWeapons;
+        playerData.difficulty = difficulty;
         int i = 0;
         var characterStats = new CharacterStats[players.Length];
         foreach (var player in players)
@@ -87,8 +95,11 @@ public class GameManager : MonoBehaviour
         if (res != null)
         {
             playerData = res;
+            difficulty = playerData.difficulty;
             coins = playerData.coins;
+            bossKills = playerData.bossKills;
             UpgradeLevels = playerData.upgradeLevels;
+            EnabledPlayersWeapons = playerData.enabledWeapon;
             for (int i = 0; i < players.Length; i++)
             {
                 var player = players[i];
@@ -170,6 +181,11 @@ public class GameManager : MonoBehaviour
             } else {
                 controller.SetFireRate(controller.fireRate - 0.1f > 0.1f ? controller.fireRate - 0.1f : 0.1f, true);
             }
+        } else if (selectedWeaponIndex == 2)
+        {
+            var controller = player.GetComponent<PlayerController>();
+            controller.setNShots(3, true);
+            controller.SetFireRate(controller.fireRate - 0.2f > 0.1f ? controller.fireRate - 0.2f : 0.1f, true);
         }
         // Set camera to follow player
         Camera.main.GetComponent<CameraController>().SetPlayer(player);
@@ -214,6 +230,25 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
+    public int GetPlayerBossKills() {
+        return bossKills;
+    }
+
+    public void AddBossKills(int amount = 1)
+    {
+        bossKills += amount;
+    }
+
+    public bool SpendBossKills(int amount)
+    {
+        if (bossKills >= amount)
+        {
+            bossKills -= amount;
+            return true;
+        }
+        return false;
+    }
+
     public void putTenseMusic()
     {
         audioSource.clip = tenseMusic;
@@ -234,11 +269,14 @@ public class GameManager : MonoBehaviour
         selectedUpgradeIndex = -1;
         pauseGame();
         var canvas = GameObject.Find("Canvas");
-        var itemSelectUi = Instantiate(itemSelectUiPrefab, canvas.transform);
-        itemSelectUi.transform.SetParent(canvas.transform);
+        var ScreenBlock = Instantiate(ScreenBlockPrefab, canvas.transform);
+        ScreenBlock.transform.SetParent(canvas.transform);
+        var itemSelectUi = Instantiate(itemSelectUiPrefab, ScreenBlock.transform);
+        itemSelectUi.transform.SetParent(ScreenBlock.transform);
         itemSelectUi.GetComponent<UpgradeSelectUi>().selectUpgrade(upgrades);
         yield return new WaitUntil(() => selectedUpgradeIndex != -1);
         Destroy(itemSelectUi);
+        Destroy(ScreenBlock);
         resumeGame();
         player.setSelectedUpgrade(selectedUpgradeIndex);
     }
@@ -250,10 +288,17 @@ public class GameManager : MonoBehaviour
 
     public void endGame(bool won, int coins)
     {
+        if (won)
+        {
+            difficulty += 0.1f;
+            AddBossKills();
+        }
         Debug.Log("End game");
         var canvas = GameObject.Find("Canvas");
-        endGameUi = Instantiate(EndGameUiPrefab, canvas.transform);
-        endGameUi.transform.SetParent(canvas.transform);
+        ScreenBlock = Instantiate(ScreenBlockPrefab, canvas.transform);
+        ScreenBlock.transform.SetParent(canvas.transform);
+        endGameUi = Instantiate(EndGameUiPrefab, ScreenBlock.transform);
+        endGameUi.transform.SetParent(ScreenBlock.transform);
         endGameUi.GetComponent<UiDeadEnd>().setUi(won, coins);
         pauseGame();
     }
@@ -304,6 +349,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Player respawn");
         // EnemyManager.Instance.DisableAllEnemies();
         Destroy(endGameUi);
+        Destroy(ScreenBlock);
         player.GetComponent<PlayerController>().revivePlayer();
         // EnemySpawnerController.Instance.RestartWave();
     }

@@ -12,7 +12,7 @@ public class MissileUpgrade : MonoBehaviour, IUpgradable
 
     private int level = 0;
 
-    private int damage = 60;
+    private int damage = 100;
     private int nFires = 1;
     private Vector3 explosionScale = new Vector3(0.5f, 0.5f, 0.5f);
 
@@ -50,7 +50,7 @@ public class MissileUpgrade : MonoBehaviour, IUpgradable
         }
         else if (level == 2)
         {
-            damage += 25;
+            damage += 50;
         }
         // diminui o intervalo de tiro se for nivel 3
         else if (level == 3)
@@ -65,7 +65,7 @@ public class MissileUpgrade : MonoBehaviour, IUpgradable
         // aumenta o dano e raio de explosão se for nivel 5
         else if (level == 5)
         {
-            damage += 25;
+            damage += 50;
             explosionScale = new Vector3(0.95f, 0.95f, 0.95f);
         }
     }

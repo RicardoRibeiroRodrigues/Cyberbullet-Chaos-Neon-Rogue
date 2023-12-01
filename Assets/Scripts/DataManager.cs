@@ -14,8 +14,10 @@ public class CharacterStats {
 [System.Serializable]
 public class PlayerData {
     public int coins;
+    public float difficulty;
+    public int bossKills;
     public int [] upgradeLevels;
-    public int [] weaponLevels;
+    public bool [] enabledWeapon;
 
     public CharacterStats []characterStats;
 }

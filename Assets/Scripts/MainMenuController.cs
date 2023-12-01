@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
 
 public class MainMenuController : MonoBehaviour
 {
@@ -17,8 +16,9 @@ public class MainMenuController : MonoBehaviour
     private int Money;
     public GameObject MoneyIndicator;
     public GameObject WeaponCursor;
-    public int WeaponPrice = 0;
-    public GameObject WeaponPurchaseButton;
+    public int Weapon2Price = 0;
+    public GameObject Weapon2PurchaseButton;
+    public GameObject Weapon3UnlockButton;
 
     private Vector3 CameraTarget = Vector3.zero;
     private Vector3 CameraVelocity = Vector3.zero;
@@ -85,31 +85,27 @@ public class MainMenuController : MonoBehaviour
                 ActiveCharacterController = Character1.GetComponent<MainMenuCharacterController>();
                 cursorPositionY = 3.0f;
                 Character1Weapons.SetActive(true);
-                WeaponPurchaseButton.SetActive(true);
-                WeaponPrice = 100;
+                Weapon2PurchaseButton.SetActive(true);
+                Weapon2Price = 200;
                 break;
             case 1:
                 ActiveCharacterController = Character2.GetComponent<MainMenuCharacterController>();
                 cursorPositionY = -0.0f;
                 Character2Weapons.SetActive(true);
-                WeaponPurchaseButton.SetActive(true);
-                WeaponPrice = 150;
+                Weapon2PurchaseButton.SetActive(true);
+                Weapon2Price = 200;
                 break;
             case 2:
                 ActiveCharacterController = Character3.GetComponent<MainMenuCharacterController>();
                 cursorPositionY = -3.0f;
                 Character3Weapons.SetActive(true);
-                WeaponPurchaseButton.SetActive(true);
-                WeaponPrice = 200;
+                Weapon2PurchaseButton.SetActive(true);
+                Weapon2Price = 200;
                 break;
         }
         ActiveCharacterIndex = characterIndex;
 
         CharacterCursor.transform.position = new Vector3(CharacterCursor.transform.position.x, cursorPositionY, CharacterCursor.transform.position.z);
-        WeaponPurchaseButton.GetComponentInChildren<TextMeshProUGUI>().text = "$ " + WeaponPrice.ToString();
-        WeaponPurchaseButton.SetActive(!GameManager.Instance.EnabledPlayersWeapons[characterIndex]);
-        UpdateLevelIndicatorValue(GameManager.Instance.GetUpgradeLevel());
-        UpdateLevelButtonValue(GameManager.Instance.GetUpgradePrice());
     }
 
     public void SelectWeapon(int weaponIndex)
@@ -135,18 +131,31 @@ public class MainMenuController : MonoBehaviour
 
     public void PurchaseWeapon2()
     {
-
-        if (!GameManager.Instance.SpendCoins(WeaponPrice))
+        if (!GameManager.Instance.SpendCoins(Weapon2Price))
         {
             audioSource.PlayOneShot(errorSound);
             return;
         }
         GameManager.Instance.EnabledPlayersWeapons[ActiveCharacterIndex] = true;
         audioSource.PlayOneShot(clickSound);
-        Money -= WeaponPrice;
-        WeaponPurchaseButton.SetActive(false);
+        Money -= Weapon2Price;
+        Weapon2PurchaseButton.SetActive(false);
         UpdateMoneyIndicator();
         SelectWeapon(1);
+    }
+
+    public void UnlockWeapon3()
+    {
+        var TimesToUnlockW3 = 3;
+        if (!GameManager.Instance.SpendBossKills(TimesToUnlockW3))
+        {
+            audioSource.PlayOneShot(errorSound);
+            return;
+        }
+        GameManager.Instance.EnabledPlayersWeapons[ActiveCharacterIndex + 3] = true;
+        audioSource.PlayOneShot(clickSound);
+        Weapon3UnlockButton.SetActive(false);
+        SelectWeapon(2);
     }
     
     public void PurchaseLevelUp()
@@ -229,6 +238,23 @@ public class MainMenuController : MonoBehaviour
     {
         CameraTarget = new Vector3(42, 0, -10);
         ActiveCharacterController.Target.x = 43;
+
+        Weapon2PurchaseButton.GetComponentInChildren<TextMeshProUGUI>().text = "$ " + Weapon2Price.ToString();
+        Weapon2PurchaseButton.SetActive(!GameManager.Instance.EnabledPlayersWeapons[ActiveCharacterIndex]);
+        Weapon3UnlockButton.SetActive(!GameManager.Instance.EnabledPlayersWeapons[ActiveCharacterIndex + 3]);
+        UpdateLevelIndicatorValue(GameManager.Instance.GetUpgradeLevel());
+        UpdateLevelButtonValue(GameManager.Instance.GetUpgradePrice());
+        var TimesToUnlockW3 = 3;
+
+        int playerBossKills = GameManager.Instance.GetPlayerBossKills();
+        if (playerBossKills < TimesToUnlockW3)
+        {
+            Weapon3UnlockButton.GetComponentInChildren<TextMeshProUGUI>().text = "Chefão Final x" + (TimesToUnlockW3 - playerBossKills).ToString();
+        }
+        else
+        {
+            Weapon3UnlockButton.GetComponentInChildren<TextMeshProUGUI>().text = "DESBLOQUEAR!";
+        }
 
         UpdatePlayerStatsBoardText();
     }

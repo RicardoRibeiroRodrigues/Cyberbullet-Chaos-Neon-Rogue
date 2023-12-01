@@ -7,7 +7,7 @@ public class KnifeUpgrade : MonoBehaviour, IUpgradable
     private int numKnifes = 8;
     private float knifeInterval = 4f;
     public static int level = 0;
-    private int damage = 40;
+    private int damage = 50;
     private Quaternion angle;
     private Vector2 direction;
 
